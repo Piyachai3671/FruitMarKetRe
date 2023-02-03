@@ -1,0 +1,20 @@
+﻿@page "/register"
+<ProjectRbRuRe.Pages.Guest.NavBarGuset></ProjectRbRuRe.Pages.Guest.NavBarGuset>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+   <li class="nav-item" role="presentation">
+     <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one" aria-selected="false">พ่อค้า / แม่ค้า</button>
+   </li>
+   <li class="nav-item" role="presentation">
+     <button class="nav-link " data-bs-toggle="tab" data-bs-target="#tab-two" type="button" role="tab" aria-controls="tab-two" aria-selected="true">ลูกค้า</button>
+   </li>
+ </ul>
+ <div class="tab-content" id="myTabContent">
+   <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one" tabindex="0">
+        <RegisterSeller></RegisterSeller>
+       
+   </div>
+   <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two" tabindex="0">
+        <RegisterCustomer></RegisterCustomer>
+   </div>
+ </div>
+

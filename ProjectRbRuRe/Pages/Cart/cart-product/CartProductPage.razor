@@ -1,0 +1,662 @@
+﻿@page "/selproduct/{GetCurrentCartIDPage:int}"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject CartStoreService cartService
+@inject ProductService productService
+@inject OrderService orderService
+@inject CartStoreService cartStroeService
+@inject CartProductService cartProductService
+@inject UserService userService
+@inject LoginService loginService
+@inject OrderItemService orderItemService
+@inject ReportService reportService
+@inject UserService userService
+@inject StoreService storeService
+@inject NavigationManager NavigationManager
+@inject NotificationService notificationservice
+
+<NavMenuLogin></NavMenuLogin>
+<ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
+@foreach (var CartStore in ListCartStores.FindAll(e => e.CartStoreID == GetCurrentCartIDPage))
+{
+	<div class="card">
+		<div class="card-header textarea">
+			ชื่อร้านค้า : @CartStore.NameStore
+			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+			{
+				<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province
+			}
+		</div>
+		<div class="card-body">
+			<!--สินค้าในตะกร้า-->
+			<div class="row">
+				<div class="col-sm-3" style="margin-left: 80px;">
+					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+					{
+						<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
+					}
+				</div>
+				<div class="col">
+					<div class="mt-3" style="">
+						<h4>
+							มีสินค้า :
+							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+							{
+								<span>&nbsp;</span>
+								@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
+							}
+							<div class="mt-3">
+								ราคาทั้งหมด : @(
+							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID).Sum(e => e.CartProductPrice * e.CartProductAmount)
+							) บาท
+							</div>
+						</h4>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+}
+
+<div class="container-fluid shadow" style="border-radius:10px; border:none;" @onclick="CalculateRefresh">
+
+	<div class="row">
+		<div class="row mb-3" style="text-align:center; background-color:aquamarine; margin-left:1px; padding:10px;">
+			<strong class="col " style="">ภาพ</strong>
+			<strong class="col " style="">ชื่อสินค้า</strong>
+			<strong class="col " style="">ราคา/หน่วย</strong>
+			<strong class="col">จำนวนคงเหลือ</strong>
+			<strong class="col">จำนวนที่เลือก</strong>
+			<strong class="col">ราคารวม</strong>
+			<div class="col-lg-1"></div>
+		</div>
+		@foreach (var IndexCartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		{
+			@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
+			{
+
+				<div class="row mt-2" style="text-align:center;">
+					<div class="col-lg-3 ">
+						@*@foreach (var a in ListProduct)
+				{
+
+				}*@
+						<img src="img/@IndexProduct.ProductImg" class="mt-3 card-size" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;" alt="...">
+						
+					</div>
+					<div class="col-lg-3 ">
+						@IndexCartProduct.CartProductName
+					</div>
+					<div class="col ">
+						@IndexCartProduct.CartProductPrice บาท
+					</div>
+
+					<div class="col">
+						จำนวน : @IndexProduct.RemainderProduct @IndexCartProduct.CartProductUnit
+					</div>
+
+					<div class="col d-inline-flex">
+						<buttonn class="btn btn-secondary" @onclick="()=>OnReduceItem(IndexProduct.IDProduct)" style="height:40px;">-</buttonn>
+						<input class="form-control @(true ? "red":"blue")" type="text" pattern="[0-9]+" @oninput="Calculate" @bind="@IndexCartProduct.CartProductAmount" @onclick="CalculateRefresh"
+					   style="width:100px; height:40px;" max="@IndexProduct.RemainderProduct" min="1">
+						<buttonn class="btn btn-secondary" @onclick="()=>OnAddItem(IndexProduct.IDProduct)" style="height:40px;">+</buttonn>
+					</div>
+					<div class="col ">
+						@{
+							SumPrice = IndexCartProduct.CartProductPrice * IndexCartProduct.CartProductAmount;
+						}
+						@SumPrice บาท
+					</div>
+					<div class="col-lg-1" style="text-align:end;">
+						<button class="btn btn-danger" @onclick="()=>SentValue(IndexCartProduct)"><i class="fa-solid fa-trash-can"></i></button>
+					</div>
+				</div>
+
+				@if (IsShowDelete == true)
+				{
+					<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+						<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+						</div>
+						<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+							<div class="card">
+								<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+								<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+									<div class="row">
+										<div class="col" style="text-align:center;">
+											คุณต้องการที่จะลบสินค้า @ValueCartProduct.CartProductName ใช่ หรือ ไม่ ?
+										</div>
+									</div>
+								</div>
+								<div class="card-footer" style="margin-top:45px;">
+									<div class="" style="text-align:end; ">
+										<button type="button" class="btn btn-secondary" @onclick="OnCloseDelete">ยกเลิก</button>
+										<button type="button" class="btn btn-success" @onclick="()=>OnDeleteCartProduct2(ValueCartProduct)">ยืนยัน</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+
+				@*<div class="row " style="text-align:end;">
+		<div class="col">
+		<div class="me-5">Total : @SumTotal บาท</div>
+		<RadzenButton Text="ชำระเงิน" ButtonStyle="ButtonStyle.Success" Style="font-size:18px;margin-bottom:10px;"
+		Click="@OnSubmit(ValueCartProduct)" />
+		</div>
+		</div>*@
+
+			}
+		}
+	</div>
+	<hr>
+
+	<div class="row " style="text-align:end;">
+		<div class="col">
+			<div class="me-5">Total : @SumTotal บาท</div>
+			<button class="btn btn-success" Style="font-size:18px;margin-bottom:10px;" @onclick="()=>OnSubmit(GetCurrentCartIDPage)">
+				ชำระเงิน
+			</button>
+		</div>
+	</div>
+
+</div>
+
+
+
+@if (IsShowError == true)
+{
+	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+		</div>
+		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+			<div class="card">
+				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+					<div class="row">
+						<div class="col" style="text-align:center;">
+							สินค้า "@GetName" เกินกำหนดระบบปรับเป็นจำนวนมากสุด และกรุณาทำรายการใหม่อีกครั้ง
+						</div>
+					</div>
+
+
+				</div>
+				<div class="card-footer" style="margin-top:45px;">
+					<div class="" style="text-align:end; ">
+						<button class="btn btn-primary" @onclick="OnCloseShowError">
+							ตกลง
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+@if (IsShowErrorMin == true)
+{
+	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+		</div>
+		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+			<div class="card">
+				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+					<div class="row">
+						<div class="col" style="text-align:center;">
+							สินค้า "@GetName" ต่ำกว่ากำหนดระบบปรับเป็นจำนวนน้อยสุด และกรุณาทำรายการใหม่อีกครั้ง
+						</div>
+					</div>
+
+
+				</div>
+				<div class="card-footer" style="margin-top:45px;">
+					<div class="" style="text-align:end; ">
+						<button class="btn btn-primary" @onclick="OnCloseShowErrorMin">
+							ตกลง
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (IsShowErrorInput == true)
+{
+	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+		</div>
+		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+			<div class="card">
+				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+					<div class="row">
+						<div class="col" style="text-align:center;">
+							จำนวนสินค้าต่ำกว่ากำหนด กรุณาทำรายการใหม่อีกครั้ง
+						</div>
+					</div>
+
+
+				</div>
+				<div class="card-footer" style="margin-top:45px;">
+					<div class="" style="text-align:end; ">
+						<button class="btn btn-primary" @onclick="OnCloseErrorInput">
+							ตกลง
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (IsShowErrorNull == true)
+{
+	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+		</div>
+		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+			<div class="card">
+				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+					<div class="row">
+						<div class="col" style="text-align:center;">
+							สินค้า "@GetName" มีค่าว่าง กรุณาทำรายการใหม่อีกครั้ง
+						</div>
+					</div>
+
+
+				</div>
+				<div class="card-footer" style="margin-top:45px;">
+					<div class="" style="text-align:end; ">
+						<button class="btn btn-primary" @onclick="OnCloseShowErrorNull">
+							ตกลง
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+
+@code {
+	[Parameter]
+	public int GetCurrentCartIDPage { get; set; }
+
+	private double? SumPrice = 0;
+	private double? SumPrice2 = 0;
+	private double SumTotal = 0;
+	private int Amount = 0;
+
+	private List<CartProduct> TotalPriceCartProduct = new List<CartProduct>();
+	private List<CartProduct> ListCartProducts = new List<CartProduct>();
+	private List<Product> ListProduct = new List<Product>();
+	private List<Tuple<CartProduct, int>> Items;
+	private List<Product> AddProduct = new List<Product>();
+	private List<Order> ListOrders = new List<Order>();
+	private List<OrderItem> ListOrderItems = new List<OrderItem>();
+	private User? UserToLogin = new();
+	private List<User> ListUser = new List<User>();
+	private Order AddOrder = new();
+	private OrderItem AddOrderItem = new();
+	private Report AddReport = new();
+	private CartProduct? ValueCartProduct = new();
+
+	private List<CartStore> ListCartStores = new List<CartStore>();
+	private List<Store> ListStores = new List<Store>();
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		ListCartStores = await cartStroeService.GetCartStoreNoDataBaseAsync();
+		//var CartStores = await cartStroeService.GetCartStoreAsync();
+		//foreach (var CartStore in CartStores)
+		//{
+		//	ListCartStores.Add(new CartStore().ToUi(CartStore));
+		//}
+
+		ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
+		//var CartProducts = await cartProductService.GetCartProductAsync();
+		//foreach (var CartProduct in CartProducts)
+		//{
+		//	ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
+		//}
+		//ListProduct = await productService.GetProductsAsync();
+		var Products = await productService.GetProductsAsync();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUser.Add(new User().ToUi(user));
+		}
+		var OrderItems = await orderItemService.GetOrderItemServices();
+		foreach (var orderitem in OrderItems)
+		{
+			ListOrderItems.Add(new OrderItem().ToUi(orderitem));
+		}
+		//ListOrders = await orderService.GetOrderAsync();
+		var Orders = await orderService.GetOrderAsync();
+		foreach (var order in Orders)
+		{
+			ListOrders.Add(new Order().ToUi(order));
+		}
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+
+
+
+		CalculateRefresh();
+
+
+		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+	}
+	//private int amount = 1;
+	private void OnAddItem(int ID)
+	{
+		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID);
+		var b = ListProduct.Find(Product => Product.IDProduct == ID);
+		a.CartProductAmount++;
+
+		SumTotal = 0;
+
+		if (a.CartProductAmount > b.RemainderProduct)
+		{
+			a.CartProductAmount = b.RemainderProduct;
+
+		}
+		a.CartProductSumPrice = a.CartProductPrice * a.CartProductAmount; //ทุกครั้งที่มีการกดเพิ่มสินค้าจะมีการเก็บค่าใน LCP.Sumprice
+		@foreach (var c in ListCartProducts)
+		{
+			SumTotal = SumTotal + (c.CartProductAmount * c.CartProductPrice) ?? 0.0;
+		}
+
+	}
+	private void OnReduceItem(int ID)
+	{
+		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID);
+		var b = ListProduct.Find(Product => Product.IDProduct == ID);
+		a.CartProductAmount -= 1;
+		SumTotal = 0;
+		@if (a.CartProductAmount < 1)
+		{
+			a.CartProductAmount = 1;
+		}
+		@foreach (var c in ListCartProducts)
+		{
+			SumTotal = SumTotal + ((c.CartProductAmount * c.CartProductPrice) ?? 0.0);
+		}
+	}
+	private void SentValue(CartProduct ID)
+	{
+		ValueCartProduct = ID;
+		ShowDelete();
+	}
+	private void CalculateRefresh()
+	{
+		SumTotal = (ListCartProducts.Sum(e => e.CartProductPrice! * e.CartProductAmount!)) ?? 0.0;
+	}
+	private void Calculate(ChangeEventArgs IP)
+	{
+		CalculateRefresh();
+		try
+		{
+			//Console.WriteLine(IP.Value);
+			int CountIP = Convert.ToInt32(IP.Value);
+			if (CountIP < 0)
+			{
+				ShowErrorInput();
+				SumTotal = 0;
+				return;
+			}
+
+
+		}
+		catch
+		{
+			return;
+		}
+
+		//SumTotal = (ListCartProduct.Sum(e => e.PriceProduct! * e.AmountProduct!)) ?? 0.0;
+
+	}
+	private async Task OnDeleteCartProduct2(CartProduct c)
+	{
+		ListCartProducts.Remove(c);
+		CalculateRefresh();
+		OnCloseDelete();
+	}
+	private void OnGoPageToOrder()
+	{
+		NavigationManager.NavigateTo($"/order/");
+	}
+	private bool CheckConfirm = false;
+
+	private void OnSubmit(int ID)
+	{
+		CalculateRefresh();
+		@foreach (var IndexCartProduct in ListCartProducts)
+		{
+			@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
+			{
+				if (IndexCartProduct.CartProductAmount <= 0)
+				{
+					IndexCartProduct.CartProductAmount = 1;
+					ShowErrorOverMin(IndexCartProduct.CartProductName);
+
+					return;
+				}
+				if (IndexCartProduct.CartProductAmount == null)
+				{
+					IndexCartProduct.CartProductAmount = 1;
+
+					ShowErrorNull(IndexCartProduct.CartProductName);
+					return;
+
+				}
+				if (IndexCartProduct.CartProductAmount > IndexProduct.RemainderProduct)
+				{
+					IndexCartProduct.CartProductAmount = IndexProduct.RemainderProduct;
+					ShowErrorOver(IndexCartProduct.CartProductName);
+
+					return;
+				}
+			}
+		}
+		CheckConfirm = true;
+		if (CheckConfirm == true)
+		{
+			CUToData();
+
+			//var a = ListCartProducts.Find(e => e.CartProductStoreID == ID);
+
+			//if (a.CartProductStoreID == ID)
+			//{
+			//	//ListCartProducts.RemoveAll();
+			//	ListCartProducts.Clear();
+			//}
+
+			ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID);
+		}
+
+	}
+	private void CUToData()
+	{
+		var CountOrder = ListOrders.Count();
+		var CountOrderItem = ListOrderItems.Count();
+		var FindUerID = ListUser.Find(e => e.UserID == UserToLogin.UserID);
+		var FindProductID = ListProduct.Find(e => e.ProductStoreID == GetCurrentCartIDPage);
+		var FindStoreID = ListStores.Find(e => e.UserID == GetCurrentCartIDPage);
+
+		AddOrder = new Order()
+			{
+				OrderUserID = FindUerID.UserID,
+				Ordername = FindUerID.Name,
+				OrderAddress = FindUerID.Address,
+				OrderProvince = FindUerID.Province,
+				OrderDistrict = FindUerID.District,
+				OrderSubDistrict = FindUerID.SubDistrict,
+				OrderPostcode = FindUerID.Postcode,
+				OrderTel = FindUerID.Tel,
+				OrderDateCreate = DateTime.Now,
+				//OrderStoreID
+				OrderStatus = "ยังไม่ชำระ",
+
+				OrderSumPrice = ListCartProducts.Sum(e => e.CartProductPrice * e.CartProductAmount) ?? 0.0,
+				OrderStoreID = FindProductID.ProductStoreID,
+				OrderStoreName = FindStoreID.SellerName,
+
+			};
+		var AddOrder2 = new Order().ToTable(AddOrder);
+		orderService.AddNewOrder(AddOrder2); //บันทึกข้อมูล
+
+		foreach (var CartProduct in ListCartProducts)
+		{
+			AddOrderItem = new OrderItem()
+				{
+					OrderItemProductID = CartProduct.CartProductProductID,
+					OrderItemProductName = CartProduct.CartProductName,
+					OrderItemProductAmount = CartProduct.CartProductAmount,
+					OrderItemProductPrice = CartProduct.CartProductPrice,
+					OrderItemProductSumPrice = CartProduct.CartProductPrice * CartProduct.CartProductAmount,
+					OrderItemOrderID = CountOrder + 1,
+
+				};
+			var AddOrderItem2 = new OrderItem().ToTable(AddOrderItem);
+			orderItemService.AddNewOrderItem(AddOrderItem2); //บันทึกข้อมูล
+
+
+			foreach (var Product in ListProduct.FindAll(p => p.IDProduct == CartProduct.CartProductProductID))
+			{
+				Product.RemainderProduct = Product.RemainderProduct - CartProduct.CartProductAmount;
+				var a = new Product().ToTable(Product); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				productService.EditProduct(a); //บันทึกข้อมูล
+			}
+		}
+		AddReport = new Report()
+			{
+
+				ReportUserID = FindUerID.UserID,
+				ReportUserName = FindUerID.Name,
+
+
+				ReportOrderID = CountOrder + 1,
+				ReportOrderItemID = CountOrder + 1,
+				ReportDate = DateTime.Now,
+				ReportStatus = "ยังไม่ชำระ",
+
+				ReportStoreID = FindProductID.ProductStoreID,
+				ReportStoreName = FindProductID.ProductStoreName,
+
+
+			};
+		var AddReport2 = new Report().ToTable(AddReport);
+		reportService.AddNewReport(AddReport2); //บันทึกข้อมูล
+		/*ListCartProducts.Clear();*/ //ลบแล้วข้อมูลที่บันทึกจะหายไป
+		OnGoPageToOrder();
+
+
+
+		ShowNotification();
+		OnGoPageToOrder();
+
+	}
+	private void ShowNotification()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "สร้างคำสั่งซื้อสำเร็จ !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void ShowNotificationError()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "มีบางอย่างผิดพลาด !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private string GetName = "";
+	private bool IsShowError = false;
+	private void ShowErrorOver(string name)
+	{
+		IsShowError = !IsShowError;
+		GetName = name;
+		Console.WriteLine(GetName);
+	}
+	public void OnCloseShowError()
+	{
+		IsShowError = !IsShowError;
+	}
+	private bool IsShowErrorMin = false;
+	private void ShowErrorOverMin(string name)
+	{
+		IsShowErrorMin = !IsShowErrorMin;
+		GetName = name;
+		CalculateRefresh();
+		Console.WriteLine(GetName);
+	}
+	public void OnCloseShowErrorMin()
+	{
+		IsShowErrorMin = !IsShowErrorMin;
+	}
+
+	private bool IsShowErrorNull = false;
+	private void ShowErrorNull(string name)
+	{
+		IsShowErrorNull = !IsShowErrorNull;
+		GetName = name;
+		CalculateRefresh();
+		Console.WriteLine(GetName);
+	}
+	public void OnCloseShowErrorNull()
+	{
+		IsShowErrorNull = !IsShowErrorNull;
+	}
+
+	private bool IsShowDelete = false;
+	private void ShowDelete()
+	{
+		IsShowDelete = !IsShowDelete;
+	}
+	public void OnCloseDelete()
+	{
+		IsShowDelete = !IsShowDelete;
+	}
+
+	private bool IsShowErrorInput = false;
+	private void ShowErrorInput()
+	{
+		IsShowErrorInput = !IsShowErrorInput;
+		CalculateRefresh();
+	}
+	public void OnCloseErrorInput()
+	{
+		IsShowErrorInput = !IsShowErrorInput;
+	}
+}
+
+
+

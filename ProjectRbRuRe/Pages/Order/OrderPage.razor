@@ -1,0 +1,146 @@
+﻿@page "/order"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@using System.Linq.Dynamic.Core
+
+@inject OrderService orderService
+@inject UserService userService
+@inject NavigationManager NavigationManager
+@inject LoginService loginService
+@inject StoreService storeService
+<NavMenuLogin></NavMenuLogin>
+<HeadBill></HeadBill>
+
+
+@foreach (var u in ListUsers.FindAll(e => e.UserID == UserToLogin.UserID))
+{
+	<div class="card">
+		<div class="card-header">
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" id="" @bind="CheckBoxPreOrder">
+				<strong class="form-check-label" for="flexCheckChecked">
+					รายการสั่งซื้อสินค้า
+				</strong>
+			</div>
+		</div>
+
+		@if (CheckBoxPreOrder == true)
+		{
+			<div class="card-body" style="background-color:#70DEFF;">
+				<div class="row mb-3">
+					<div class="col" style="text-align:center;">
+						@if (ListOrders == null)
+						{
+							<p>Loading </p>
+						}
+						@*@if (ListUsers.GroupID != CurrentGroupID) *@
+						<div class="row">
+
+							<div class="col">
+								<label>
+									สถานะคำสังซื้อ
+								</label>
+								<RadzenCheckBoxList @bind-Value=@selectedStatusNames Style="width:100%;"
+											Data="@(StatusName)" AllowClear="true" Multiple="true" class="mb-3" />
+							</div>
+
+
+						</div>
+
+						<RadzenDataGrid FilterMode="FilterMode.SimpleWithMenu" AllowFiltering="true" AllowPaging="true" AllowSorting="true"
+								PageSize="5" Data="@(ListOrders.Where(e=>e.OrderUserID == UserToLogin.UserID))" TItem="Order" ColumnWidth="150px">
+							<Columns>
+								
+								<RadzenDataGridColumn TItem="Order " Title="ดูรายละเอียดเพิ่มเติม">
+									<Template Context="data">
+										<RadzenButton Click=@(args => OpenOrderBillPage(data.OrderID))
+											  ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="pageview" Class="m-1" />
+									</Template>
+								</RadzenDataGridColumn >
+								
+									<RadzenDataGridColumn TItem="Order" Property="OrderStoreName" Title="ชื่อร้านค้า" TextAlign="TextAlign.Center">
+									</RadzenDataGridColumn>
+
+								
+								
+								<RadzenDataGridColumn TItem="Order" Property="OrderSumPrice" Title="ยอดรวม / บาท" Filterable="false" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+								<RadzenDataGridColumn TItem="Order" Property="OrderDateCreate" Title="วันที่" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Order" Title="สถานะคำสั่งซื้อ" Property="OrderStatus"
+											  Type="typeof(IEnumerable<string>)" TextAlign="TextAlign.Center"
+											  FilterValue="@selectedStatusNames" FilterOperator="FilterOperator.Contains"
+											  LogicalFilterOperator="LogicalFilterOperator.Or">
+									<FilterTemplate>
+										<RadzenDropDown @bind-Value=@selectedStatusNames Style="width:100%;"
+												Change=@OnSelectedStatusNamesChange Data="@(StatusName)" AllowClear="true" Multiple="true" />
+									</FilterTemplate>
+								</RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Order" Property="OrderID" Title="เลขคำสั่งซื้อ" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+							</Columns>
+						</RadzenDataGrid>
+
+
+
+					</div>
+				</div>
+			</div>
+		}
+		
+
+	</div>
+}
+
+
+
+
+
+@code {
+	public bool CheckBoxPreOrder = true;
+	public bool CheckBoxConfirmOrder = true;
+	public bool CheckBoxSuccessOrder = true;
+	public bool CheckBoxCancelOrder = true;
+
+	IEnumerable<string> selectedStatusNames;
+	List<string> StatusName = new List<string> { "ยังไม่ชำระ", "ชำระแล้ว", "สำเร็จ", "ยกเลิก" };
+	private List<Order> ListOrders = new List<Order>();
+	private List<User> ListUsers = new List<User>();
+	private User? UserToLogin = new();
+
+	private List<Store> ListStores = new List<Store>();
+	void OnSelectedStatusNamesChange(object value)
+	{
+		if (selectedStatusNames != null && !selectedStatusNames.Any())
+		{
+			selectedStatusNames = null;
+		}
+	}
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		//ListUsers = await userService.GetUserAsync();
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUsers.Add(new User().ToUi(user));
+		}
+		//ListOrders = await orderService.GetOrderAsync();
+		var Orders = await orderService.GetOrderAsync();
+		foreach (var order in Orders)
+		{
+			ListOrders.Add(new Order().ToUi(order));
+		}
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(store));
+		}
+		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+	}
+	private void OpenOrderBillPage(int SentOrderIDPage)
+	{
+		NavigationManager.NavigateTo($"/orderbill/{SentOrderIDPage}");
+	}
+
+}

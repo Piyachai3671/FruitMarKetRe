@@ -20,6 +20,18 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Address/Address.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkcmVzc1xBZGRyZXNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Cart/cart-product/CartProductPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2FydFxjYXJ0LXByb2R1Y3RcQ2FydFByb2R1Y3RQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Cart/cart-store/CartStorePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2FydFxjYXJ0LXN0b3JlXENhcnRTdG9yZVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -28,8 +40,100 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/HomeGuest.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcSG9tZUd1ZXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/NavBarGuset.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcTmF2QmFyR3VzZXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/ProductGuest.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcUHJvZHVjdEd1ZXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/StoreGuest.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcU3RvcmVHdWVzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Home/ViewStores.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZVxWaWV3U3RvcmVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Login/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5cTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/NavMenuLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2TWVudUxvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Order/Bank.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJcQmFuay5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Order/HeadBill.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJcSGVhZEJpbGwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Order/OrderBill.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJcT3JkZXJCaWxsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Order/OrderPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJcT3JkZXJQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Product/ProductPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdFxQcm9kdWN0UGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Register/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJcUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Register/RegisterCustomer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJcUmVnaXN0ZXJDdXN0b21lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Register/RegisterSeller.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJcUmVnaXN0ZXJTZWxsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Report/ReportPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0XFJlcG9ydFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/AddProduct.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXEFkZFByb2R1Y3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/ProfileStore.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFByb2ZpbGVTdG9yZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/SellerHome.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlckhvbWUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/SellerOrder/SellerOrderBill.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlck9yZGVyXFNlbGxlck9yZGVyQmlsbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/SellerOrder/SellerOrderPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlck9yZGVyXFNlbGxlck9yZGVyUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Store/StorePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvcmVcU3RvcmVQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Store/StorePageForSeller.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvcmVcU3RvcmVQYWdlRm9yU2VsbGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ProjectRBRURe/ProjectRbRuRe/Shared/SurveyPrompt.razor]

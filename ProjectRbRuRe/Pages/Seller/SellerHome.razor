@@ -1,0 +1,142 @@
+﻿@page "/seller-home"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject LoginService loginService
+@inject StoreService storeService
+<NavMenuLogin></NavMenuLogin>
+@foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
+{
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+			</div>
+
+			<div class="card-body">
+				<div class="row mt-2">
+
+					<!-- 1.ร้านค้าของฉัน -->
+					<div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+						<a href="profile-store" style="text-decoration: none;">
+							<div class="container shadow box">
+								<div class="row">
+									<div class="col-sm-4 ">
+										<i class="fa-solid fa-store mt-3 box-icon"></i>
+									</div>
+									<div class="col-sm-8 mt-3">
+										<div class="box-name">ร้านค้าของฉัน</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+
+					<!-- 2.สินค้าของฉัน -->
+					<div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+						<a href="manage-product" style="text-decoration: none;">
+							<div class="container shadow box">
+								<div class="row">
+									<div class="col-sm-4">
+										<i class="fa-solid fa-box-open mt-3 box-icon"></i>
+									</div>
+									<div class="col-sm-8 mt-3">
+										<div class="box-name">สินค้าของฉัน</div>
+										<div class="box-name"></div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+
+					<!-- 3.จัดการคำสั่งซื้อ -->
+					<div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+						<a href="seller-order" style="text-decoration: none;">
+							<div class="container shadow box">
+								<div class="row">
+									<div class="col-sm-4">
+										<i class="fa-solid fa-file-circle-check mt-3 box-icon"></i>
+									</div>
+									<div class="col-sm-8 mt-3">
+										<div class="box-name">จัดการคำสั่งซื้อ</div>
+										<div class="box-name"></div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+
+					<!-- 4.รายงาน -->
+					<div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+						<a href="report" style="text-decoration: none;">
+							<div class="container shadow box">
+								<div class="row">
+									<div class="col-sm-4">
+										<i class="fa-solid fa-file-circle-check mt-3 box-icon"></i>
+									</div>
+									<div class="col-sm-8 mt-3">
+										<div class="box-name">รายงาน</div>
+
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="d-flex flex-row-reverse bd-highlight">
+					<div class="row mt-3 " style="text-align:end; ">
+
+						<div class="col " style="margin-top:55px;">
+							<h5>
+								ชื่อร้าน : @Store.SellerName
+							</h5>
+							<span>
+								พิกัดร้านค้า : จังหวัด.@UserLogin.Province อำเภอ.@UserLogin.District
+							</span>
+						</div>
+						<div class="col ">
+							<img src="img/@Store.ImgProfile" style="width:100%; height:200px; object-fit:cover; border-radius:50%" />
+						</div>
+					</div>
+
+				</div>
+				<div class="row mt-3">
+					<div class="col">
+						<img src="img/@Store.ImgCover" style="width:100%; height:500px; object-fit:cover; border-radius:10px;" />
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col">
+						<textarea rows="10" cols="168">@Store.SellerDescription</textarea>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		
+
+
+
+	</div>
+}
+
+<ProjectRbRuRe.Pages.Store.StorePageForSeller></ProjectRbRuRe.Pages.Store.StorePageForSeller>
+@code {
+	private User? UserLogin = new();
+	private List<Store> ListStores = new List<Store>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+	}
+
+
+}

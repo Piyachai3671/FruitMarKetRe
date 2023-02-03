@@ -1,0 +1,123 @@
+﻿@page "/index-shop/{GetCurrentStoreIDPage:int}"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject ProductService productService
+@inject StoreService storeService
+@inject UserService userService
+@inject NavigationManager NavigationManager
+<NavMenuLogin></NavMenuLogin>
+@if (ListProduct == null)
+{
+    <p>ไม่มีสินค้าภายในร้าน</p>
+}
+else
+{
+     <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="row mt-3 " style="text-align:end; ">
+
+            <div class="col " style="margin-top:55px;">
+                <h5>
+                    ชื่อร้าน : @ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).SellerName
+                </h5>
+                <span>
+                    พิกัดร้านค้า : จังหวัด.@ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).Province อำเภอ.@ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).District
+                </span>
+            </div>
+            <div class="col ">
+                <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgProfile" style="width:100%; height:200px; object-fit:cover; border-radius:50%" />
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgCover" style="width:100%; height:500px; object-fit:cover; border-radius:10px;" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <textarea rows="10" cols="168">@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).SellerDescription</textarea>
+        </div>
+    </div>
+    <div class="topnav" style="">
+        <div class="search-container" style="">
+            <div class="">
+                <input type="text" placeholder="Search.." name="" @bind="SearchWord" @bind:event="oninput" />
+
+
+            </div>
+        </div>
+    </div>
+    
+
+
+        <!-- การ์ดสินค้า -->
+        <div class="row mt-2 mb-3">
+            @foreach (var Product in ListProduct.Where(
+           s => s.NameProduct.ToUpper().Contains(SearchWord.ToUpper())
+           ))
+            {
+                @if (Product.ProductStoreID == GetCurrentStoreIDPage)
+                {
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-2">
+                        <button class="btn" @onclick="()=>OpenProductPage(Product.IDProduct)">
+                            <div class="card" style=" width: 15rem; cursor: pointer;">
+                                <!-- <img src="/img/1.png"  style=" " alt="..."> -->
+                            <img src='img/@Product.ProductImg' class="card-img-top card-size" alt="ภาพสินค้า">
+                                <div class="card-body card-text">
+                                    <div>ชื่อสินค้า : @Product.NameProduct</div>
+                                    <div>ราคา : @Product.PriceProduct</div>
+                                    <div>จำนวน : @Product.NameProduct</div>
+                                    <div>หน่วยสินค้า : @Product.UnitProduct</div>
+                                </div>
+                            </div>
+                           
+                        </button>
+                        
+                    </div>
+                }
+
+            }
+        </div>
+
+    
+}
+@code {
+    [Parameter]
+    public int GetCurrentStoreIDPage { get; set; }
+    private List<Product> ListProduct = new List<Product>();
+    private List<Store> ListStores = new List<Store>();
+    private List<User> ListUsers = new List<User>();
+    public string SearchWord { get; set; } = string.Empty;
+    List<string> options;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //ListProduct = await productService.GetProductsAsync();
+        var Products = await productService.GetProductsAsync();
+        foreach (var Product in Products)
+        {
+            ListProduct.Add(new Product().ToUi(Product));
+        }
+        var Stores = await storeService.GetStoresAsync();
+        foreach (var Store in Stores)
+        {
+            ListStores.Add(new Store().ToUi(Store));
+        }
+        var Users = await userService.GetUserAsync();
+        foreach (var user in Users)
+        {
+            ListUsers.Add(new User().ToUi(user));
+        }
+        options = ListProduct.Select(f => f.NameProduct).Distinct().ToList();
+
+    }
+    private void OpenProductPage(int ProductID)
+    {
+        NavigationManager.NavigateTo($"/product/{ProductID}");
+    }
+
+
+}

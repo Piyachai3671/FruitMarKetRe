@@ -1,0 +1,175 @@
+﻿@page "/report"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject ReportService reportService
+@inject UserService userService
+@inject LoginService loginService
+@inject NavigationManager NavigationManager
+
+<NavMenuLogin></NavMenuLogin>
+<div class="container-fluid">
+
+	<div class="card ">
+		<div class="card-header">
+			รายงานสถานะคำสั่งซื้อที่สำเร็จ
+		</div>
+
+		<div class="card-body" style="background-color:#A2FF8A;">
+			<div class="row mb-3">
+				<div class="col" style="text-align:center;">
+				</div>
+					<div class="">
+					@if (UserToLogin.Permission == "c")
+					{
+						<RadzenDataGrid FilterMode="FilterMode.SimpleWithMenu"
+									AllowFiltering="true" AllowPaging="true" AllowSorting="true" AllowColumnResize="true"
+									PageSize="50" Data="@(ListReport.Where(o => o.ReportStatus == "สำเร็จ"  && o.ReportUserID == UserToLogin.UserID))" TItem="Report" ColumnWidth="150px"
+									FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+									LogicalFilterOperator="LogicalFilterOperator.Or ">
+
+							<Columns>
+								<RadzenDataGridColumn TItem="Report " Title="ดูรายละเอียดเพิ่มเติม" TextAlign="TextAlign.Center">
+									<Template Context="data">
+										<RadzenButton Click=@(args => OpenOrderBillPage(data.ReportID))
+												  ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="pageview" Class="m-1" />
+									</Template>
+								</RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Report" Property="ReportStoreName" Title="ชื่อร้านค้า" TextAlign="TextAlign.Center">
+								</RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Report" Property="ReportPriceSum" Title="ราคาสุทธิ" TextAlign="TextAlign.Center">
+									<Template Context="report">
+										@String.Format(new System.Globalization.CultureInfo("th-TH"), "{0:C}", report.ReportPriceSum)
+									</Template>
+									<FooterTemplate>
+										@*@{
+									var FinancialStructureValuseEur = this.ListReport.Sum(i => i.ReportPriceSum);
+									}
+									<b>
+									<span class="mathsign">&sum;</span> @String.Format("{0:THB #,##0.00}",FinancialStructureValuseEur)
+									</b>*@
+										ราคารวม :
+										<b>
+											@if (CreateToVar == "")//มันสร้างvarได้แค่ภายในIFเลยต้องIFว่างๆมา
+											{
+												var Report = ListReport.FindAll(e => e.ReportUserID == UserToLogin.UserID);
+												@String.Format(new System.Globalization.CultureInfo("th-TH"), "{0:C}",
+										Report.Sum(e=>e.ReportPriceSum)
+										)
+											}
+										</b>
+									</FooterTemplate>
+								</RadzenDataGridColumn>
+								<RadzenDataGridColumn TItem="Report" Property="ReportDate" Title="วันเวลาทำรายการ" FormatString="{0:dd/MM/yyyy}" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+								<RadzenDataGridColumn TItem="Report" Property="ReportID" Title="รหัสคำสั่งซื้อ" Filterable="true" TextAlign="TextAlign.Center">
+								</RadzenDataGridColumn>
+
+							</Columns>
+						</RadzenDataGrid>
+					}
+					@if (UserToLogin.Permission == "s")
+					{
+						<RadzenDataGrid FilterMode="FilterMode.SimpleWithMenu"
+									AllowFiltering="true" AllowPaging="true" AllowSorting="true" AllowColumnResize="true"
+									PageSize="50" Data="@(ListReport.Where(o => o.ReportStatus == "สำเร็จ"  && o.ReportStoreID == UserToLogin.UserID))" TItem="Report" ColumnWidth="150px"
+									FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+									LogicalFilterOperator="LogicalFilterOperator.Or ">
+
+							<Columns>
+								<RadzenDataGridColumn TItem="Report " Title="ดูรายละเอียดเพิ่มเติม" TextAlign="TextAlign.Center">
+									<Template Context="data">
+										<RadzenButton Click=@(args => OpenOrderBillPage(data.ReportID))
+												  ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="pageview" Class="m-1" />
+									</Template>
+								</RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Report" Property="ReportUserName" Title="ชื่อลูกค้า" TextAlign="TextAlign.Center">
+								</RadzenDataGridColumn>
+
+								<RadzenDataGridColumn TItem="Report" Property="ReportPriceSum" Title="ราคาสุทธิ" TextAlign="TextAlign.Center">
+									<Template Context="report">
+										@String.Format(new System.Globalization.CultureInfo("th-TH"), "{0:C}", report.ReportPriceSum)
+									</Template>
+									<FooterTemplate>
+										@*@{
+									var FinancialStructureValuseEur = this.ListReport.Sum(i => i.ReportPriceSum);
+									}
+									<b>
+									<span class="mathsign">&sum;</span> @String.Format("{0:THB #,##0.00}",FinancialStructureValuseEur)
+									</b>*@
+										ราคารวม :
+										<b>
+											@if (CreateToVar == "")//มันสร้างvarได้แค่ภายในIFเลยต้องIFว่างๆมา
+											{
+												var Report = ListReport.FindAll(e => e.ReportStoreID == UserToLogin.UserID);
+												@String.Format(new System.Globalization.CultureInfo("th-TH"), "{0:C}",
+										Report.Sum(e=>e.ReportPriceSum)
+										)
+											}
+										</b>
+									</FooterTemplate>
+								</RadzenDataGridColumn>
+								<RadzenDataGridColumn TItem="Report" Property="ReportDate" Title="วันเวลาทำรายการ" FormatString="{0:dd/MM/yyyy}" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+								<RadzenDataGridColumn TItem="Report" Property="ReportID" Title="รหัสคำสั่งซื้อ" Filterable="true" TextAlign="TextAlign.Center">
+								</RadzenDataGridColumn>
+
+							</Columns>
+						</RadzenDataGrid>
+					}
+					
+					</div>
+					
+				@*<div class="position-sticky" style=" bottom:0px; text-align:end;  ">
+					<button class="btn btn-primary shadow mt-1 mb-2 me-3" style="border-radius:50%; font-size:30px; border:none;" data-bs-toggle="modal" data-bs-target="#FromAddMember">
+						<i class="fa-solid fa-print" style="font-size:30px;"></i>
+					</button>
+				</div>*@
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+@code {
+	private string CreateToVar = "";
+	private List<Report> ListReport = new List<Report>();
+	private List<User> ListUsers = new List<User>();
+	private User? UserToLogin = new();
+	protected override async Task OnInitializedAsync()
+	{
+		var Reports = await reportService.GetReportsAsync();
+		foreach (var Report in Reports)
+		{
+			ListReport.Add(new Report().ToUi(Report));
+		}
+		var Users = await userService.GetUserAsync();
+		foreach (var User in Users)
+		{
+			ListUsers.Add(new User().ToUi(User));
+		}
+		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+	}
+
+	IEnumerable<string> selectedDepartment;
+	List<string> Departments = new List<string> { "Software", "Account", "Maid" };
+	void OnSelectedDepartmentChange(object value)
+	{
+		if (selectedDepartment != null && !selectedDepartment.Any())
+		{
+			selectedDepartment = null;
+		}
+	}
+
+	IEnumerable<string> selectedUserName;
+	IEnumerable<int> selectedReportID;
+
+	private void OpenOrderBillPage(int SentOrderIDPage)
+	{
+		NavigationManager.NavigateTo($"/orderbill/{SentOrderIDPage}");
+	}
+}

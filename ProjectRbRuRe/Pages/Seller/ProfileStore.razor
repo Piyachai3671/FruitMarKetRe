@@ -1,0 +1,278 @@
+﻿@page "/profile-store"
+@using ProjectRbRuRe.Data.Models;
+@using ProjectRbRuRe.Data.Services;
+@using System
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment Environment
+@inject LoginService loginService
+@inject StoreService storeService
+@inject UserService userService
+@inject NotificationService notificationservice
+<NavMenuLogin></NavMenuLogin>
+@foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
+{
+	<EditForm Model="@Store">
+		<div class="row">
+			<div class="" style="text-align: center;">
+				<h3>จัดการร้านค้า</h3>
+			</div>
+
+
+			<div class="row">
+				<div class="col-lg-4">
+					<label for="">ชื่อร้านค้า</label>
+					<InputText @bind-Value="@Store.SellerName" type="text" class="form-control mt-2" />
+
+					<label for="">รหัสผู้ใช้งาน</label>
+					<input value="@UserLogin.Username"  disabled type="text" class="form-control mt-2" />
+
+					<label for="">รหัสผ่าน</label>
+					<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" />
+
+				</div>
+				<div class="col-lg-4">
+					<label for="">ที่อยู่</label>
+					<InputText @bind-Value="@UserLogin.Address" type="text" class="form-control mt-2" />
+					<label for="">จังหวัด</label>
+					<InputText @bind-Value="@UserLogin.Province" type="text" class="form-control mt-2" />
+					<label for="">อำเภอ</label>
+					<InputText @bind-Value="@UserLogin.District" type="text" class="form-control mt-2" />
+					<label for="">ตำบล</label>
+					<InputText @bind-Value="@UserLogin.SubDistrict" type="text" class="form-control mt-2" />
+					<label for="">รหัสไปรษณีย์</label>
+					<InputText @bind-Value="@UserLogin.Postcode" type="text" class="form-control mt-2" />
+					<label for="">เบอร์โทรศัพท์</label>
+					<InputText @bind-Value="@UserLogin.Tel" type="text" class="form-control mt-2" />
+				</div>
+				<div class="col-lg-4">
+					<div class="form-group">
+						<label for="info">รายละเอียดร้านค้า</label>
+						<InputTextArea @bind-Value="@Store.SellerDescription" cols="30" rows="15" class="form-control mt-2" placeholder="อธิบายเกี่ยวกับร้านค้า หรือช่องทางติดต่อของคุณ"></InputTextArea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<hr>
+		<div class="row">
+
+
+			<div class="col-lg-6">
+				<strong>ภาพโปรไฟล์ร้านค้า</strong>
+				<div class="row">
+					@if (isLoading == false)
+					{
+						<img class="mt-3" src="img\@Store.ImgProfile" style=" object-fit:cover; width: 500px; height: 200px; margin-top: 5px;" alt="ยังไม่มีภาพโปรไฟล์">
+					}
+					@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+					{
+						@foreach (var file in loadedFiles)
+						{
+							<img class="mt-3" src="img\@Store.ImgProfile" style=" object-fit:cover; width: 500px; height: 200px; margin-top: 5px;">
+						}
+
+					}
+					<div class="row">
+						<InputFile OnChange="LoadFiles" multiple></InputFile>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<strong>ภาพปกร้านค้า</strong>
+				<div class="row">
+					@if (isLoadingCover == false)
+					{
+						<img class="mt-3" src="img\@Store.ImgCover" style="object-fit: cover; width: 500px; height: 200px; margin-top: 5px;" alt="ยังไม่มีภาพโปรไฟล์">
+					}
+					@if (isLoadingCover == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+					{
+						@foreach (var file in loadedFilesCover)
+						{
+							<img class="mt-3" src="img/@Store.ImgCover" style="object-fit: cover; width: 500px; height: 200px; margin-top: 5px;">
+						}
+					}
+					<div class="row">
+						<InputFile OnChange="LoadFilesCover" multiple></InputFile>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<hr>
+		<div class="row mt-2">
+			<div class="col">
+
+				<div class="form-group ">
+					<label for="">ธนาคาร</label>
+					<div class=" mt-2">
+						<InputSelect @bind-Value="Store.BankName" class="form-control" style="height:38px; width:550px;">
+							<option >เลือกธนาคาร</option>
+							<option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
+							<option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
+							<option value="ธนาคารกรุงไทย">ธนาคารกรุงไทย</option>
+							<option value="ธนาคารไทยพาณิชย์">ธนาคารไทยพาณิชย์</option>
+							<option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
+							<option value="ธนาคารออมสิน">ธนาคารออมสิน</option>
+						</InputSelect>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<label for="">ชื่อบัญชีธนาคาร</label>
+				<InputText @bind-Value="@Store.AccountName" type="text" class="form-control mt-2" />
+			</div>
+			<div class="col">
+				<label for="">เลขบัญชีธนาคาร</label>
+				<InputText @bind-Value="@Store.AccountNumber" type="text" class="form-control mt-2" maxlength="10" />
+			</div>
+		</div>
+
+		<div class="mt-3 mb-3" style="text-align: center;">
+			<button type="button" class="btn btn-success" @onclick="OnClickEditStore">บันทึก</button>
+		</div>
+	</EditForm>
+}
+
+
+
+@code {
+	private User? UserLogin = new();
+	private List<Store> ListStores = new List<Store>();
+	public List<User> ListUsers = new List<User>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUsers.Add(new User().ToUi(user));
+		}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+	}
+
+
+	private void ShowNotificationSuccessEdit()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "แก้ไขสำเร็จ",
+				Detail = "",
+				Duration = 2700,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+
+
+	private List<IBrowserFile> loadedFiles = new();
+	private long maxFileSize = (1024 * 10) * 1024;
+	private int maxAllowedFiles = 3;
+	private bool isLoading;
+	public string CurrentImg = "";
+	public string CurrentPathImg = "";
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		var Store = ListStores.Find(e => e.UserID == UserLogin.UserID);
+		//CurrentImg = Store.ImgProfile;
+		isLoading = true;
+		loadedFiles.Clear();
+
+		foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+		{
+			try
+			{
+				loadedFiles.Add(file);
+				Console.WriteLine(Path.GetRandomFileName());
+				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
+				Store.ImgProfile = trustedFileNameForFileStorage;
+				var path = Path.Combine(
+							"wwwroot", "img", trustedFileNameForFileStorage);
+				CurrentPathImg = path;
+				await using FileStream fs = new(path, FileMode.Create);
+				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+
+		}
+		isLoading = false;
+	}
+
+	private List<IBrowserFile> loadedFilesCover = new();
+	private bool isLoadingCover;
+	public string CurrentImgCover = "";
+	public string CurrentPathImgCover = "";
+	private async Task LoadFilesCover(InputFileChangeEventArgs e)
+	{
+		var Store = ListStores.Find(e => e.UserID == UserLogin.UserID);
+		isLoadingCover = true;
+		loadedFilesCover.Clear();
+
+		foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+		{
+			try
+			{
+				loadedFilesCover.Add(file);
+				Console.WriteLine(Path.GetRandomFileName());
+				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
+				Store.ImgCover = trustedFileNameForFileStorage;
+				var path = Path.Combine(
+							"wwwroot", "img", trustedFileNameForFileStorage);
+				CurrentPathImgCover = path;
+				await using FileStream fs = new(path, FileMode.Create);
+				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+
+		}
+		isLoadingCover = false;
+	}
+	private async Task OnClickEditStore()
+	{
+		foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
+		{
+
+			Store.SellerName = Store.SellerName;
+			Store.SellerDescription = Store.SellerDescription;
+			Store.BankName = Store.BankName;
+			Store.AccountName = Store.AccountName;
+			Store.AccountNumber = Store.AccountNumber;
+			var a = new Store().ToTable(Store); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			storeService.EditStore(a); //บันทึกข้อมูล
+			ShowNotificationSuccessEdit();
+
+			var EditUser = new User().ToTable(UserLogin); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			userService.EditUser(EditUser); //บันทึกข้อมูล
+
+			var Stores1 = await storeService.GetStoresAsync();
+			ListStores.Clear();
+			foreach (var Store1 in Stores1)
+			{
+				ListStores.Add(new Store().ToUi(Store1));
+			}
+		}
+	}
+}

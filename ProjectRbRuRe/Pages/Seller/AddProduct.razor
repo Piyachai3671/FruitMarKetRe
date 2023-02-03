@@ -1,0 +1,407 @@
+﻿@page "/manage-product"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject NavigationManager NavigationManager
+@inject LoginService loginService
+@inject ProductService productService
+@inject UserService userService
+@inject NotificationService notificationservice
+<NavMenuLogin></NavMenuLogin>
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAddProduct">+ เพิ่มสินค้า</button>
+<RadzenDataGrid FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true"
+				PageSize="10" Data="@ListProduct.Where(e=>e.ProductStoreID ==UserLogin.UserID)" TItem="Product" ColumnWidth="150px">
+	<Columns>
+
+		<RadzenDataGridColumn TItem="Product " Title="ดูรายละเอียดเพิ่มเติม" Filterable="false" TextAlign="TextAlign.Center">
+
+			<Template Context="data">
+				<RadzenButton Click=@(args => OpenProductPage(data.IDProduct))
+							  ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="pageview" Class="m-1" />
+			</Template>
+
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="Product" Property="NameProduct" Title="ชื่อสินค้า" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="Product" Property="" Title="ภาพ" TextAlign="TextAlign.Center">
+			<Template Context="Product">
+				<RadzenImage Path="@("img/"+Product.ProductImg )" style="width: 40px; height: 40px; border-radius: 8px; " />
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="Product" Property="RemainderProduct" Title="คงเหลือ" Filterable="false" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+		
+		<RadzenDataGridColumn TItem="Product" Property="UnitProduct" Filterable="false" Title="หน่วย" TextAlign="TextAlign.Center"></RadzenDataGridColumn>
+
+		<RadzenDataGridColumn TItem="Product" Property="PriceProduct" Title="ราคา/หน่วย" Filterable="false" TextAlign="TextAlign.Center">
+		</RadzenDataGridColumn>
+
+		<RadzenDataGridColumn TItem="Product" Property="ProductStatus" Title="สถานะ" Filterable="false" TextAlign="TextAlign.Center">
+		</RadzenDataGridColumn>
+
+		<RadzenDataGridColumn TItem="Product" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+			<Template Context="data">
+				<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Warning" Variant="Variant.Flat" Size="ButtonSize.Medium" Click=@(args => SentValue(data)) data-bs-toggle="modal" data-bs-target="#ModalEditProduct">
+				</RadzenButton>
+				<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" Class="my-1 ms-1" Click=@(args => SentValue(data)) data-bs-toggle="modal" data-bs-target="#ModalDeleteProduct">
+				</RadzenButton>
+			</Template>
+		</RadzenDataGridColumn>
+	</Columns>
+</RadzenDataGrid>
+
+<EditForm Model="@ModelProduct">
+	<div class="modal fade" id="ModalAddProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">เพิ่มสินค้า</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group mt-2">
+						<label for="productname">ชื่อสินค้า</label>
+						<InputText @bind-Value="ModelProduct.NameProduct" type="text" class="form-control mt-2" />
+					</div>
+
+					<div class="form-group mt-2">
+						<label>ภาพโปรไฟล์ร้านค้า</label>
+						<div class="row">
+							@if (isLoading == false)
+							{
+								<img class="mt-3" src="img\@ModelProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+							}
+							@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+							{
+								@foreach (var file in loadedFiles)
+								{
+									<img class="mt-3" src="img\@ModelProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+								}
+
+							}
+							<div class="row">
+								<InputFile OnChange="LoadFiles" multiple></InputFile>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group mt-2">
+						<label>หน่วยนับ</label>
+						<InputSelect @bind-Value="ModelProduct.UnitProduct" class="form-control">
+							<option value="" selected disabled>-กรุณาเลือกหน่วยสินค้า-</option>
+							<option value="ลูก">ลูก</option>
+							<option value="กิโลกรัม">กิโลกรัม</option>
+						</InputSelect>
+					</div>
+					<div class="form-group mt-2">
+						<label>ราคา/หน่วย</label>
+						<InputNumber @bind-Value="ModelProduct.PriceProduct" type="text" class="form-control" />
+					</div>
+					<div class="form-group mt-2">
+						<label>จำนวนสินค้า</label>
+						<InputNumber @bind-Value="ModelProduct.RemainderProduct" type="number" pattern="[0-9]+" class="form-control mt-2" />
+					</div>
+
+					<div class="form-group mt-2">
+						<label>รายละเอียดสินค้า</label>
+						<InputTextArea @bind-Value="ModelProduct.ProductDescription" cols="30" rows="5" class="form-control mt-2" />
+					</div>
+					<div class="form-group mt-2">
+						<label>สถานะ</label>
+						<InputSelect @bind-Value="ModelProduct.ProductStatus" class="form-control">
+							<option value="" selected disabled>-กรุณาเลือกสถานะเพื่อแสดงสินค้า-</option>
+							<option value="เปิด">เปิด</option>
+							<option value="ปิด">ปิด</option>
+						</InputSelect>
+					</div>
+
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+					<button type="button" class="btn btn-success" @onclick="()=>OnClickAddProduct(ModelProduct)" data-bs-dismiss="modal">บันทึก</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</EditForm>
+
+
+<div class="modal fade" id="ModalEditProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">แก้ไขสินค้า</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group mt-2">
+					<label for="productname">ชื่อสินค้า</label>
+					<InputText @bind-Value="ValueProduct.NameProduct" type="text" class="form-control mt-2" />
+				</div>
+
+				<div class="form-group mt-2">
+					<label>ภาพโปรไฟล์ร้านค้า</label>
+					<div class="row">
+						@if (isLoading == false)
+						{
+							<img class="mt-3" src="img\@ValueProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+						}
+						@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+						{
+							@foreach (var file in loadedFiles)
+							{
+								<img class="mt-3" src="img\@ValueProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+							}
+
+						}
+						<div class="row">
+							<InputFile OnChange="LoadFilesEdit" multiple></InputFile>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group mt-2">
+					<label>หน่วยนับ</label>
+					<InputSelect @bind-Value="ValueProduct.UnitProduct" class="form-control">
+						<option value="" selected disabled>-กรุณาเลือกหน่วยสินค้า-</option>
+						<option value="ลูก">ลูก</option>
+						<option value="กิโลกรัม">กิโลกรัม</option>
+					</InputSelect>
+				</div>
+				<div class="form-group mt-2">
+					<label>ราคา/หน่วย</label>
+					<InputNumber @bind-Value="ValueProduct.PriceProduct" type="text" class="form-control" />
+				</div>
+				<div class="form-group mt-2">
+					<label>จำนวนสินค้า</label>
+					<InputNumber @bind-Value="ValueProduct.RemainderProduct" type="number" pattern="[0-9]+" class="form-control mt-2" />
+				</div>
+
+				<div class="form-group mt-2">
+					<label>รายละเอียดสินค้า</label>
+					<InputTextArea @bind-Value="ValueProduct.ProductDescription" cols="30" rows="5" class="form-control mt-2" />
+				</div>
+				<div class="form-group mt-2">
+					<label>สถานะ</label>
+					<InputSelect @bind-Value="ValueProduct.ProductStatus" class="form-control">
+						<option value="" selected disabled>-กรุณาเลือกสถานะเพื่อแสดงสินค้า-</option>
+						<option value="เปิด">เปิด</option>
+						<option value="ปิด">ปิด</option>
+					</InputSelect>
+				</div>
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+				<button type="button" class="btn btn-success" @onclick="()=>OnClickEditProduct(ValueProduct)" data-bs-dismiss="modal">บันทึก</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="ModalDeleteProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">สินค้า</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				คุณต้องการที่จะลบสินค้า @ValueProduct.NameProduct ใช่ หรือ ไม่ ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+				<button type="button" class="btn btn-success" @onclick="()=>OnDeleteProduct(ValueProduct)" data-bs-dismiss="modal">บันทึก</button>
+			</div>
+		</div>
+	</div>
+</div>
+@code {
+	private List<Product> ListProduct = new List<Product>();
+	private Product ModelProduct = new();
+	private Product ModelEditProduct = new();
+	private User? UserLogin = new();
+	private Product? ValueProduct = new();
+	protected override async Task OnInitializedAsync()
+	{
+		var Products = await productService.GetProductsAsync();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		StateHasChanged();
+	}
+	//private Task OnAddGroup(GroupMember id)
+	//{
+	//	ListGroupMember.Add(id);
+	//	return Task.CompletedTask;
+
+	//}
+	private async Task OnClickAddProduct(Product ID)
+	{
+
+		//ListProduct.Add(ValueProduct);
+		ModelProduct.ProductStoreID = UserLogin.UserID;
+		ModelProduct.ProductStoreName = UserLogin.StoreName;
+		ModelProduct.ProductImg = ModelProduct.ProductImg;
+		var AddProduct = new Product().ToTable(ModelProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+		productService.AddNewProduct(AddProduct); //บันทึกข้อมูล
+		ModelProduct.NameProduct = "";
+		ModelProduct.UnitProduct = "";
+		ModelProduct.PriceProduct = null;
+		ModelProduct.RemainderProduct = null;
+		ModelProduct.ProductDescription = "";
+		ModelProduct.ProductStatus = "";
+		ModelProduct.ProductImg = null;
+
+		ShowNotificationSuccess();
+		ListProduct.Add(ID);
+		var Products = await productService.GetProductsAsync();
+		ListProduct.Clear();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+
+	}
+
+	private async Task OnClickEditProduct(Product ID)
+	{
+		var EditProduct = new Product().ToTable(ValueProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+		productService.EditProduct(EditProduct); //บันทึกข้อมูล
+		ShowNotificationSuccessEdit();
+		//OpenToReset2();
+		//OpenToReset();
+	}
+	private void OpenProductPage(int ProductID)
+	{
+		NavigationManager.NavigateTo($"/product/{ProductID}");
+	}
+	private void SentValue(Product ID)
+	{
+		ValueProduct = ID;
+		//ShowDelete();
+	}
+
+	private void ShowNotificationSuccess()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "เพิ่มสินค้า" + ModelProduct.NameProduct + "สำเร็จ",
+				Detail = "",
+				Duration = 3000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void ShowNotificationSuccessEdit()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "แก้ไขสินค้า " + ValueProduct.NameProduct + " สำเร็จ",
+				Detail = "",
+				Duration = 3000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void ShowNotificationDelete()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "ลบสินค้า " + ValueProduct.NameProduct + " สำเร็จ",
+				Detail = "",
+				Duration = 3000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void OpenToReset()
+	{
+		NavigationManager.NavigateTo($"/manage-product");
+	}
+	private void OpenToReset2()
+	{
+		NavigationManager.NavigateTo($"/seller-home");
+	}
+	private async Task OnDeleteProduct(Product ID)
+	{
+		ListProduct.Remove(ID); //ลบกลุ่มUI
+		var DeleteProduct = new Product().ToTable(ID);//ลบกลุ่มในSQL
+		productService.DeleteProduct(DeleteProduct);
+		ShowNotificationDelete();
+	}
+
+	private List<IBrowserFile> loadedFiles = new();
+	private long maxFileSize = (1024 * 10) * 1024;
+	private int maxAllowedFiles = 3;
+	private bool isLoading;
+	public string CurrentPathImg = "";
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		//var Product = ListProduct.Find(e => e.ProductStoreID == UserLogin.UserID);
+		//CurrentImg = Store.ImgProfile;
+		isLoading = true;
+		loadedFiles.Clear();
+
+		foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+		{
+			try
+			{
+				loadedFiles.Add(file);
+				Console.WriteLine(Path.GetRandomFileName());
+				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
+				ModelProduct.ProductImg = trustedFileNameForFileStorage;
+				var path = Path.Combine(
+							"wwwroot", "img", trustedFileNameForFileStorage);
+				CurrentPathImg = path;
+				await using FileStream fs = new(path, FileMode.Create);
+				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+
+		}
+		isLoading = false;
+	}
+	private async Task LoadFilesEdit(InputFileChangeEventArgs e)
+	{
+		isLoading = true;
+		loadedFiles.Clear();
+
+		foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+		{
+			try
+			{
+				loadedFiles.Add(file);
+				Console.WriteLine(Path.GetRandomFileName());
+				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
+				ValueProduct.ProductImg = trustedFileNameForFileStorage;
+				var path = Path.Combine(
+							"wwwroot", "img", trustedFileNameForFileStorage);
+				CurrentPathImg = path;
+				await using FileStream fs = new(path, FileMode.Create);
+				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+
+		}
+		isLoading = false;
+	}
+}

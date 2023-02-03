@@ -1,0 +1,158 @@
+﻿@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject LoginService loginService
+@inject UserService userService
+@inject NotificationService notificationservice
+@page "/address"
+<NavMenuLogin></NavMenuLogin>
+
+<div class="container h-100 ">
+	<div class="row d-flex justify-content-center align-items-center h-100">
+		<div class="col-lg-12 col-xl-11">
+			<div class="card text-black" style="border-radius: 25px;">
+				<div class="card-body p-md-5">
+
+					<EditForm Model="@UserLogin">
+						<div class="row just-center">
+							<div class="col-md-10 col-lg-6 col-xl-5 ">
+								<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">ชื่อผู้รับ</p>
+								<form class="mx-1 mx-md-4">
+									<div class="d-flex flex-row align-items-center mb-4">
+										<i class="fas fa-user fa-lg me-3 fa-fw"></i>
+										<div class="form-outline flex-fill mb-0">
+											<InputText type="text" class="form-control " @bind-Value="@UserLogin.Name" />
+											<label class="form-label">ชื่อ - นามสกุล</label>
+										</div>
+									</div>
+
+									<div class="d-flex flex-row align-items-center mb-4">
+										<i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
+										<div class="form-outline flex-fill mb-0">
+											<InputText @bind-Value="@UserLogin.Tel" type="text" id="form3Example3c" class="form-control" />
+											<label class="form-label" for="form3Example3c">เบอร์โทร</label>
+										</div>
+									</div>
+
+
+									<div class="d-flex flex-row align-items-center mb-4">
+										<i class="fa-sharp fa-solid fa-key fa-lg me-3 fa-fw"></i>
+										<div class="form-outline flex-fill mb-0">
+											<InputText @bind-Value="@UserLogin.Password" type="password" id="form3Example3c" class="form-control" />
+											<label class="form-label" for="form3Example3c">รหัสผ่าน</label>
+										</div>
+									</div>
+
+								</form>
+							</div>
+							<div class="col-md-10 col-lg-6 col-xl-7 ">
+								<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">ที่อยู่จัดส่ง</p>
+								<form class="mx-1 mx-md-4">
+									<div class="row">
+										<div class="col">
+											<div class="d-flex flex-row align-items-center mb-4">
+												<div class="form-outline flex-fill mb-0">
+													<InputText  @bind-Value="@UserLogin.Province" type="text" class="form-control "  />
+													<label class="form-label">จังหวัด</label>
+												</div>
+											</div>
+											<div class="d-flex flex-row align-items-center mb-4">
+												<div class="form-outline flex-fill mb-0">
+													<InputText @bind-Value="@UserLogin.District" type="text" id="form3Example3c" class="form-control" />
+													<label class="form-label" for="form3Example3c">ตำบล</label>
+												</div>
+											</div>
+										</div>
+										<div class="col">
+											<div class="d-flex flex-row align-items-center mb-4">
+												<div class="form-outline flex-fill mb-0">
+													<InputText @bind-Value="@UserLogin.SubDistrict" type="text" id="form3Example3c" class="form-control" />
+													<label class="form-label" for="form3Example3c">อำเภอ</label>
+												</div>
+											</div>
+											<div class="d-flex flex-row align-items-center mb-4">
+												<div class="form-outline flex-fill mb-0">
+													<InputText @bind-Value="@UserLogin.Postcode" type="text" id="form3Example3c" class="form-control" />
+													<label class="form-label" for="form3Example3c">รหัสไปรษณีย์</label>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="d-flex flex-row align-items-center mb-4">
+										<div class="form-outline flex-fill mb-0">
+											<InputTextArea @bind-Value="@UserLogin.Address" type="text" id="form3Example3c" class="form-control" rows="5" />
+											<label class="form-label" for="form3Example3c">ที่อยู่</label>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</EditForm>
+					<div class="mt-5 d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+						<button class="btn btn-primary btn-lg" @onclick="OnClickEditUser">บันทึก</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@code {
+	private List<User> ListUser = new List<User>();
+	protected override async Task OnInitializedAsync()
+	{
+		//ListUser = await userService.GetUserAsync();
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+		    ListUser.Add(new User().ToUi(user));
+		}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+	}
+
+
+
+	private User? UserLogin = new();
+	private User ModelUser = new();
+
+	private void OnClickEditUser()
+	{
+		@foreach (var User in ListUser.FindAll(e => e.UserID == UserLogin.UserID))
+		{
+			User.Name = UserLogin.Name;
+			User.Tel = UserLogin.Tel;
+			User.Password = UserLogin.Password;
+			User.Province = UserLogin.Province;
+			User.District = UserLogin.District;
+			User.SubDistrict = UserLogin.SubDistrict;
+			User.Postcode = UserLogin.Postcode;
+			User.Address = UserLogin.Address;
+			var a = new User().ToTable(User); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			userService.EditUser(a); //บันทึกข้อมูล
+		}
+		//UserLogin.Name = UserLogin.Name;
+		//UserLogin.Tel = UserLogin.Tel;
+		//UserLogin.Password = UserLogin.Password;
+		//UserLogin.Province = UserLogin.Province;
+		//UserLogin.District = UserLogin.District;
+		//UserLogin.SubDistrict = UserLogin.SubDistrict;
+		//UserLogin.Postcode = UserLogin.Postcode;
+		//UserLogin.Address = UserLogin.Address;
+		ShowNotificationEditSuccess();
+
+	}
+	private void ShowNotificationEditSuccess()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "แก้ไขข้อมูสำเร็จ !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+}

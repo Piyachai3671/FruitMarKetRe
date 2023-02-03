@@ -23,5 +23,9 @@ namespace ProjectRbRuRe.Data
 
 
 		public DbSet<TableStore> TableStore { get; set; }
+
+		public DbSet<TableProvince> TableProvince { get; set; }
+		public DbSet<TableAmphoe> TableAmphoe { get; set; }
+		public DbSet<Tabletambol> Tabletambol { get; set; }
 	}
 }

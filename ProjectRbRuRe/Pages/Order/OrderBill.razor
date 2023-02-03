@@ -1,0 +1,1502 @@
+﻿@page "/orderbill/{GetOrderIDPage:int}"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject OrderService orderService
+@inject UserService userService
+@inject CartProductService cartProductService
+@inject LoginService loginService
+@inject OrderItemService orderItemService
+@inject ReportService reportService
+
+@inject StoreService storeService
+@inject ProductService productService
+
+@inject NavigationManager NavigationManager
+<NavMenuLogin></NavMenuLogin>
+
+@foreach (var Order in ListOrders.FindAll(e => e.OrderID == GetOrderIDPage))
+{
+	//HeadBill
+	<div class="card mb-2" style="">
+		<div class="card-header" style="">รายละเอียดประวัติผู้ทำรายการ</div>
+		@if (Order.OrderStatus == "ยังไม่ชำระ")
+		{
+			<div class="card-body" style="background-color:coral;">
+				<div class="row">
+					<div class="row mt-2">
+						<div class="col">
+							<strong>ชื่อผู้รับ : @Order.Ordername</strong>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col-lg-4">
+									<label>
+										ที่อยู่ : @Order.OrderAddress
+										จังหวัด @Order.OrderProvince
+										อำเภอ @Order.OrderDistrict
+										ตำบล @Order.OrderSubDistrict
+										@Order.OrderPostcode
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									เบอร์โทร : @Order.OrderTel
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+		@if (Order.OrderStatus == "ชำระแล้ว")
+		{
+			<div class="card-body" style="background-color:cornflowerblue;">
+				<div class="row">
+					<div class="row mt-2">
+						<div class="col">
+							<strong>ชื่อผู้รับ : @Order.Ordername</strong>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col-lg-4">
+									<label>
+										ที่อยู่ : @Order.OrderAddress
+										จังหวัด @Order.OrderProvince
+										อำเภอ @Order.OrderDistrict
+										ตำบล @Order.OrderSubDistrict
+										@Order.OrderPostcode
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									เบอร์โทร : @Order.OrderTel
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+		@if (Order.OrderStatus == "สำเร็จ")
+		{
+			<div class="card-body" style="background-color:lightgreen ;">
+
+				<div class="row">
+					<div class="row mt-2">
+						<div class="col">
+							<strong>ชื่อผู้รับ : @Order.Ordername</strong>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col-lg-4">
+									<label>
+										ที่อยู่ : @Order.OrderAddress
+										จังหวัด @Order.OrderProvince
+										อำเภอ @Order.OrderDistrict
+										ตำบล @Order.OrderSubDistrict
+										@Order.OrderPostcode
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									เบอร์โทร : @Order.OrderTel
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+		@if (Order.OrderStatus == "ยกเลิก")
+		{
+			<div class="card-body" style="background-color:#F96464;">
+
+				<div class="row">
+					<div class="row mt-2">
+						<div class="col">
+							<strong>ชื่อผู้รับ : @Order.Ordername</strong>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col-lg-4">
+									<label>
+										ที่อยู่ : @Order.OrderAddress
+										จังหวัด @Order.OrderProvince
+										อำเภอ @Order.OrderDistrict
+										ตำบล @Order.OrderSubDistrict
+										@Order.OrderPostcode
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									เบอร์โทร : @Order.OrderTel
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	//วันเวลาบิล
+	@if (Order.OrderStatus == "ยังไม่ชำระ")
+	{
+		<div class="card mt-3">
+			<div class="card-header ">
+				จัดการสถานะคำสั่งซื้อ
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-1">
+							<label>วันที่สั่งสินค้า : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDateCreate</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-1">
+							<label>รหัสคำสั่งซื้อ : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderID</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						@if (UserLogin.Permission == "c")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อร้านค้า : </label>
+							</div>
+							<div class="col">
+								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
+								{
+									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+								}
+
+							</div>
+						}
+						@if (UserLogin.Permission == "s")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อลูกค้า : </label>
+							</div>
+							<div class="col">
+								<label>@Order.Ordername</label>
+							</div>
+						}
+					</div>
+				</div>
+
+				<div class="row">
+					@if (UserLogin.Permission == "c")
+					{
+						<div class="col " style="text-align:center;">
+							<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalPaySucces">
+								ยืนยันชำระคำสั่งซื้อ
+							</button>
+						</div>
+					}
+					<div class="col " style="text-align:center;" data-bs-toggle="modal" data-bs-target="#ModalCancel">
+						<button class="btn btn-danger">
+							ยกเลิกคำสั่งซื้อ
+						</button>
+					</div>
+				</div>
+				<hr>
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงเทพ")
+				{
+					@*ธนาคาร ธนาคารกรุงเทพ*@
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงเทพ
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://thaipublica.org/wp-content/uploads/2021/10/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกสิกรไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกสิกรไทย
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://pineapplenewsagency.com/public/imgs/covers/61691d7cc850b.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงไทย
+								</div>
+								<div class="card-body">
+						
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารไทยพาณิชย์")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารไทยพาณิชย์
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://siamrath.co.th/files/img/20210104/916959e97bf8ad002ae0f342b76b23ef7ceb14e13455807a8a2872f7d5c826da.jpeg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงศรีอยุธยา")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงศรีอยุธยา
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารออมสิน")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารออมสิน
+								</div>
+								<div class="card-body">	
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+				<div class="row mt-2">
+					@if (UserLogin.Permission == "c")
+					{
+						<div class="col-lg-6" style="text-align:center;">
+							<h3>อัพโหลดภาพหลักฐานการชำระเงิน</h3>
+							@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+							{
+								<p>Loading . . .</p>
+
+							}
+							else //จากนั้นจะเปลี่ยนให้ทำการอัพโหลด
+							{
+								@foreach (var file in loadedFiles)
+								{
+									<img class="mt-3" src="img/@CurrentImg" width="400" height="400">
+								}
+							}
+							<div class="row">
+								<InputFile OnChange="LoadFiles" multiple></InputFile>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+
+	}
+
+	@if (Order.OrderStatus == "ชำระแล้ว")
+	{
+		<div class="card mt-3">
+			<div class="card-header ">
+				จัดการสถานะคำสั่งซื้อ
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-1">
+							<label>วันที่สั่งสินค้า : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDateCreate</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-1">
+							<label>วันที่ชำระสินค้า : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDatePaySuccess</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						@if (UserLogin.Permission == "c")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อร้านค้า : </label>
+							</div>
+							<div class="col">
+								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
+								{
+									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+								}
+
+							</div>
+						}
+						@if (UserLogin.Permission == "s")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อลูกค้า : </label>
+							</div>
+							<div class="col">
+								<label>@Order.Ordername</label>
+							</div>
+						}
+					</div>
+				</div>
+				<div class="row">
+					@if (UserLogin.Permission == "s")
+					{
+						<div class="col " style="text-align:center;">
+							<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalSucces">
+								ยืนยันคำสั่งซื้อ
+							</button>
+						</div>
+
+
+						<div class="col " style="text-align:center;" data-bs-toggle="modal" data-bs-target="#ModalCancel">
+							<button class="btn btn-danger">
+								ยกเลิกคำสั่งซื้อ
+							</button>
+						</div>
+					}
+				</div>
+				<hr>
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงเทพ")
+				{
+					@*ธนาคาร ธนาคารกรุงเทพ*@
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงเทพ
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://thaipublica.org/wp-content/uploads/2021/10/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกสิกรไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกสิกรไทย
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://pineapplenewsagency.com/public/imgs/covers/61691d7cc850b.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงไทย
+								</div>
+								<div class="card-body">
+
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารไทยพาณิชย์")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารไทยพาณิชย์
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://siamrath.co.th/files/img/20210104/916959e97bf8ad002ae0f342b76b23ef7ceb14e13455807a8a2872f7d5c826da.jpeg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงศรีอยุธยา")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงศรีอยุธยา
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารออมสิน")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารออมสิน
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+				<div class="row mt-2">
+					<div class="col-lg-6" style="text-align:center;">
+						<h3>ภาพหลักฐานการชำระเงิน</h3>
+						<img src="img/@Order.OrderImgPay" width="400" height="400">
+					</div>
+
+					<div class="col-lg-6" style="text-align:center;">
+						<h3>เลขพัสดุ</h3>
+						@if (UserLogin.Permission == "s")
+						{
+							<EditForm Model="@ModelOrder">
+								<div class="d-inline-flex">
+									<div class="row">
+										<div class="col">
+											<label>บริษัทขนส่ง :</label>
+											<InputSelect @bind-Value="ModelOrder.OrderNameExpress" type="text" style="height:38px;">
+												<option value="">เลือกบริษัทขนส่ง</option>
+												<option value="Thailand Post">Thailand Post</option>
+												<option value="KERRY EXPRESS">KERRY EXPRESS</option>
+												<option value="BEST EXPRESS">BEST EXPRESS</option>
+												<option value="Ninja Van">Ninja Van</option>
+												<option value="J&T EXPRESS">J&T EXPRESS</option>
+												<option value="FLASH EXPRESS">FLASH EXPRESS</option>
+												<option value="DHL EXPRESS">DHL EXPRESS</option>
+												<option value="SCG EXPRESS ">SCG EXPRESS</option>
+											</InputSelect>
+										</div>
+									</div>
+								</div>
+								<div class="d-inline-flex">
+									<div class="row mt-2">
+										<div class="col">
+											<label>เลขพัสดุ :</label>
+											<InputText @bind-Value="ModelOrder.OrderNumberExpress" type=" text" />
+										</div>
+									</div>
+								</div>
+							</EditForm>
+						}
+						@if (UserLogin.Permission == "c")
+						{
+							<div class="d-inline-flex">
+								<div class="row">
+									<div class="col">
+										<label>บริษัทขนส่ง :</label>
+										<input value="@Order.OrderNameExpress" disabled />
+									</div>
+								</div>
+							</div>
+							<div class="d-inline-flex">
+								<div class="row mt-2">
+									<div class="col">
+										<label>เลขพัสดุ :</label>
+										<input type="text" value="@Order.OrderNumberExpress" disabled />
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	}
+
+	@if (Order.OrderStatus == "สำเร็จ")
+	{
+		<div class="card mt-3">
+			<div class="card-header ">
+				จัดการสถานะคำสั่งซื้อ
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-2">
+							<label>วันที่ทำรายการ : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDateCreate</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-2">
+							<label>วันที่ชำระสินค้า : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDatePaySuccess</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-2">
+							<label>วันที่เสร็จสิ้นคำสั่งซื้อ : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDateEnd</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-2">
+						<label>รหัสคำสั่งซื้อ : </label>
+					</div>
+					<div class="col">
+						@Order.OrderID
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						@if (UserLogin.Permission == "c")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อร้านค้า : </label>
+							</div>
+							<div class="col">
+								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
+								{
+									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+								}
+
+							</div>
+						}
+						@if (UserLogin.Permission == "s")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อลูกค้า : </label>
+							</div>
+							<div class="col">
+								<label>@Order.Ordername</label>
+							</div>
+						}
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col " style="text-align:center;">
+						<button class="btn btn-primary">
+							พิมพ์รายงาน A4
+						</button>
+					</div>
+
+					<div class="col " style="text-align:center;">
+						<button class="btn btn-primary">
+							พิมพ์รายงาน 9x11
+						</button>
+					</div>
+				</div>
+
+				<hr>
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงเทพ")
+				{
+					@*ธนาคาร ธนาคารกรุงเทพ*@
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงเทพ
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://thaipublica.org/wp-content/uploads/2021/10/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกสิกรไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกสิกรไทย
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://pineapplenewsagency.com/public/imgs/covers/61691d7cc850b.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงไทย
+								</div>
+								<div class="card-body">
+						
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารไทยพาณิชย์")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารไทยพาณิชย์
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://siamrath.co.th/files/img/20210104/916959e97bf8ad002ae0f342b76b23ef7ceb14e13455807a8a2872f7d5c826da.jpeg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงศรีอยุธยา")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงศรีอยุธยา
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารออมสิน")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารออมสิน
+								</div>
+								<div class="card-body">	
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+				<div class="row mt-2">
+					<div class="col-lg-6" style="text-align:center;">
+						<h3>ภาพหลักฐานการชำระเงิน</h3>
+						<img src="img/@Order.OrderImgPay" width="400" height="400">
+					</div>
+
+					<div class="col-lg-6" style="text-align:center;">
+						<h3>เลขพัสดุ</h3>
+
+
+						<div class="d-inline-flex">
+							<div class="row">
+								<div class="col">
+									<label>บริษัทขนส่ง :</label>
+									<input value="@Order.OrderNameExpress" disabled />
+								</div>
+							</div>
+						</div>
+						<div class="d-inline-flex">
+							<div class="row mt-2">
+								<div class="col">
+									<label>เลขพัสดุ :</label>
+									<input type="text" value="@Order.OrderNumberExpress" disabled />
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	}
+
+	@if (Order.OrderStatus == "ยกเลิก")
+	{
+		<div class="card mt-3">
+			<div class="card-header ">
+				รายละเอียดสถานะคำสั่งซื้อ
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-2">
+							<label>วันที่ทำรายการ : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderDateCreate</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-2">
+							<label>วันที่สิ้นสุดคำสั่งซื้อ : </label>
+						</div>
+						<div class="">
+							<label>@Order.OrderDateEnd</label>
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-lg-2">
+						<label>รหัสคำสั่งซื้อ : </label>
+					</div>
+					<div class="col">
+						@Order.OrderID
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						@if (UserLogin.Permission == "c")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อร้านค้า : </label>
+							</div>
+							<div class="col">
+								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
+								{
+									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+								}
+
+							</div>
+						}
+						@if (UserLogin.Permission == "s")
+						{
+							<div class="col-lg-1">
+								<label>ชื่อลูกค้า : </label>
+							</div>
+							<div class="col">
+								<label>@Order.Ordername</label>
+							</div>
+						}
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col " style="text-align:center;">
+						<button class="btn btn-primary">
+							พิมพ์รายงาน A4
+						</button>
+					</div>
+
+					<div class="col " style="text-align:center;">
+						<button class="btn btn-primary">
+							พิมพ์รายงาน 9x11
+						</button>
+					</div>
+				</div>
+				<hr>
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงเทพ")
+				{
+					@*ธนาคาร ธนาคารกรุงเทพ*@
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงเทพ
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://thaipublica.org/wp-content/uploads/2021/10/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกสิกรไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกสิกรไทย
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://pineapplenewsagency.com/public/imgs/covers/61691d7cc850b.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงไทย")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงไทย
+								</div>
+								<div class="card-body">
+						
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารไทยพาณิชย์")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารไทยพาณิชย์
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://siamrath.co.th/files/img/20210104/916959e97bf8ad002ae0f342b76b23ef7ceb14e13455807a8a2872f7d5c826da.jpeg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารกรุงศรีอยุธยา")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารกรุงศรีอยุธยา
+								</div>
+								<div class="card-body">
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@if (ListStores.Find(e => e.UserID == Order.OrderStoreID).BankName == "ธนาคารออมสิน")
+				{
+					<div class="row ">
+						<div class="col">
+							<div class="card" style="width:600px;">
+								<div class="card-header">
+									ธนาคารออมสิน
+								</div>
+								<div class="card-body">	
+									<div class="row" style="text-align:center;">
+										<div class="col">
+											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+										</div>
+									</div>
+									<h3 class="mt-2">
+										ชื่อบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName
+									</h3>
+									<h3>
+										เลขบัญชี : @ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+				<div class="row mt-2">
+					<div class="col-lg-6" style="text-align:center;">
+						<h3>ภาพหลักฐานการชำระเงิน</h3>
+						<img src="img/@Order.OrderImgPay" width="400" height="400" alt="ไม่มีภาพ">
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	//สินค้าทั้งหมดในบิล
+
+	<div class="container-fluid mt-3">
+
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">รหัสสินค้า</th>
+					<th scope="col">ภาพ</th>
+					<th scope="col">สินค้า</th>
+
+					<th scope="col">จำนวน</th>
+					<th scope="col">ราคา/ชิ้น</th>
+					<th scope="col">ราคารวม</th>
+
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach (var OrderItem in ListOrderItems.FindAll(e => e.OrderItemOrderID == Order.OrderID))
+				{
+					<tr>
+						<th></th>
+						<th>
+							<img src="img/@ListProduct.Find(e=>e.IDProduct == OrderItem.OrderItemProductID ).ProductImg" style="width: 40px; height: 40px; border-radius: 8px; "/>
+						</th>
+						<td>@OrderItem.OrderItemProductName </td>
+						<td>@OrderItem.OrderItemProductAmount</td>
+						<td>@OrderItem.OrderItemProductPrice</td>
+						<td>@OrderItem.OrderItemProductSumPrice</td>
+					</tr>
+				}
+
+			</tbody>
+			<tfoot>
+				<tr>
+					<th style="text-align:center;" colspan="4">รวม</th>
+
+					<th style="" colspan="1">@Order.OrderSumPrice</th>
+
+				</tr>
+			</tfoot>
+		</table>
+
+	</div>
+
+}
+
+
+
+@*//Modalยืนยันเพื่อชำระแล้ว*@
+<div class="modal fade" id="ModalPaySucces" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">ยืนยันสถานะชำระแล้ว</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				คุณต้องการ "ยืนยัน" สถานะคำสั่งซื้อใช่ หรือไม่ ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+				<button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="OnChangeStatusToPaySuccess">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+@*//Modalยืนยันเพื่อสำเร็จ*@
+<div class="modal fade" id="ModalSucces" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">ยืนยันสถานะสำเร็จ</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				คุณต้องการ "ยืนยัน" สถานะคำสั่งซื้อใช่ หรือไม่ ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+				<button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="OnChangeStatusToSuccess">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+@*//Modalยกเลิก*@
+<div class="modal fade" id="ModalCancel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">ยืนยันสถานะ Cancel</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				คุณต้องการ "ยกเลิก" สถานะคำสั่งซื้อใช่ หรือไม่ ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+				<button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="OnChangeStatusToCancel">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+@code {
+	[Parameter]
+	public int GetOrderIDPage { get; set; }
+
+	private List<Order> ListOrders = new List<Order>();
+	private List<User> ListUser = new List<User>();
+	private List<CartProduct> ListCartProduct = new List<CartProduct>();
+	private User? UserLogin = new();
+
+	private List<OrderItem>? ListOrderItems = new List<OrderItem>();
+	private List<Report>? ListReports = new List<Report>();
+	private List<Store>? ListStores = new List<Store>();
+	private Report AddReport = new();
+	private Order ModelOrder = new();
+	private List<Product> ListProduct = new List<Product>();
+	protected override async Task OnInitializedAsync()
+	{
+		var OrderItems = await orderItemService.GetOrderItemServices();
+		foreach (var orderitem in OrderItems)
+		{
+			ListOrderItems.Add(new OrderItem().ToUi(orderitem));
+		}
+		//ListOrders = await orderService.GetOrderAsync();
+		var Orders = await orderService.GetOrderAsync();
+		foreach (var order in Orders)
+		{
+			ListOrders.Add(new Order().ToUi(order));
+		}
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUser.Add(new User().ToUi(user));
+		}
+
+		var Reports = await reportService.GetReportsAsync();
+		foreach (var Report in Reports)
+		{
+			ListReports.Add(new Report().ToUi(Report));
+		}
+
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+
+		var Products = await productService.GetProductsAsync();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+
+		ListCartProduct = await cartProductService.GetCartProductNoDataBaseAsync();
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+	}
+
+	private Order Orde = new Order();
+	private void OnChangeStatusToSuccess()
+	{
+		var FindUerID = ListUser.Find(e => e.UserID == UserLogin.UserID);
+		@foreach (var Order in ListOrders)
+		{
+			@if (Order.OrderID == GetOrderIDPage && Order.OrderStatus == "ชำระแล้ว")
+			{
+				Order.OrderDateEnd = DateTime.Now;
+				Order.OrderStatus = "สำเร็จ";
+				Order.OrderNameExpress = ModelOrder.OrderNameExpress;
+				Order.OrderNumberExpress = ModelOrder.OrderNumberExpress;
+				var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				orderService.EditOrder(a); //บันทึกข้อมูล
+			}
+			@foreach (var Report in ListReports.FindAll(e => e.ReportID == Order.OrderID))
+			{
+				@if (Report.ReportID == GetOrderIDPage)
+				{
+					Report.ReportDate = DateTime.Now;
+					Report.ReportStatus = "สำเร็จ";
+					Report.ReportPriceSum = Order.OrderSumPrice;
+					var a = new Report().ToTable(Report); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+					reportService.EditReport(a); //บันทึกข้อมูล
+				}
+			}
+		}
+
+	}
+	private void OnChangeStatusToCancel()
+	{
+		@foreach (var Order in ListOrders)
+		{
+			@if (Order.OrderID == GetOrderIDPage)
+			{
+				Order.OrderDateEnd = DateTime.Now;
+				Order.OrderStatus = "ยกเลิก";
+				var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				orderService.EditOrder(a); //บันทึกข้อมูล
+			}
+
+		}
+	}
+	private void OnChangeStatusToPaySuccess()
+	{
+		@foreach (var Order in ListOrders)
+		{
+			@if (Order.OrderID == GetOrderIDPage && Order.OrderStatus == "ยังไม่ชำระ")
+			{
+				Order.OrderDatePaySuccess = DateTime.Now;
+				Order.OrderStatus = "ชำระแล้ว";
+				Order.OrderImgPay = CurrentImg;
+				var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				orderService.EditOrder(a); //บันทึกข้อมูล
+			}
+		}
+
+	}
+	private List<string> CurrentImg1 = new List<string>();
+	private List<IBrowserFile> loadedFiles = new();
+	private long maxFileSize = (1024 * 10) * 1024;
+	private int maxAllowedFiles = 3;
+	private bool isLoading;
+	public string CurrentImg = "";
+	public string CurrentPathImg = "";
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		isLoading = true;
+		loadedFiles.Clear();
+
+		foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+		{
+			try
+			{
+				loadedFiles.Add(file);
+				Console.WriteLine(Path.GetRandomFileName());
+				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
+				CurrentImg = trustedFileNameForFileStorage;
+				var path = Path.Combine(
+							"wwwroot", "img", trustedFileNameForFileStorage);
+				CurrentPathImg = path;
+				await using FileStream fs = new(path, FileMode.Create);
+				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+				//Img NewImg = new() { Imgname = trustedFileNameForFileStorage, path = path };
+				//var b = new Img().ToTable(NewImg); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				//imgService.AddNewImg(b); //บันทึกข้อมูล
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+
+		}
+		isLoading = false;
+	}
+
+}

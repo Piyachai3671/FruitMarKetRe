@@ -1,0 +1,69 @@
+﻿@page "/HeadBill"
+@using ProjectRbRuRe.Data.Models;
+@using ProjectRbRuRe.Data.Services;
+@inject UserService userService
+@inject LoginService loginService
+
+
+@if (ListUser == null)
+{
+    <p>
+        Loading...
+    </p>
+}
+@foreach (var User in ListUser.FindAll(e => e.UserID == UserLogin.UserID))
+{
+    <div class="card mb-2" >
+        <div class="card-header">รายละเอียดผู้ทำรายการ</div>
+
+        <div class="card-body" style="background-color:pink;">
+
+            <div class="row">
+                <div class="row mt-2">
+                    <div class="col">
+                        <strong>ชื่อผู้รับ : @User.Name</strong>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>ที่อยู่ : @User.Address
+                                    จังหวัด. @User.Province
+                                    อำเภอ. @User.District
+                                    ตำบล. @User.SubDistrict
+                                    @User.Postcode</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                เบอร์โทร : @User.Tel
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    private List<User> ListUser = new List<User>();
+    private User? UserLogin = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+        //ListUser = await userService.GetUserAsync();
+        var Users = await userService.GetUserAsync();
+        foreach (var user in Users)
+        {
+            ListUser.Add(new User().ToUi(user));
+        }
+    }
+
+}

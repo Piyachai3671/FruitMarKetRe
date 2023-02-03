@@ -1,39 +1,88 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ProjectRbRuRe</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
+﻿@using ProjectRbRuRe.Data.Services;
+@using ProjectRbRuRe.Data.Models;
+@inject LoginService loginService
+@inject UserService userService
+
+<div class="top-row ps-3 navbar navbar-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="">ProjectRbRuRe</a>
+		<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
 </div>
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-    </nav>
+	<nav class="flex-column">
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+				<span class="oi oi-home" aria-hidden="true"></span> Home
+			</NavLink>
+		</div>
+		@* <div class="nav-item px-3">
+		<NavLink class="nav-link" href="counter">
+		<span class="oi oi-plus" aria-hidden="true"></span> Counter
+		</NavLink>
+		</div>
+		<div class="nav-item px-3">
+		<NavLink class="nav-link" href="fetchdata">
+		<span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+		</NavLink>
+		</div>*@
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="register">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> สมัครสมาชิก
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="Login">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> เข้าสู่ระบบ
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="selstroe">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> selstroe
+			</NavLink>
+		</div>
+	</nav>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+	private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+	private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+	private void ToggleNavMenu()
+	{
+		collapseNavMenu = !collapseNavMenu;
+	}
+
+	private bool StatusLogin;
+	private User? UserToLogin = new();
+	private List<User> ListUser = new List<User>();
+	private User? UserLogin = new();
+	private User? UserGuest = new();
+	protected override async Task OnInitializedAsync()
+	{
+
+		//ListUser = await userService.GetUserAsync();
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUser.Add(new User().ToUi(user));
+		}
+
+
+	}
+	private void CheckStatus()
+	{
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+	}
+	private void OnLogout()
+	{
+		bool Status = loginService.LogOut();
+		StatusLogin = Status;
+
+	}
+
 }

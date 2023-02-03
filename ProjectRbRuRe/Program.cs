@@ -21,6 +21,9 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<OrderItemService>();
 builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<ProvinceService>();
+builder.Services.AddScoped<AmphoeService>();
+builder.Services.AddScoped<TambolService>();
 
 
 builder.Services.AddScoped<NotificationService>();

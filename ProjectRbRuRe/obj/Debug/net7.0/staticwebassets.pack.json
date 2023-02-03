@@ -57,6 +57,78 @@
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\01mvxqqr.to4user.png",
+      "PackagePath": "staticwebassets\\img\\01mvxqqr.to4user.png"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\4ja0yanb.bpvslip01.jpg",
+      "PackagePath": "staticwebassets\\img\\4ja0yanb.bpvslip01.jpg"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\4ocyhihp.u02เงาะ.png",
+      "PackagePath": "staticwebassets\\img\\4ocyhihp.u02เงาะ.png"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\oxaxil0h.ssx7e7a55e5-6914-4866-9464-a8c58853da96.jpg",
+      "PackagePath": "staticwebassets\\img\\oxaxil0h.ssx7e7a55e5-6914-4866-9464-a8c58853da96.jpg"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\qagqxmul.0gmDurian-04.jpg",
+      "PackagePath": "staticwebassets\\img\\qagqxmul.0gmDurian-04.jpg"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\vi3fe10t.4bgเงาะ.png",
+      "PackagePath": "staticwebassets\\img\\vi3fe10t.4bgเงาะ.png"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.min.js.map"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.ProjectRbRuRe.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

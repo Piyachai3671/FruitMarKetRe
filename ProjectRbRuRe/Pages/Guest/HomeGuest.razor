@@ -1,0 +1,59 @@
+﻿@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject StoreService storeService
+@inject UserService userService
+@inject NavigationManager NavigationManager
+<NavBarGuset></NavBarGuset>
+
+@if (ListStores == null)
+{
+    <p>ไม่พบร้านค้า...</p>
+}
+else
+{
+    <div class="row">
+        
+        @foreach (var Store in ListStores)
+        {
+            
+            <!-- การ์ดร้านค้า -->
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mt-3">
+                <button class="btn" @onclick="()=>OpenStorePage(Store.UserID)">
+                    <div class="card" style=" width: 20rem; cursor: pointer;">
+                        <img src="img/@Store.ImgProfile" class="card-size">
+                        <div class="card-body card-text">
+                            <div class="">ชื่อร้านค้า: @Store.SellerName</div>
+                            <div class="mt-1">จังหวัด:@ListUsers.Find(e=>e.UserID == Store.UserID).Province</div>
+                            <div class="mt-1">อำเภอ:@ListUsers.Find(e=>e.UserID == Store.UserID).District</div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+        }
+    </div>
+
+}
+@code {
+
+    private List<Store> ListStores = new List<Store>();
+    private List<User> ListUsers = new List<User>();
+    protected override async Task OnInitializedAsync()
+    {
+        var Stores = await storeService.GetStoresAsync();
+        foreach (var Store in Stores)
+        {
+            ListStores.Add(new Store().ToUi(Store));
+        }
+        var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+            ListUsers.Add(new User().ToUi(user));
+		}
+    }
+    private void OpenStorePage(int StoreID)
+    {
+        NavigationManager.NavigateTo($"/storeguest/{StoreID}");
+    }
+}

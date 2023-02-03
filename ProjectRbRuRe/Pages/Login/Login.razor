@@ -1,0 +1,110 @@
+﻿@page "/Login"
+@using ProjectRbRuRe.Data.Models;
+@using ProjectRbRuRe.Data.Services;
+@inject UserService userService
+@inject LoginService loginService
+@inject NavigationManager NavigationManager
+@inject NotificationService notificationservice
+<ProjectRbRuRe.Pages.Guest.NavBarGuset></ProjectRbRuRe.Pages.Guest.NavBarGuset>
+<div class="container-fluid" id="app">
+	<div class="row mt-3">
+		<div class="col-sm-6 mt-2">
+			<div class="logo text-center ">
+				<img src="http://unsplash.it/100/100" class="w-50 size rounded-circle">
+			</div>
+		</div>
+
+		<div class="col-sm-6 mt-3 ">
+			<div class="card">
+				<div class="card-body">
+					<h2 style="color:#003866">เข้าสู่ระบบ</h2>
+					<EditForm Model="@Model" OnSubmit="OnLogin">
+						<div class="form-group">
+							<label for="username">เบอร์โทรศัพท์ หรืออีเมล</label>
+							<InputText @bind-Value="Model.Username" class="form-control form-control-lg" placeholder="123@gmail.com" />
+						</div>
+
+						<div class="form-group mt-2">
+							<label for="password">รหัสผ่าน</label>
+							<InputText @bind-Value="Model.Password" type="password" class="form-control form-control-lg" placeholder="password" />
+						</div>
+
+						<button class="btn btn-primary mt-3 bg-blue me-3" type="submit">เข้าสู่ระบบ</button>
+					</EditForm>
+
+
+					<NavLink href="/register">
+						<button class="btn btn-secondary mt-3">
+							สมัครสมาชิก
+						</button>
+					</NavLink>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+
+	private bool Islogin = false;
+	private List<User> ListUser = new List<User>();
+	private User Model = new User();
+	private User? UserLogin = new();
+	private bool StatusLogin;
+	protected override async Task OnInitializedAsync()
+	{
+		//CheckStatus();
+		var Users = await userService.GetUserAsync();
+		//Model = new User();
+
+	}
+	private async void OnLogin()
+	{
+		bool Status = await loginService.Login(Model.Username, Model.Password);
+		Islogin = Status;
+		if (Islogin == true)
+		{
+			UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+			if (UserLogin.Permission == "c")
+			{
+				NavigationManager.NavigateTo("/homelogin");
+				CheckStatus();
+			}
+			if(UserLogin.Permission == "s")
+			{
+				NavigationManager.NavigateTo("/seller-home");
+				CheckStatus();
+			}
+		}
+		else
+		{
+			ShowNotificationLoginFlase();
+		}
+
+	}
+
+	private void OnLogout()
+	{
+		bool Status = loginService.LogOut();
+		Islogin = Status;
+
+	}
+	
+	private void CheckStatus()
+	{
+		StatusLogin = true;
+	}
+	private void ShowNotificationLoginFlase()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "รหัสไม่ถูกต้อง !",
+				Detail = "",
+				Duration = 1500,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+}

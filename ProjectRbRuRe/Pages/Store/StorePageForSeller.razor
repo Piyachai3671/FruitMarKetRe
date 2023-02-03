@@ -1,0 +1,76 @@
+﻿@page "/storepage-seller"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject ProductService productService
+@inject LoginService loginService
+@inject NavigationManager NavigationManager
+
+<div class="topnav mt-5" style="">
+	<div class="search-container" style="">
+		<div class="">
+			<input type="text" placeholder="Search.." name="" @bind="SearchWord" @bind:event="oninput"  style="width:50%;"/>
+
+
+		</div>
+	</div>
+</div>
+
+
+
+<!-- การ์ดสินค้า -->
+<div class="row mt-2 mb-3">
+	@foreach (var Product in ListProduct.Where(
+			s => s.NameProduct.ToUpper().Contains(SearchWord.ToUpper())
+			))
+	{
+		@if (Product.ProductStoreID == UserLogin.UserID)
+		{
+			<div class="col-sm-6 col-md-4 col-lg-3 mt-2">
+				<button class="btn" @onclick="()=>OpenProductPage(Product.IDProduct)">
+					<div class="card" style=" width: 15rem; cursor: pointer;">
+						<!-- <img src="/img/1.png"  style=" " alt="..."> -->
+						<img src='img/@Product.ProductImg' class="card-img-top card-size" alt="ภาพสินค้า">
+						<div class="card-body card-text">
+							<div>ชื่อสินค้า : @Product.NameProduct</div>
+							<div>ราคา : @Product.PriceProduct</div>
+							<div>จำนวน : @Product.NameProduct</div>
+							<div>หน่วยสินค้า : @Product.UnitProduct</div>
+						</div>
+					</div>
+
+				</button>
+
+			</div>
+		}
+
+	}
+</div>
+
+
+
+@code {
+	private List<Product> ListProduct = new List<Product>();
+	public string SearchWord { get; set; } = string.Empty;
+	List<string> options;
+	private User? UserLogin = new();
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		//ListProduct = await productService.GetProductsAsync();
+		var Products = await productService.GetProductsAsync();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+		options = ListProduct.Select(f => f.NameProduct).Distinct().ToList();
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+	}
+	private void OpenProductPage(int ProductID)
+	{
+		NavigationManager.NavigateTo($"/product/{ProductID}");
+	}
+
+
+}

@@ -1,0 +1,203 @@
+﻿@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject OrderService orderService
+
+@inject StoreService storeService
+@*@foreach (var Order in ListOrders)
+{*@
+@*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).BankName*@
+@*ธนาคาร ธนาคารกรุงเทพ*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				ธนาคารกรุงเทพ
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://thaipublica.org/wp-content/uploads/2021/10/%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E.jpg" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+@*ธนาคาร ธนาคารกสิกรไทย*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				 ธนาคารกสิกรไทย
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://pineapplenewsagency.com/public/imgs/covers/61691d7cc850b.jpg" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+@*ธนาคาร ธนาคารกรุงไทย*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				 ธนาคารกรุงไทย
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+@*ธนาคาร ธนาคารไทยพาณิชย์*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				ธนาคารไทยพาณิชย์
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://siamrath.co.th/files/img/20210104/916959e97bf8ad002ae0f342b76b23ef7ceb14e13455807a8a2872f7d5c826da.jpeg" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+@*ธนาคาร ธนาคารกรุงศรีอยุธยา*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				ธนาคารกรุงศรีอยุธยา
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://www.krungsri.com/getmedia/d05df310-11eb-4ad4-8ed9-f995505c10f6/logo-krungsri.jpg.aspx" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*ธนาคาร ธนาคารออมสิน*@
+<div class="row ">
+	<div class="col">
+		<div class="card" style="width:600px;">
+			<div class="card-header">
+				ธนาคารออมสิน
+			</div>
+			<div class="card-body">
+				@*
+
+				*@
+				<div class="row" style="text-align:center;">
+					<div class="col">
+						<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
+
+					</div>
+				</div>
+				<h3 class="mt-2">
+					ชื่อบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountName*@
+				</h3>
+				<h3>
+					เลขบัญชี : @*@ListStores.Find(e=>e.UserID == Order.OrderStoreID).AccountNumber*@
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+@*}*@
+
+@code {
+
+	private List<Order> ListOrders = new List<Order>();
+
+	private List<Store>? ListStores = new List<Store>();
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		//ListOrders = await orderService.GetOrderAsync();
+		var Orders = await orderService.GetOrderAsync();
+		foreach (var order in Orders)
+		{
+			ListOrders.Add(new Order().ToUi(order));
+		}
+
+
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+
+	}
+}

@@ -1,0 +1,145 @@
+﻿@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject CartStoreService cartStoreService
+@inject CartProductService cartProductService
+@inject UserService userService
+@inject StoreService storeService
+@page "/selstroe"
+@inject NavigationManager NavigationManager
+<NavMenuLogin></NavMenuLogin>
+@foreach (var CartStore in ListCartStores)
+{
+	<div class="card">
+		<div class="card-header textarea">
+			ชื่อร้านค้า : @CartStore.NameStore
+			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+			{
+				<span> จังหวัด.</span>  @ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province
+			}		
+		</div>
+		<div class="card-body">
+			<!--สินค้าในตะกร้า-->
+			<div class="row">
+				<div class="col-sm-3" style="margin-left: 80px;">
+					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+					{
+					<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
+					}
+
+				</div>
+				<div class="col">
+					<div class="mt-3" style="">
+						<h4>
+							มีสินค้า :
+							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID))
+							{
+
+								<span>&nbsp;</span>
+								@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
+								
+							}
+							<div class="mt-3">
+								ราคาทั้งหมด : @(
+								ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID).Sum(e => e.CartProductPrice * e.CartProductAmount) 
+								) บาท
+							</div>
+							
+						</h4>
+					</div>
+					<div class="text-danger"  @onclick="()=>SentValue(CartStore)" data-bs-toggle="modal" data-bs-target="#ModalDelete" style="font-size: 30px; cursor:pointer; text-align:end;">
+				<i class="fa-solid fa-trash"></i>
+				</div>
+					
+					<div class="modal fade" id="ModalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel"><i class="fa-sharp fa-solid fa-circle-check text-success"></i> กรุณายืนยันคำสั่ง</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="" style="text-align:center;">
+										คุณต้องการที่จะลบสินค้าร้าน @ValueCartStore.NameStore ใช่ หรือ ไม่ ?
+									</div>
+
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+									<button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="()=>OnDelItem(ValueCartStore)">ยืนยัน</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="" style="text-align: end;">
+					<button type="button" class="btn btn-primary" @onclick="()=>OpenCartPage(CartStore.CartStoreID)">สั่งซื้อสินค้า</button>
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+	<br>
+}
+
+
+
+
+
+
+
+@code {
+	private List<CartStore> ListCartStores = new List<CartStore>();
+	private List<Store> ListStores = new List<Store>();
+	private CartStore ValueCartStore = new();
+	private List<CartProduct> ListCartProducts = new List<CartProduct>();
+	private List<User> ListUsers = new List<User>();
+	protected override async Task OnInitializedAsync()
+	{
+		ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
+		//var CartStores = await cartStoreService.GetCartStoreAsync();
+		//foreach (var CartStore in CartStores)
+		//{
+		//	ListCartStores.Add(new CartStore().ToUi(CartStore));
+		//}
+
+		ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
+		//var CartProducts = await cartProductService.GetCartProductAsync();
+		//foreach (var CartProduct in CartProducts)
+		//{
+		//	ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
+		//}
+
+
+		var Stores = await storeService.GetStoresAsync();
+		foreach (var Store in Stores)
+		{
+			ListStores.Add(new Store().ToUi(Store));
+		}
+		
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUsers.Add(new User().ToUi(user));
+		}
+	}
+
+	private void OnDelItem(CartStore ID)
+	{
+		ListCartStores.Remove(ID); //ลบสิ่งที่แสดง
+
+	}
+	private void OpenCartPage(int IDStore)
+	{
+		NavigationManager.NavigateTo($"/selproduct/{IDStore}");
+	}
+	private void SentValue(CartStore? ID)
+	{
+		ValueCartStore = ID;
+	}
+
+}

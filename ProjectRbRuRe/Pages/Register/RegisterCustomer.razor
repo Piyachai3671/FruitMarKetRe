@@ -1,0 +1,74 @@
+﻿@page "/register-customer"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject UserService userService
+@inject NavigationManager NavigationManager
+
+<div class="row mt-3">
+	<div class="col-sm-6 mt-2  ">
+		<div class="logo  text-center">
+			<img src="" class=" w-50 size  rounded-circle">
+		</div>
+	</div>
+	<div class="col-sm-6 mt-3 ">
+		<div class="card ">
+			<div class="card-body">
+				<h2 style="color:#003866">สมัครสมาชิก</h2>
+				<EditForm Model="ModelUser">
+					<div class="form-group mt-2">
+						<label for="email">รหัสผู้ใช้</label>
+						<InputText @bind-Value="ModelUser.Username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" />
+					</div>
+					<div class="form-group mt-2">
+						<label for="password">รหัสผ่าน</label>
+						<InputText @bind-Value="ModelUser.Password" type="password" class="form-control" placeholder="รหัสผ่าน" />
+					</div>
+					<div class="form-group mt-2">
+						<label for="cust_fullname">ชื่อ-สกุล</label>
+						<InputText @bind-Value="ModelUser.Name" type="text" class="form-control" placeholder="ชื่อ-สกุล" />
+					</div>
+					<div class="form-group mt-2">
+						<label for="cust_tel">เบอร์โทรศัพท์</label>
+						<InputText @bind-Value="ModelUser.Tel" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" />
+					</div>
+				</EditForm>
+
+				<div style="text-align: center;">
+					<button type="button" class="btn btn-primary mt-3 mr-3" @onclick="OnClickAddUser">สมัครสมาชิก</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	private User ModelUser = new();
+	private List<User> ListUsers = new List<User>();
+	protected override async Task OnInitializedAsync()
+	{
+		//ListUsers = await userService.GetUserAsync();
+		var Users = await userService.GetUserAsync();
+		foreach (var user in Users)
+		{
+			ListUsers.Add(new User().ToUi(user));
+		}
+	}
+
+	private void OnClickAddUser()
+	{
+		ModelUser.Permission = "c";
+		var AddUser = new User().ToTable(ModelUser);
+		userService.AddNewUser(AddUser); //บันทึกข้อมูล
+
+		ModelUser.Username = "";
+		ModelUser.Password = "";
+		ModelUser.Name = "";
+		ModelUser.Tel = "";
+		OnGoPageToLogin();
+	}
+	private void OnGoPageToLogin()
+	{
+		NavigationManager.NavigateTo($"/Login");
+	}
+}

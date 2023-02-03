@@ -1,0 +1,329 @@
+﻿@page "/product/{GetCurrentProductIDPage:int}"
+@using ProjectRbRuRe.Data.Models
+@using ProjectRbRuRe.Data.Services
+@inject ProductService productService
+@inject CartStoreService cartStoreService
+@inject CartProductService cartProductService
+@inject LoginService loginService
+@inject NotificationService notificationservice
+
+<NavMenuLogin></NavMenuLogin>
+@if (ListProduct == null)
+{
+	<p>please wait . . .</p>
+}
+else
+{
+	@foreach (var ListProducts in ListProduct)
+	{
+		@if (ListProducts.IDProduct == GetCurrentProductIDPage)
+		{
+			<div class="card">
+				<!--<div class="card-header"></div>-->
+				<div class="card-body">
+					<div class="row mt-3 mb-5">
+
+						<!--1 ฝั่งซ้ายรูป -->
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<div class="swiper mySwiper">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide">
+										<img src='img/@ListProducts.ProductImg' class="img-fluid" alt="...">
+									</div>
+
+								</div>
+								<div class="swiper-pagination"></div>
+								<div class="swiper-button-next"></div>
+								<div class="swiper-button-prev"></div>
+							</div>
+						</div>
+
+						<!--2.1 ฝั่งขวา -->
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<!--2.2ฝั่งขวาชื่อสินค้า -->
+							<div class="row">
+								<div class="" style="color: #003866">
+									<h1>@ListProducts.NameProduct</h1>
+								</div>
+								<div class="fs-5 mt-3" style="color: #003866">
+									จำนวนหน่วย : @ListProducts.UnitProduct
+								</div>
+								<div class="mt-4" style="
+                                font-weight: bold;
+                                font-size: 30px;
+                                color: #003866">
+									ราคา : @ListProducts.PriceProduct บาท
+								</div>
+							</div>
+							<!--บรรถัด จำนวน -->
+
+							<div class="row mt-4">
+								<div class="col-sm-6">
+									<div class="" style="color:#003866; padding-top:10px;">
+										จำนวนคลังสินค้า : @ListProducts.RemainderProduct
+									</div>
+								</div>
+
+
+
+							</div>
+							@if (ListProducts.RemainderProduct == 0 && UserLogin.Permission == "s")
+							{
+								<div class="row">
+									<div class="col">
+										<div class="mt-4" style="text-align: center;">
+											<button disabled class="mt-3 btn btn-danger">สินค้าหมด !!</button>
+										</div>
+									</div>
+								</div>
+							}
+							else
+							{
+								@if (UserLogin.Permission == "s")
+								{
+									<div class="row">
+										<div class="col">
+											<div class="mt-4" style="text-align: center;">
+												<button disabled class="mt-3 btn btn-primary">เพิ่มไปยังรถเข็น</button>
+											</div>
+										</div>
+									</div>
+								}
+							}
+
+
+							@if (ListProducts.RemainderProduct == 0 && UserLogin.Permission == "c")
+							{
+								<div class="row">
+									<div class="col">
+										<div class="mt-4" style="text-align: center;">
+											<button disabled class="mt-3 btn btn-danger">สินค้าหมด !!</button>
+										</div>
+									</div>
+								</div>
+							}
+							else
+							{
+								@if (UserLogin.Permission == "c")
+								{
+									<!--2.3 ฝั่งขวาปุ่ม -->
+									<div class="row">
+										<div class="col">
+											<div class="mt-4" style="text-align: center;">
+												<button class="mt-3 btn btn-primary" @onclick="(()=>OnAddCart(ListProducts))">เพิ่มไปยังรถเข็น</button>
+											</div>
+										</div>
+									</div>
+								}
+							}
+
+
+
+
+
+						</div>
+
+					</div>
+				</div>
+
+				<!--3. ล่างสุด รายละเอียดสินค้า -->
+				<textarea class="description">
+					@ListProducts.ProductDescription
+				</textarea>
+
+			</div>
+
+		}
+	}
+}
+@code {
+	[Parameter]
+	public int GetCurrentProductIDPage { get; set; }
+	private List<Product> ListProduct = new List<Product>();
+	private List<CartStore>? ListCartStroe = new List<CartStore>();
+	private List<CartProduct>? ListCartProduct = new List<CartProduct>();
+	private bool StatusLogin;
+	private User? UserLogin = new();
+	private CartStore AddCartStore = new();
+	private CartProduct AddCartProduct = new();
+	protected override async Task OnInitializedAsync()
+	{
+		//StatusLogin = loginService.UserStatusLogin;
+
+		var Products = await productService.GetProductsAsync();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
+		ListCartStroe = await cartStoreService.GetCartStoreNoDataBaseAsync();
+		//var CartStores = await cartStoreService.GetCartStoreAsync();
+		//foreach (var CartStore in CartStores)
+		//{
+		//	ListCartStroe.Add(new CartStore().ToUi(CartStore));
+		//}
+
+		ListCartProduct = await cartProductService.GetCartProductNoDataBaseAsync();
+		//var CartProducts = await cartProductService.GetCartProductAsync();
+		//foreach (var CartProduct in CartProducts)
+		//{
+		//	ListCartProduct.Add(new CartProduct().ToUi(CartProduct));
+		//}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+
+	}
+
+
+	private void OnAddCart(Product eleproduct)
+	{
+		int IDCount = ListCartProduct.Count();
+		var a = ListCartProduct.Find(e => e.CartProductName == eleproduct.NameProduct); //ชื่อสินค้าในตระกร้า กับ ชื่อสินค้าในคลังถ้ามีอยู่ในตระกร้าซ้ำจะเพิ่มแค่จำนวนไม่เพิ่มสินค้า
+		var b = ListProduct.Find(e => e.IDProduct == eleproduct.IDProduct);
+		ShowNotification();
+		@if (a != null)
+		{
+			a.CartProductAmount++;
+			@if (a.CartProductAmount > b.RemainderProduct)
+			{
+				a.CartProductAmount = b.RemainderProduct;
+			}
+		}
+		else
+		{
+			int Count = IDCount++;
+			ListCartProduct.Add(new CartProduct()
+				{
+					CartProductID = Count,
+					CartProductProductID = eleproduct.IDProduct,
+					CartProductName = eleproduct.NameProduct,
+					CartProductAmount = 1,
+
+					CartProductUnit = eleproduct.UnitProduct,
+					CartProductPrice = eleproduct.PriceProduct,
+					CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
+					CartProductStoreID = eleproduct.ProductStoreID,
+
+				});
+			//AddCartProduct = new CartProduct()
+			//	{
+
+			//		CartProductProductID = eleproduct.IDProduct,
+			//		CartProductName = eleproduct.NameProduct,
+			//		CartProductAmount = 1,
+
+			//		CartProductUnit = eleproduct.UnitProduct,
+			//		CartProductPrice = eleproduct.PriceProduct,
+			//		CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
+			//		CartProductStoreID = eleproduct.ProductStoreID,
+
+			//	};
+			//var AddCartProduct2 = new CartProduct().ToTable(AddCartProduct);
+			//cartProductService.AddNewCartProduct(AddCartProduct2); //บันทึกข้อมูล
+
+			@foreach (var product in ListProduct)
+			{
+				@if (product.IDProduct == eleproduct.IDProduct)
+
+					product.ProductCartID = Count;
+			}
+
+		}
+
+		var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
+		@if (CartStroe != null)
+		{
+		}
+		else
+		{
+			ListCartStroe.Add(new CartStore()
+				{
+					CartStoreID = eleproduct.ProductStoreID,
+					NameStore = eleproduct.ProductStoreName,
+
+				});
+		}
+		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
+		//@if (CartStroe == null)
+		//{
+		//	AddCartStore = new CartStore()
+		//		{
+		//			CartStoreID = eleproduct.ProductStoreID,
+		//			NameStore = eleproduct.ProductStoreName,
+		//			CartStoreUserID = eleproduct.ProductUserID
+		//		};
+		//	var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
+		//	cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
+		//}
+		//else
+		//{
+		//	return;
+
+		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductUserID);
+		//{
+		//	if (CartStroe != null)
+		//	{
+
+		//	}
+		//	else
+		//	{
+		//		if (CartStroe.CartStoreUserID != null)
+		//		{
+
+
+		//			AddCartStore = new CartStore()
+		//				{
+		//					CartStoreID = eleproduct.ProductStoreID,
+		//					NameStore = eleproduct.ProductStoreName,
+		//					CartStoreUserID = eleproduct.ProductUserID
+		//				};
+
+		//			var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
+		//			cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
+		//		}
+		//		else
+		//		{
+
+		//		}
+		//	}
+		//}
+
+
+
+		//@foreach (var cp in ListCartStroe.FindAll(e => e.CartStoreID == eleproduct.ProductStoreID))
+		//{
+		//	if (cp.CartStoreUserID == eleproduct.ProductUserID)
+		//	{
+		//		AddCartStore = new CartStore()
+		//			{
+		//				CartStoreID = eleproduct.ProductStoreID,
+		//				NameStore = eleproduct.ProductStoreName,
+		//				CartStoreUserID = eleproduct.ProductUserID
+		//			};
+		//		var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
+		//		cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
+		//	}
+
+		//}
+
+
+
+
+
+
+
+	}
+	private void ShowNotification()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Success,
+				Summary = "เพิ่มสินค้าลงตะกร้าแล้ว",
+				Detail = "",
+				Duration = 2700,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+
+}
