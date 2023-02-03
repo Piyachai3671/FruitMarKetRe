@@ -1,10 +1,14 @@
 ﻿using ProjectRbRuRe.Data.ModelData;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectRbRuRe.Data.Models
 {
 	public class Store
 	{
 		public int StoreID { get; set; }
+		[Required(ErrorMessage = "กรุณากรอกชื่อร้านค้า !")]
+		[MinLength(2, ErrorMessage = "ชื่อร้านค้าต้องมี 2 ตัวอักษรขึ้นไป !")]
+		[MaxLength(30, ErrorMessage = "ชื่อร้านค้าต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
 		public string? SellerName { get; set; }
 		public string? SellerDescription { get; set; }
 		public string? BankName { get; set; }

@@ -20,79 +20,66 @@
 				<h2 style="color:#003866">สมัครสมาชิก</h2>
 
 				<EditForm Model="ModelUser">
+					<DataAnnotationsValidator />
+					
 					<div class="form-group mt-2">
-						<label for="email">อีเมล</label>
-						<InputText @bind-Value="ModelUser.Username" type="text" class="form-control" placeholder="รหัสผู้ใช้" />
+						<label for="email">รหัสผู้ใช้</label>
+						<InputText @bind-Value="ModelUser.Username" type="text" class="form-control" placeholder="รหัสผู้ใช้" maxlength="30" />
+						<ValidationMessage For="@(()=>ModelUser.Username)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="password">รหัสผ่าน</label>
-						<InputText @bind-Value="ModelUser.Password" type="password" class="form-control" placeholder="รหัสผ่าน" />
+						<InputText @bind-Value="ModelUser.Password" type="password" class="form-control" placeholder="รหัสผ่าน" maxlength="30" />
+						<ValidationMessage For="@(()=>ModelUser.Password)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="seller_tel">เบอร์โทรศัพท์</label>
 						<InputText @bind-Value="ModelUser.Tel" class="form-control" placeholder="เบอร์โทรศัพท์" maxlength="10" type="text" />
+						<ValidationMessage For="@(()=>ModelUser.Tel)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="seller_tel">ที่อยู่</label>
-						<InputTextArea @bind-Value="ModelUser.Address" class="form-control" placeholder="ที่อยู่" cols="30" rows="3" type="text" />
+						<InputTextArea @bind-Value="ModelUser.Address" class="form-control" placeholder="ที่อยู่" cols="30" rows="3" type="text" maxlength="255" />
+						<ValidationMessage For="@(()=>ModelUser.Address)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="province">จังหวัด</label>
-						<InputText @bind-Value="ModelUser.Province" class="form-control" placeholder="จังหวัด" type="text" />
-						<RadzenDropDown AllowClear="true" TValue="string" Class="w-100" @bind-Value="ModelProvince.pname"
+						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelProvince.pname"
 										Data=@(ListProvince.Select(c => c.pname).Distinct())
 										Change=@(args => OnChangeProvince(ModelProvince)) />
+						<ValidationMessage For="@(()=>ModelUser.Province)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="district">อำเภอ</label>
-						<InputText @bind-Value="ModelUser.District" class="form-control" placeholder="อำเภอ" type="text" />
-						@*<InputSelect @bind-Value="ModelUser.District" style="height:38px; width:300px;" @onchange="(()=>OnChangeProvince(ModelProvince))">
-							@foreach (var Amphoe in ListAmphoes)
-							{
-								<option value="@Amphoe.acode">@Amphoe.aname</option>
-							}
-						</InputSelect>*@
-						<RadzenDropDown AllowClear="true" TValue="string" Class="w-100" @bind-Value="ModelAmphoe.aname"
+						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelAmphoe.aname"
 										Data=@(ListAmphoes.FindAll(c => c.pcode == IDPCode.pcode).Select(c=>c.aname).Distinct())
 										Change=@(args => OnchangeAmphoe(ModelAmphoe)) />
+						<ValidationMessage For="@(()=>ModelUser.District)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="subdistrict">ตำบล</label>
-						<InputText @bind-Value="ModelUser.SubDistrict" class="form-control" placeholder="ตำบล" type="text" />
-						@*<InputSelect @bind-Value="ModelUser.SubDistrict" style="height:38px; width:300px;">
-							@foreach (var Tambol in ListTambols)
-							{
-								<option value="@Tambol.tcode">@Tambol.tname</option>
-							}
-						</InputSelect>*@
-						<RadzenDropDown AllowClear="true" TValue="string" Class="w-100" @bind-Value="ModelTambol.tname"
+						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelTambol.tname"
 										Data=@(ListTambols.FindAll(c => c.acode == IDACode.acode).Select(c=>c.tname).Distinct())
 										Change="@(arg=> OnchangeTambol(ModelTambol))" />
+						<ValidationMessage For="@(()=>ModelUser.SubDistrict)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="postcode">รหัสไปรษณีย์</label>
 						<InputText @bind-Value="ModelUser.Postcode" class="form-control" placeholder="รหัสไปรษณีย์" maxlength="5" type="text" />
+						<ValidationMessage For="@(()=>ModelUser.Postcode)" />
 					</div>
 				</EditForm>
-
 
 				<EditForm Model="ModelStore">
+					<DataAnnotationsValidator />
 					<div class="form-group mt-2">
 						<label for="namestore">ชื่อร้านค้า</label>
-						<InputText @bind-Value="ModelStore.SellerName" class="form-control" placeholder="ชื่อร้านค้า" type="text" />
+						<InputText @bind-Value="ModelStore.SellerName" class="form-control" placeholder="ชื่อร้านค้า" type="text" maxlength="30" />
+						<ValidationMessage For="@(()=>ModelStore.SellerName)" />
 					</div>
-					@*<div class="form-group">
-						<div class="" style="color: rgb(174, 174, 174)">อัพโหลดภาพใบรับรอง GAP ของคุณอย่างน้อย1ชนิด </div>
-						<label for="img" class="choose-img">
-							<InputFile type="file" id="file" class="form-control mt-2 " style="width:450px;" />
-						</label>
-					</div>*@
-
-
-					
 				</EditForm>
 				<div style="text-align: center;">
-					<button type="button" class="btn btn-primary mt-3 mr-3" @onclick="OnClickAddStore">สมัครสมาชิก</button>
+					<button type="submit" class="btn btn-primary mt-3 mr-3" @onclick="OnClickAddStore">สมัครสมาชิก</button>
 				</div>
 			</div>
 		</div>
@@ -144,30 +131,84 @@
 	private async Task OnClickAddStore()
 	{
 		var CountUser = ListUsers.Count();
-		ModelUser.Permission = "s";
-		ModelUser.StoreName = ModelStore.SellerName;
-		ModelUser.Province = ModelProvince.pname;
-		ModelUser.District = ModelAmphoe.aname;
-		ModelUser.SubDistrict = ModelTambol.tname;
-
-		var AddUser = new User().ToTable(ModelUser);
-		userService.AddNewUser(AddUser); //บันทึกข้อมูล
-
-		ModelUser.Username = "";
-		ModelUser.Password = "";
-		ModelUser.Tel = "";
-		ModelUser.Address = "";
-		ModelUser.Province = "";
-		ModelUser.District = "";
-		ModelUser.SubDistrict = "";
-		ModelUser.Postcode = "";
+		string InputUsername = ModelUser.Username;
+		string InputPassword = ModelUser.Password;
+		string InputTel = ModelUser.Tel;
+		string InputAddress = ModelUser.Address;
 
 
-		ModelStore.UserID = CountUser + 1;
-		var AddStore = new Store().ToTable(ModelStore);
-		storeService.AddNewStore(AddStore); //บันทึกข้อมูล
-		ModelStore.SellerName = "";
-		OnGoPageToLogin();
+
+		string InputPostCode = ModelUser.Postcode;
+		string InputStoreName = ModelStore.SellerName;
+
+		if (ModelUser.Username == null ||
+			ModelUser.Password == null ||
+			ModelUser.Tel == null ||
+			ModelUser.Address == null ||
+
+			ModelProvince.pname == null ||
+			ModelAmphoe.aname == null ||
+			ModelTambol.tname == null ||
+
+			ModelUser.Postcode == null ||
+
+			ModelStore.SellerName == null)
+		{
+			return;
+		}
+		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
+			InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
+			InputTel.Length != 10 ||
+			InputAddress.Length < 1 ||
+			InputPostCode.Length < 5 ||
+			InputStoreName.Length < 2  /*InputStoreName.Length > 30*/
+		)
+		{
+			return;
+		}
+		if (ModelUser.Username != null ||
+			ModelUser.Password != null ||
+			ModelUser.Tel != null ||
+			ModelUser.Address != null ||
+
+			ModelProvince.pname != null ||
+			ModelAmphoe.aname != null ||
+			ModelTambol.tname	 != null ||
+
+			ModelUser.Postcode != null ||
+
+			ModelStore.SellerName != null
+		)
+		{
+
+			ModelUser.Permission = "s";
+			ModelUser.StoreName = ModelStore.SellerName;
+			ModelUser.Province = ModelProvince.pname;
+			ModelUser.District = ModelAmphoe.aname;
+			ModelUser.SubDistrict = ModelTambol.tname;
+
+			var AddUser = new User().ToTable(ModelUser);
+			userService.AddNewUser(AddUser); //บันทึกข้อมูล
+
+			ModelUser.Username = "";
+			ModelUser.Password = "";
+			ModelUser.Tel = "";
+			ModelUser.Address = "";
+			ModelUser.Province = "";
+			ModelUser.District = "";
+			ModelUser.SubDistrict = "";
+			ModelUser.Postcode = "";
+
+			ModelStore.UserID = CountUser + 1;
+			var AddStore = new Store().ToTable(ModelStore);
+			storeService.AddNewStore(AddStore); //บันทึกข้อมูล
+			ModelStore.SellerName = "";
+			OnGoPageToLogin();
+		}
+
+
+
+		
 	}
 	private void OnGoPageToLogin()
 	{
