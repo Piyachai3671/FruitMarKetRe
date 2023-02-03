@@ -1,6 +1,9 @@
+using ProjectRbRuRe.Data;
+using ProjectRbRuRe.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using ProjectRbRuRe.Data;
+using Microsoft.EntityFrameworkCore;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddScoped<StoreService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CartStoreService>();
+builder.Services.AddScoped<CartProductService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<OrderItemService>();
+builder.Services.AddScoped<ReportService>();
+
+
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddDbContext<ApplicationContext>(i => i.UseSqlServer("Server=.\\SQLEXPRESS;Database=ProjectRbRuRePlaceData2;Trusted_Connection=True;Encrypt=true;TrustServerCertificate=true; "));
+
+
 
 var app = builder.Build();
 
