@@ -15,21 +15,26 @@
 			<div class="card-body">
 				<h2 style="color:#003866">สมัครสมาชิก</h2>
 				<EditForm Model="ModelUser">
+					<DataAnnotationsValidator />
 					<div class="form-group mt-2">
 						<label for="email">รหัสผู้ใช้</label>
-						<InputText @bind-Value="ModelUser.Username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" />
+						<InputText @bind-Value="ModelUser.Username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" maxlength="30" />
+						<ValidationMessage For="@(()=>ModelUser.Username)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="password">รหัสผ่าน</label>
-						<InputText @bind-Value="ModelUser.Password" type="password" class="form-control" placeholder="รหัสผ่าน" />
+						<InputText @bind-Value="ModelUser.Password" type="password" class="form-control" placeholder="รหัสผ่าน" maxlength="30" />
+						<ValidationMessage For="@(()=>ModelUser.Password)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="cust_fullname">ชื่อ-สกุล</label>
-						<InputText @bind-Value="ModelUser.Name" type="text" class="form-control" placeholder="ชื่อ-สกุล" />
+						<InputText @bind-Value="ModelUser.Name" type="text" class="form-control" placeholder="ชื่อ-สกุล" maxlength="50" />
+						<ValidationMessage For="@(()=>ModelUser.Name)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="cust_tel">เบอร์โทรศัพท์</label>
-						<InputText @bind-Value="ModelUser.Tel" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" />
+						<InputText @bind-Value="ModelUser.Tel" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" maxlength="10" />
+						<ValidationMessage For="@(()=>ModelUser.Tel)" />
 					</div>
 				</EditForm>
 
@@ -57,15 +62,39 @@
 
 	private void OnClickAddUser()
 	{
-		ModelUser.Permission = "c";
-		var AddUser = new User().ToTable(ModelUser);
-		userService.AddNewUser(AddUser); //บันทึกข้อมูล
+		string InputUsername = ModelUser.Username;
+		string InputPassword = ModelUser.Password;
+		string InputNameLastName = ModelUser.Name;
+		string InputTel = ModelUser.Tel;
+		if (ModelUser.Username == null ||
+		ModelUser.Password == null ||
+		ModelUser.Tel == null ||
+		ModelUser.Name == null)
+		{
+			return;
+		}
+		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
+			InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
+	InputTel.Length != 10 ||
+	InputNameLastName.Length != 2)
+		{
+			return;
+		}
+		if (ModelUser.Username != null ||
+		ModelUser.Password != null ||
+		ModelUser.Tel != null ||
+		ModelUser.Name != null)
+		{
+			ModelUser.Permission = "c";
+			var AddUser = new User().ToTable(ModelUser);
+			userService.AddNewUser(AddUser); //บันทึกข้อมูล
 
-		ModelUser.Username = "";
-		ModelUser.Password = "";
-		ModelUser.Name = "";
-		ModelUser.Tel = "";
-		OnGoPageToLogin();
+			ModelUser.Username = "";
+			ModelUser.Password = "";
+			ModelUser.Name = "";
+			ModelUser.Tel = "";
+			OnGoPageToLogin();
+		}
 	}
 	private void OnGoPageToLogin()
 	{

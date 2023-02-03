@@ -6,22 +6,18 @@ namespace ProjectRbRuRe.Data.Models
 	public class User
 	{
 		public int UserID { get; set; }
-
-		[Required(ErrorMessage = "กรุณากรอกชื่อผู้ใช้ !")]
-		[MinLength(2, ErrorMessage = "ชื่อผู้ใช้ต้องมี 2 ตัวอักษรขึ้นไป !")]
-		//[MaxLength(30, ErrorMessage = "ชื่อผู้ใช้ต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
+		[Required(ErrorMessage = "กรุณากรอกชื่อ - นามสกุล !")]
+		[MinLength(2, ErrorMessage = "รหัสผู้ใช้ต้องมี 2 ตัวอักษรขึ้นไป !")]
 		public string? Name { get; set; }
-		[Required(ErrorMessage = "กรุณากรอกรหัสผู้ใช้ !")]
+		[Required(ErrorMessage = "กรุณากรอกรหัสผู้ใช้!")]
 		[MinLength(6, ErrorMessage = "รหัสผู้ใช้ต้องมี 6 ตัวอักษรขึ้นไป !")]
-		//[MaxLength(30, ErrorMessage = "รหัสผู้ใช้ต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
 		public string? Username { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกรหัสผ่าน !")]
 		[MinLength(6, ErrorMessage = "รหัสผ่านต้องมี 6 ตัวอักษรขึ้นไป !")]
-		//[MaxLength(30, ErrorMessage = "รหัสผ่านต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
 		public string? Password { get; set; }
+
 		[Required(ErrorMessage = "กรุณากรอกเบอร์โทรศัพท์ !")]
-		//[MinLength(10, ErrorMessage = "เบอร์โทรศัพท์ต้องมี 10 ตัวอักษรเท่านั้น !")]
-		
+		[MinLength(10, ErrorMessage = "เบอร์โทรศัพท์ต้องมี 10 ตัวอักษรเท่านั้น !")]
 		public string? Tel { get; set; }
 		public string? Permission { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกที่อยู่ !")]
@@ -34,11 +30,9 @@ namespace ProjectRbRuRe.Data.Models
 		[Required(ErrorMessage = "กรุณาเลือกตำบล !")]
 		public string? SubDistrict { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกเลขไปรษณีย์ !")]
-		//[MinLength(5, ErrorMessage = "เลขไปรษณีย์ต้องมี 5 ตัวอักษรเท่านั้น !")]
 		public string? Postcode { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกชื่อร้านค้า !")]
 		[MinLength(2, ErrorMessage = "ชื่อร้านค้าต้องมี 2 ตัวอักษรขึ้นไป !")]
-		//[MaxLength(30, ErrorMessage = "ชื่อร้านค้าต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
 		public string? StoreName { get; set; }
 		public User() { }
 		public User ToUi(TableUser tableUser) //UI ไปเทเบิล
