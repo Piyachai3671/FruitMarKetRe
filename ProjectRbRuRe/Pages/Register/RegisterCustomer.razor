@@ -3,7 +3,7 @@
 @using ProjectRbRuRe.Data.Services
 @inject UserService userService
 @inject NavigationManager NavigationManager
-
+@inject NotificationService notificationservice
 <div class="row mt-3">
 	<div class="col-sm-6 mt-2  ">
 		<div class="logo  text-center">
@@ -71,6 +71,7 @@
 		ModelUser.Tel == null ||
 		ModelUser.Name == null)
 		{
+			ShowNotificationInputFail();
 			return;
 		}
 		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
@@ -78,6 +79,7 @@
 	InputTel.Length != 10 ||
 	InputNameLastName.Length != 2)
 		{
+			ShowNotificationInputFail();
 			return;
 		}
 		if (ModelUser.Username != null ||
@@ -99,5 +101,18 @@
 	private void OnGoPageToLogin()
 	{
 		NavigationManager.NavigateTo($"/Login");
+	}
+	private void ShowNotificationInputFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณากรอกข้อมูลให้ถูกต้อง !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
 	}
 }

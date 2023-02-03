@@ -2,6 +2,9 @@
 @using ProjectRbRuRe.Data.Services
 @inject LoginService loginService
 @inject UserService userService
+@inject ProvinceService provinceService
+@inject AmphoeService amphoeService
+@inject TambolService tambolService
 @inject NotificationService notificationservice
 @page "/address"
 <NavMenuLogin></NavMenuLogin>
@@ -13,6 +16,7 @@
 				<div class="card-body p-md-5">
 
 					<EditForm Model="@UserLogin">
+						<DataAnnotationsValidator />
 						<div class="row just-center">
 							<div class="col-md-10 col-lg-6 col-xl-5 ">
 								<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">ชื่อผู้รับ</p>
@@ -20,7 +24,8 @@
 									<div class="d-flex flex-row align-items-center mb-4">
 										<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 										<div class="form-outline flex-fill mb-0">
-											<InputText type="text" class="form-control " @bind-Value="@UserLogin.Name" />
+											<InputText type="text" class="form-control " @bind-Value="@UserLogin.Name" maxlength="30" />
+											<ValidationMessage For="@(()=>UserLogin.Name)" />
 											<label class="form-label">ชื่อ - นามสกุล</label>
 										</div>
 									</div>
@@ -28,7 +33,8 @@
 									<div class="d-flex flex-row align-items-center mb-4">
 										<i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
 										<div class="form-outline flex-fill mb-0">
-											<InputText @bind-Value="@UserLogin.Tel" type="text" id="form3Example3c" class="form-control" />
+											<InputText @bind-Value="@UserLogin.Tel" type="text" class="form-control" maxlength="10" />
+											<ValidationMessage For="@(()=>UserLogin.Tel)" />
 											<label class="form-label" for="form3Example3c">เบอร์โทร</label>
 										</div>
 									</div>
@@ -37,7 +43,8 @@
 									<div class="d-flex flex-row align-items-center mb-4">
 										<i class="fa-sharp fa-solid fa-key fa-lg me-3 fa-fw"></i>
 										<div class="form-outline flex-fill mb-0">
-											<InputText @bind-Value="@UserLogin.Password" type="password" id="form3Example3c" class="form-control" />
+											<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control" maxlength="30" />
+											<ValidationMessage For="@(()=>UserLogin.Password)" />
 											<label class="form-label" for="form3Example3c">รหัสผ่าน</label>
 										</div>
 									</div>
@@ -51,27 +58,37 @@
 										<div class="col">
 											<div class="d-flex flex-row align-items-center mb-4">
 												<div class="form-outline flex-fill mb-0">
-													<InputText  @bind-Value="@UserLogin.Province" type="text" class="form-control "  />
+													<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.Province"
+																	Data=@(ListProvince.Select(c => c.pname).Distinct())
+																	Change=@(args => OnChangeProvince(UserLogin)) />
+													<ValidationMessage For="@(()=>ModelUser.Province)" />
 													<label class="form-label">จังหวัด</label>
 												</div>
 											</div>
 											<div class="d-flex flex-row align-items-center mb-4">
 												<div class="form-outline flex-fill mb-0">
-													<InputText @bind-Value="@UserLogin.District" type="text" id="form3Example3c" class="form-control" />
-													<label class="form-label" for="form3Example3c">ตำบล</label>
+													<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.District" Disabled="@(UserLogin.Province == null)"
+																	Data=@(ListAmphoes.FindAll(c => c.pcode == IDPCode.pcode).Select(c=>c.aname).Distinct())
+																	Change=@(args => OnchangeAmphoe(UserLogin)) />
+													<ValidationMessage For="@(()=>ModelUser.District)" />
+													<label class="form-label" for="form3Example3c">อำเภอ</label>
 												</div>
 											</div>
 										</div>
 										<div class="col">
 											<div class="d-flex flex-row align-items-center mb-4">
 												<div class="form-outline flex-fill mb-0">
-													<InputText @bind-Value="@UserLogin.SubDistrict" type="text" id="form3Example3c" class="form-control" />
-													<label class="form-label" for="form3Example3c">อำเภอ</label>
+													<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.SubDistrict" Disabled="@(UserLogin.District == null)"
+																	Data=@(ListTambols.FindAll(c => c.acode == IDACode.acode).Select(c=>c.tname).Distinct())
+																	Change="@(arg=> OnchangeTambol(UserLogin))" />
+													<ValidationMessage For="@(()=>ModelUser.SubDistrict)" />
+													<label class="form-label" for="form3Example3c">ตำบล</label>
 												</div>
 											</div>
 											<div class="d-flex flex-row align-items-center mb-4">
 												<div class="form-outline flex-fill mb-0">
-													<InputText @bind-Value="@UserLogin.Postcode" type="text" id="form3Example3c" class="form-control" />
+													<InputText @bind-Value="@UserLogin.Postcode" type="text" class="form-control" maxlength="5" />
+													<ValidationMessage For="@(()=>UserLogin.Postcode)" />
 													<label class="form-label" for="form3Example3c">รหัสไปรษณีย์</label>
 												</div>
 											</div>
@@ -80,7 +97,8 @@
 
 									<div class="d-flex flex-row align-items-center mb-4">
 										<div class="form-outline flex-fill mb-0">
-											<InputTextArea @bind-Value="@UserLogin.Address" type="text" id="form3Example3c" class="form-control" rows="5" />
+											<InputTextArea @bind-Value="@UserLogin.Address" type="text" id="form3Example3c" class="form-control" rows="5" maxlength="255" />
+											<ValidationMessage For="@(()=>UserLogin.Address)" />
 											<label class="form-label" for="form3Example3c">ที่อยู่</label>
 										</div>
 									</div>
@@ -100,15 +118,47 @@
 
 @code {
 	private List<User> ListUser = new List<User>();
+	private List<province> ListProvince = new List<province>();
+	private List<Amphoe> ListAmphoes = new List<Amphoe>();
+	private List<tambol> ListTambols = new List<tambol>();
+
+	private province ConvertProvince = new();
+
+	private province ModelProvince = new();
+	private Amphoe ModelAmphoe = new();
+	private tambol ModelTambol = new();
+
+
 	protected override async Task OnInitializedAsync()
 	{
 		//ListUser = await userService.GetUserAsync();
 		var Users = await userService.GetUserAsync();
 		foreach (var user in Users)
 		{
-		    ListUser.Add(new User().ToUi(user));
+			ListUser.Add(new User().ToUi(user));
 		}
+
+		var Provinces = await provinceService.GetProvinceAsync();
+		foreach (var Province in Provinces)
+		{
+			ListProvince.Add(new province().ToUi(Province));
+		}
+		var Amphoes = await amphoeService.GetAmphoeAsync();
+		foreach (var Amphoe in Amphoes)
+		{
+			ListAmphoes.Add(new Amphoe().ToUi(Amphoe));
+		}
+		var Tambols = await tambolService.GetTambolAsync();
+		foreach (var Tambol in Tambols)
+		{
+			ListTambols.Add(new tambol().ToUi(Tambol));
+		}
+
+
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		//OnChangeProvince(UserLogin);
+		//OnchangeAmphoe(UserLogin);
+		//OnchangeTambol(UserLogin);
 	}
 
 
@@ -118,28 +168,61 @@
 
 	private void OnClickEditUser()
 	{
-		@foreach (var User in ListUser.FindAll(e => e.UserID == UserLogin.UserID))
+		string InputName = UserLogin.Name;
+		string InputTel = UserLogin.Tel;
+		string InputPassword = UserLogin.Password;
+
+		string InputPostcode = UserLogin.Postcode;
+		string InputAddress = UserLogin.Address;
+
+		if (UserLogin.Name == null ||
+			UserLogin.Tel == null ||
+			UserLogin.Password == null ||
+
+			UserLogin.Province == null ||
+			UserLogin.District == null ||
+			UserLogin.SubDistrict == null ||
+			UserLogin.Postcode == null ||
+			UserLogin.Address == null)
 		{
-			User.Name = UserLogin.Name;
-			User.Tel = UserLogin.Tel;
-			User.Password = UserLogin.Password;
-			User.Province = UserLogin.Province;
-			User.District = UserLogin.District;
-			User.SubDistrict = UserLogin.SubDistrict;
-			User.Postcode = UserLogin.Postcode;
-			User.Address = UserLogin.Address;
-			var a = new User().ToTable(User); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-			userService.EditUser(a); //บันทึกข้อมูล
+			 ShowNotificationEditFail();
+			return;
 		}
-		//UserLogin.Name = UserLogin.Name;
-		//UserLogin.Tel = UserLogin.Tel;
-		//UserLogin.Password = UserLogin.Password;
-		//UserLogin.Province = UserLogin.Province;
-		//UserLogin.District = UserLogin.District;
-		//UserLogin.SubDistrict = UserLogin.SubDistrict;
-		//UserLogin.Postcode = UserLogin.Postcode;
-		//UserLogin.Address = UserLogin.Address;
-		ShowNotificationEditSuccess();
+		if (InputName.Length < 2 || 
+			InputPassword.Length < 6 || 
+			InputTel.Length != 10 ||
+			InputAddress.Length < 1 ||
+			InputPostcode.Length < 5)
+		{
+			 ShowNotificationEditFail();
+			return;
+		}
+
+		if (UserLogin.Name != null ||
+			UserLogin.Tel != null ||
+			UserLogin.Password != null ||
+
+			UserLogin.Province != null ||
+			UserLogin.District != null ||
+			UserLogin.SubDistrict != null ||
+			UserLogin.Postcode != null ||
+			UserLogin.Address != null)
+		{
+			@foreach (var User in ListUser.FindAll(e => e.UserID == UserLogin.UserID))
+			{
+				User.Name = UserLogin.Name;
+				User.Tel = UserLogin.Tel;
+				User.Password = UserLogin.Password;
+				User.Province = UserLogin.Province;
+				User.District = UserLogin.District;
+				User.SubDistrict = UserLogin.SubDistrict;
+				User.Postcode = UserLogin.Postcode;
+				User.Address = UserLogin.Address;
+				var a = new User().ToTable(User); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				userService.EditUser(a); //บันทึกข้อมูล
+			}
+			ShowNotificationEditSuccess();
+		}
 
 	}
 	private void ShowNotificationEditSuccess()
@@ -154,5 +237,47 @@
 				Payload = DateTime.Now
 			};
 		notificationservice.Notify(a);
+	}
+	private void ShowNotificationEditFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณากรอกข้อมูลให้ถูกต้อง !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private province IDPCode = new();
+
+	private void OnChangeProvince(User ID)
+	{
+	
+			UserLogin.District = null;
+			UserLogin.SubDistrict = null;
+		
+		var provinceSelect = ListProvince.Find(e => e.pname == ID.Province);
+		IDPCode = provinceSelect;
+
+	}
+	private Amphoe IDACode = new();
+	private void OnchangeAmphoe(User ID)
+	{
+		//UserLogin.SubDistrict = null;
+
+		var AmphoeSelect = ListAmphoes.Find(e => e.aname == ID.District);
+		IDACode = AmphoeSelect;
+
+	}
+	private tambol IDTCode = new();
+	private void OnchangeTambol(User ID)
+	{
+
+		var TambolSelect = ListTambols.Find(e => e.tname == ID.SubDistrict);
+		IDTCode = TambolSelect;
+
 	}
 }

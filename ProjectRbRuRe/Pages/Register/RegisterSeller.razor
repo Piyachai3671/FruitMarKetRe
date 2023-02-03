@@ -7,6 +7,7 @@
 @inject AmphoeService amphoeService
 @inject TambolService tambolService
 @inject NavigationManager NavigationManager
+@inject NotificationService notificationservice
 <div class="row mt-3">
 	<div class="col-sm-6 mt-2  ">
 		<div class="logo  text-center">
@@ -51,14 +52,14 @@
 					</div>
 					<div class="form-group mt-2">
 						<label for="district">อำเภอ</label>
-						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelAmphoe.aname"
+						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelAmphoe.aname" Disabled="@(ModelProvince.pname == null)"
 										Data=@(ListAmphoes.FindAll(c => c.pcode == IDPCode.pcode).Select(c=>c.aname).Distinct())
 										Change=@(args => OnchangeAmphoe(ModelAmphoe)) />
 						<ValidationMessage For="@(()=>ModelUser.District)" />
 					</div>
 					<div class="form-group mt-2">
 						<label for="subdistrict">ตำบล</label>
-						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelTambol.tname"
+						<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="ModelTambol.tname"Disabled="@(ModelAmphoe.aname == null)"
 										Data=@(ListTambols.FindAll(c => c.acode == IDACode.acode).Select(c=>c.tname).Distinct())
 										Change="@(arg=> OnchangeTambol(ModelTambol))" />
 						<ValidationMessage For="@(()=>ModelUser.SubDistrict)" />
@@ -154,6 +155,7 @@
 
 			ModelStore.SellerName == null)
 		{
+			ShowNotificationInputFail();
 			return;
 		}
 		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
@@ -164,6 +166,7 @@
 			InputStoreName.Length < 2  /*InputStoreName.Length > 30*/
 		)
 		{
+			ShowNotificationInputFail();
 			return;
 		}
 		if (ModelUser.Username != null ||
@@ -231,6 +234,19 @@
 	{
 		var TambolSelect = ListTambols.Find(e => e.tname == ID.tname);
 		IDTCode = TambolSelect;
+	}
+	private void ShowNotificationInputFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณากรอกข้อมูลให้ถูกต้อง !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
 	}
 
 }

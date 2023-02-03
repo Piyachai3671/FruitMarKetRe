@@ -30,6 +30,7 @@ namespace ProjectRbRuRe.Data.Models
 		[Required(ErrorMessage = "กรุณาเลือกตำบล !")]
 		public string? SubDistrict { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกเลขไปรษณีย์ !")]
+		[MinLength(5, ErrorMessage = "เลขไปรษณีย์ต้องมี 5 ตัวอักษรขึ้นไป !")]
 		public string? Postcode { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกชื่อร้านค้า !")]
 		[MinLength(2, ErrorMessage = "ชื่อร้านค้าต้องมี 2 ตัวอักษรขึ้นไป !")]
