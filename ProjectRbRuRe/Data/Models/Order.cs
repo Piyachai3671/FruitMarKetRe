@@ -22,6 +22,7 @@ namespace ProjectRbRuRe.Data.Models
 
 		public string? OrderStatus { get; set; }
 
+		
 		public string? OrderNameExpress { get; set; }
 		public string? OrderNumberExpress { get; set; }
 
@@ -53,6 +54,7 @@ namespace ProjectRbRuRe.Data.Models
 				OrderStoreID = tableOrder.OrderStoreID,
 				OrderStoreName = tableOrder.OrderStoreName,
 
+				
 				OrderNumberExpress = tableOrder.OrderNumberExpress,
 				OrderNameExpress = tableOrder.OrderNameExpress,
 
@@ -84,7 +86,7 @@ namespace ProjectRbRuRe.Data.Models
 				OrderStoreID = NewOrder.OrderStoreID,
 				OrderStoreName = NewOrder.OrderStoreName,
 
-
+				
 				OrderNumberExpress = NewOrder.OrderNumberExpress,
 				OrderNameExpress = NewOrder.OrderNameExpress,
 

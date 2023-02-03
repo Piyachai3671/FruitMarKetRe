@@ -24,7 +24,7 @@ namespace ProjectRbRuRe.Data.ModelData
 		public DateTime OrderDatePaySuccess { get; set; }
 		public string? OrderStatus { get; set; }
 
-		public string? OrderExpress { get; set; }
+		
 		public string? OrderNameExpress { get; set; }
 		public string? OrderNumberExpress { get; set; }
 

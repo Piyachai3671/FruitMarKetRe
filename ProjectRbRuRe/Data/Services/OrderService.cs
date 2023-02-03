@@ -37,7 +37,7 @@ namespace ProjectRbRuRe.Data.Services
 			FindID.OrderDateCreate = EditOrder.OrderDateCreate;
 			FindID.OrderDateEnd = EditOrder.OrderDateEnd;
 			FindID.OrderStatus = EditOrder.OrderStatus;
-			
+
 			FindID.OrderNameExpress = EditOrder.OrderNameExpress;
 			FindID.OrderNumberExpress = EditOrder.OrderNumberExpress;
 			FindID.OrderImgPay = EditOrder.OrderImgPay;

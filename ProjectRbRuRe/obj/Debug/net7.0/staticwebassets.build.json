@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "i+9HZo92/uFgV+YXtTWBKXICJfNhTRka438M/SMdz2g=",
+  "Hash": "saDrx1pJqpg1s+238wI9ttVikIwuU7oiShYW5+D+RN0=",
   "Source": "ProjectRbRuRe",
   "BasePath": "_content/ProjectRbRuRe",
   "Mode": "Default",
@@ -850,6 +850,23 @@
       "OriginalItemSpec": "wwwroot\\img\\01mvxqqr.to4user.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\2elmpkqx.e1sสตอ (2).png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/2elmpkqx.e1sสตอ (2).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\2elmpkqx.e1sสตอ (2).png"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\4ja0yanb.bpvslip01.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -884,6 +901,23 @@
       "OriginalItemSpec": "wwwroot\\img\\4ocyhihp.u02เงาะ.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\mcwchtzq.a5yslip01.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/mcwchtzq.a5yslip01.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\mcwchtzq.a5yslip01.jpg"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\oxaxil0h.ssx7e7a55e5-6914-4866-9464-a8c58853da96.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -916,6 +950,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\qagqxmul.0gmDurian-04.jpg"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\rickghg2.t1yกล่อง.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/rickghg2.t1yกล่อง.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\rickghg2.t1yกล่อง.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\trkxx4bc.ax1Durian-04.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/trkxx4bc.ax1Durian-04.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\trkxx4bc.ax1Durian-04.jpg"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\vi3fe10t.4bgเงาะ.png",
