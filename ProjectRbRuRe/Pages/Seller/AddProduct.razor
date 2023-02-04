@@ -7,7 +7,7 @@
 @inject UserService userService
 @inject StoreService storeService
 @inject NotificationService notificationservice
-<NavMenuLogin></NavMenuLogin>
+<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@ModalID" @onclick="OnAddProductError">+ เพิ่มสินค้า</button>
 <RadzenDataGrid FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true"
 				PageSize="10" Data="@ListProduct.Where(e=>e.ProductStoreID ==UserLogin.UserID)" TItem="Product" ColumnWidth="150px">

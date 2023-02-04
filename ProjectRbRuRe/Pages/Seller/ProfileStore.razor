@@ -12,7 +12,7 @@
 @inject AmphoeService amphoeService
 @inject TambolService tambolService
 @inject NotificationService notificationservice
-<NavMenuLogin></NavMenuLogin>
+<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 {
 	<EditForm Model="@Store">

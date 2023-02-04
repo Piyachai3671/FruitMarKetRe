@@ -3,7 +3,7 @@
 @using ProjectRbRuRe.Data.Services
 @inject LoginService loginService
 @inject StoreService storeService
-<NavMenuLogin></NavMenuLogin>
+<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 {
 	<div class="container-fluid">
