@@ -111,8 +111,8 @@
 		{
 			ListStores.Add(new Store().ToUi(Store));
 		}
+		
 		var Provinces = await provinceService.GetProvinceAsync();
-
 		foreach (var Province in Provinces)
 		{
 			ListProvince.Add(new province().ToUi(Province));

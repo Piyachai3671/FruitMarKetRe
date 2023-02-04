@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7WLwnoCFEuEsBxD+GYlaYX6Eg1UkLTz1IKJgt2+M5pk=",
+  "Hash": "JPPonVay/MZZqoNSLAiKujvvSXOEnjL364JWL2kn/yw=",
   "Source": "ProjectRbRuRe",
   "BasePath": "_content/ProjectRbRuRe",
   "Mode": "Default",
@@ -867,6 +867,23 @@
       "OriginalItemSpec": "wwwroot\\img\\2elmpkqx.e1sสตอ (2).png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\2x5y52li.pwbslip02.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/2x5y52li.pwbslip02.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\2x5y52li.pwbslip02.jpg"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\4ja0yanb.bpvslip01.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -969,6 +986,23 @@
       "OriginalItemSpec": "wwwroot\\img\\mcwchtzq.a5yslip01.jpg"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\omlhuhjy.qvaกล่อง.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/omlhuhjy.qvaกล่อง.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\omlhuhjy.qvaกล่อง.png"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\oxaxil0h.ssx7e7a55e5-6914-4866-9464-a8c58853da96.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1054,6 +1088,23 @@
       "OriginalItemSpec": "wwwroot\\img\\ualq1q5x.5eo7e7a55e5-6914-4866-9464-a8c58853da96.jpg"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\urvdwd5z.ix3slip02.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/urvdwd5z.ix3slip02.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\urvdwd5z.ix3slip02.jpg"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\vi3fe10t.4bgเงาะ.png",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1086,6 +1137,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\wmrnoa33.prbแอปเปิล.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\xiwpgwga.me3user.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/xiwpgwga.me3user.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\xiwpgwga.me3user.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\xu1assd5.x0bกล่อง.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/xu1assd5.x0bกล่อง.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\xu1assd5.x0bกล่อง.png"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.js",

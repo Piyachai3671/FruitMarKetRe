@@ -8,6 +8,9 @@
 @inject LoginService loginService
 @inject StoreService storeService
 @inject UserService userService
+@inject ProvinceService provinceService
+@inject AmphoeService amphoeService
+@inject TambolService tambolService
 @inject NotificationService notificationservice
 <NavMenuLogin></NavMenuLogin>
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
@@ -25,29 +28,46 @@
 					<label for="">ชื่อร้านค้า</label>
 					<InputText @bind-Value="@Store.SellerName" type="text" class="form-control mt-2" maxlength="30" />
 					<ValidationMessage For="@(()=>Store.SellerName)" />
+
 					<label for="">รหัสผู้ใช้งาน</label>
-					<input value="@UserLogin.Username" disabled type="text" class="form-control mt-2"/>
+					<input value="@UserLogin.Username" disabled type="text" class="form-control mt-2" />
 
 					<label for="">รหัสผ่าน</label>
 					<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" maxlength="30" />
 					<ValidationMessage For="@(()=>UserLogin.Password)" />
+
 				</div>
+
 				<div class="col-lg-4">
 					<label for="">ที่อยู่</label>
 					<InputText @bind-Value="@UserLogin.Address" type="text" class="form-control mt-2" maxlength="255" />
 					<ValidationMessage For="@(()=>UserLogin.Address)" />
+
 					<label for="">จังหวัด</label>
-					<InputText @bind-Value="@UserLogin.Province" type="text" class="form-control mt-2" />
+
+					<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.Province"
+								Data=@(ListProvince.Select(c => c.pname).Distinct())
+								Change=@(args => OnChangeProvince(UserLogin)) />
 					<ValidationMessage For="@(()=>UserLogin.Province)" />
+
 					<label for="">อำเภอ</label>
-					<InputText @bind-Value="@UserLogin.District" type="text" class="form-control mt-2" />
+
+					<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.District" Disabled="@(UserLogin.Province == null)"
+								Data=@(ListAmphoes.FindAll(c => c.pcode == IDPCode.pcode).Select(c=>c.aname).Distinct())
+								Change=@(args => OnchangeAmphoe(UserLogin)) />
 					<ValidationMessage For="@(()=>UserLogin.District)" />
+
 					<label for="">ตำบล</label>
-					<InputText @bind-Value="@UserLogin.SubDistrict" type="text" class="form-control mt-2"  />
+
+					<RadzenDropDown AllowClear="false" TValue="string" Class="w-100" @bind-Value="UserLogin.SubDistrict" Disabled="@(UserLogin.District == null)"
+								Data=@(ListTambols.FindAll(c => c.acode == IDACode.acode).Select(c=>c.tname).Distinct())
+								Change="@(arg=> OnchangeTambol(UserLogin))" />
 					<ValidationMessage For="@(()=>UserLogin.SubDistrict)" />
+
 					<label for="">รหัสไปรษณีย์</label>
 					<InputText @bind-Value="@UserLogin.Postcode" type="text" class="form-control mt-2" maxlength="5" />
 					<ValidationMessage For="@(()=>UserLogin.Postcode)" />
+
 					<label for="">เบอร์โทรศัพท์</label>
 					<InputText @bind-Value="@UserLogin.Tel" type="text" class="form-control mt-2" maxlength="10" />
 					<ValidationMessage For="@(()=>UserLogin.Tel)" />
@@ -81,11 +101,11 @@
 					<div class="row">
 						<div class="col">
 							<button class="btn">
-								<InputFile class="" OnChange="LoadFiles" ></InputFile>
+								<InputFile class="" OnChange="LoadFiles"></InputFile>
 							</button>
-							
+
 						</div>
-						
+
 					</div>
 
 				</div>
@@ -106,7 +126,7 @@
 						}
 					}
 					<div class="row">
-						<InputFile OnChange="LoadFilesCover" ></InputFile>
+						<InputFile OnChange="LoadFilesCover"></InputFile>
 					</div>
 
 				</div>
@@ -123,7 +143,7 @@
 					<label for="">ธนาคาร</label>
 					<div class=" mt-2">
 						<InputSelect @bind-Value="Store.BankName" class="form-control" style="height:38px; width:550px;">
-							<option >เลือกธนาคาร</option>
+							<option>เลือกธนาคาร</option>
 							<option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
 							<option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
 							<option value="ธนาคารกรุงไทย">ธนาคารกรุงไทย</option>
@@ -161,6 +181,13 @@
 	private List<Store> ListStores = new List<Store>();
 	public List<User> ListUsers = new List<User>();
 
+	private List<province> ListProvince = new List<province>();
+	private province ModelProvince = new();
+	private List<Amphoe> ListAmphoes = new List<Amphoe>();
+	private Amphoe ModelAmphoe = new();
+	private List<tambol> ListTambols = new List<tambol>();
+	private tambol ModelTambol = new();
+
 	protected override async Task OnInitializedAsync()
 	{
 		var Users = await userService.GetUserAsync();
@@ -174,6 +201,22 @@
 		foreach (var Store in Stores)
 		{
 			ListStores.Add(new Store().ToUi(Store));
+		}
+
+		var Provinces = await provinceService.GetProvinceAsync();
+		foreach (var Province in Provinces)
+		{
+			ListProvince.Add(new province().ToUi(Province));
+		}
+		var Amphoes = await amphoeService.GetAmphoeAsync();
+		foreach (var Amphoe in Amphoes)
+		{
+			ListAmphoes.Add(new Amphoe().ToUi(Amphoe));
+		}
+		var Tambols = await tambolService.GetTambolAsync();
+		foreach (var Tambol in Tambols)
+		{
+			ListTambols.Add(new tambol().ToUi(Tambol));
 		}
 	}
 
@@ -191,7 +234,19 @@
 			};
 		notificationservice.Notify(a);
 	}
-
+	private void ShowNotificationEditFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณากรอกข้อมูลให้ถูกต้อง !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
 
 	private List<IBrowserFile> loadedFiles = new();
 	private long maxFileSize = (1024 * 10) * 1024;
@@ -265,27 +320,122 @@
 	}
 	private async Task OnClickEditStore()
 	{
-		foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
+		var StoreInput = ListStores.Find(e => e.UserID == UserLogin.UserID);
+		string InputSellerName = StoreInput.SellerName;
+		string InputPassword = UserLogin.Password;
+
+		string InputAddress = UserLogin.Address;
+		string InputPostcode = UserLogin.Postcode;
+		string InputTel = UserLogin.Tel;
+
+		string InputDescription = StoreInput.SellerDescription;
+
+		string InputImgProfile = StoreInput.ImgProfile;
+		string InputImgCover = StoreInput.ImgCover;
+
+		string InputBankName = StoreInput.BankName;
+		string InputAccountName = StoreInput.AccountName;
+		string InputAccountNumber = StoreInput.AccountNumber;
+
+
+		if (InputSellerName == null ||
+			UserLogin.Password == null ||
+
+			UserLogin.Address == null ||
+			UserLogin.Province == null ||
+			UserLogin.District == null ||
+			UserLogin.SubDistrict == null ||
+			UserLogin.Postcode == null ||
+			UserLogin.Tel == null ||
+
+			InputBankName == null ||
+			InputAccountName == null ||
+			InputAccountNumber == null
+		)
 		{
+			ShowNotificationEditFail();
+			return;
+		}
+		if (InputSellerName.Length < 2 ||
+			InputPassword.Length < 6 ||
 
-			Store.SellerName = Store.SellerName;
-			Store.SellerDescription = Store.SellerDescription;
-			Store.BankName = Store.BankName;
-			Store.AccountName = Store.AccountName;
-			Store.AccountNumber = Store.AccountNumber;
-			var a = new Store().ToTable(Store); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-			storeService.EditStore(a); //บันทึกข้อมูล
-			ShowNotificationSuccessEdit();
 
-			var EditUser = new User().ToTable(UserLogin); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-			userService.EditUser(EditUser); //บันทึกข้อมูล
+			InputAddress.Length < 1 ||
+			InputPostcode.Length != 5 ||
+			InputTel.Length != 10 ||
 
-			var Stores1 = await storeService.GetStoresAsync();
-			ListStores.Clear();
-			foreach (var Store1 in Stores1)
+			InputAccountName.Length < 2 ||
+			InputAccountNumber.Length != 10
+		)
+		{
+			ShowNotificationEditFail();
+			return;
+		}
+
+		if (InputSellerName != null ||
+			UserLogin.Password != null ||
+
+			UserLogin.Address != null ||
+			UserLogin.Province != null ||
+			UserLogin.District != null ||
+			UserLogin.SubDistrict != null ||
+			UserLogin.Postcode != null ||
+			UserLogin.Tel != null ||
+
+			InputBankName != null ||
+			InputAccountName != null ||
+			InputAccountNumber != null
+		)
+		{
+			foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 			{
-				ListStores.Add(new Store().ToUi(Store1));
+
+				Store.SellerName = Store.SellerName;
+				Store.SellerDescription = Store.SellerDescription;
+				Store.BankName = Store.BankName;
+				Store.AccountName = Store.AccountName;
+				Store.AccountNumber = Store.AccountNumber;
+				var a = new Store().ToTable(Store); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				storeService.EditStore(a); //บันทึกข้อมูล
+				ShowNotificationSuccessEdit();
+
+				var EditUser = new User().ToTable(UserLogin); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				userService.EditUser(EditUser); //บันทึกข้อมูล
+
+				var Stores1 = await storeService.GetStoresAsync();
+				ListStores.Clear();
+				foreach (var Store1 in Stores1)
+				{
+					ListStores.Add(new Store().ToUi(Store1));
+				}
 			}
 		}
+		
+	}
+	private province IDPCode = new();
+	private void OnChangeProvince(User ID)
+	{
+
+		UserLogin.District = null;
+		UserLogin.SubDistrict = null;
+
+		var provinceSelect = ListProvince.Find(e => e.pname == ID.Province);
+		IDPCode = provinceSelect;
+
+	}
+	private Amphoe IDACode = new();
+	private void OnchangeAmphoe(User ID)
+	{
+		UserLogin.SubDistrict = null;
+		var AmphoeSelect = ListAmphoes.Find(e => e.aname == ID.District);
+		IDACode = AmphoeSelect;
+
+	}
+	private tambol IDTCode = new();
+	private void OnchangeTambol(User ID)
+	{
+		var TambolSelect = ListTambols.Find(e => e.tname == ID.SubDistrict);
+		IDTCode = TambolSelect;
+
 	}
 }

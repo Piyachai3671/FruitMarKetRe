@@ -192,7 +192,7 @@
 			InputPassword.Length < 6 || 
 			InputTel.Length != 10 ||
 			InputAddress.Length < 1 ||
-			InputPostcode.Length < 5)
+			InputPostcode.Length != 5)
 		{
 			 ShowNotificationEditFail();
 			return;
@@ -266,7 +266,7 @@
 	private Amphoe IDACode = new();
 	private void OnchangeAmphoe(User ID)
 	{
-		//UserLogin.SubDistrict = null;
+		UserLogin.SubDistrict = null;
 
 		var AmphoeSelect = ListAmphoes.Find(e => e.aname == ID.District);
 		IDACode = AmphoeSelect;
