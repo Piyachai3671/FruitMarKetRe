@@ -8,11 +8,15 @@ namespace ProjectRbRuRe.Data.Models
 		public int StoreID { get; set; }
 		[Required(ErrorMessage = "กรุณากรอกชื่อร้านค้า !")]
 		[MinLength(2, ErrorMessage = "ชื่อร้านค้าต้องมี 2 ตัวอักษรขึ้นไป !")]
-		[MaxLength(30, ErrorMessage = "ชื่อร้านค้าต้องมีอักษรต่ำกว่า 30 ตัวอักษร !")]
 		public string? SellerName { get; set; }
 		public string? SellerDescription { get; set; }
+		[Required(ErrorMessage = "กรุณาเลือกธนาคาร !")]
 		public string? BankName { get; set; }
+		[Required(ErrorMessage = "กรุณากรอกชื่อบัญชีธนาคาร !")]
+		[MinLength(2, ErrorMessage = "ชื่อบัญชีธนาคารต้องมี 2 ตัวอักษรขึ้นไป !")]
 		public string? AccountName { get; set; }
+		[Required(ErrorMessage = "กรุณากรอกเลขบัญชีธนาคาร !")]
+		[MinLength(10, ErrorMessage = "เลขบัญชีธนาคารต้องมี 10 ตัวอักษรเท่านั้น !")]
 		public string? AccountNumber { get; set; }
 		public int UserID { get; set; }
 

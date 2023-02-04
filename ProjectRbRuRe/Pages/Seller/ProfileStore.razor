@@ -13,6 +13,7 @@
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 {
 	<EditForm Model="@Store">
+		<DataAnnotationsValidator />
 		<div class="row">
 			<div class="" style="text-align: center;">
 				<h3>จัดการร้านค้า</h3>
@@ -22,43 +23,46 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<label for="">ชื่อร้านค้า</label>
-					<InputText @bind-Value="@Store.SellerName" type="text" class="form-control mt-2" />
-
+					<InputText @bind-Value="@Store.SellerName" type="text" class="form-control mt-2" maxlength="30" />
+					<ValidationMessage For="@(()=>Store.SellerName)" />
 					<label for="">รหัสผู้ใช้งาน</label>
-					<input value="@UserLogin.Username"  disabled type="text" class="form-control mt-2" />
+					<input value="@UserLogin.Username" disabled type="text" class="form-control mt-2"/>
 
 					<label for="">รหัสผ่าน</label>
-					<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" />
-
+					<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" maxlength="30" />
+					<ValidationMessage For="@(()=>UserLogin.Password)" />
 				</div>
 				<div class="col-lg-4">
 					<label for="">ที่อยู่</label>
-					<InputText @bind-Value="@UserLogin.Address" type="text" class="form-control mt-2" />
+					<InputText @bind-Value="@UserLogin.Address" type="text" class="form-control mt-2" maxlength="255" />
+					<ValidationMessage For="@(()=>UserLogin.Address)" />
 					<label for="">จังหวัด</label>
 					<InputText @bind-Value="@UserLogin.Province" type="text" class="form-control mt-2" />
+					<ValidationMessage For="@(()=>UserLogin.Province)" />
 					<label for="">อำเภอ</label>
 					<InputText @bind-Value="@UserLogin.District" type="text" class="form-control mt-2" />
+					<ValidationMessage For="@(()=>UserLogin.District)" />
 					<label for="">ตำบล</label>
-					<InputText @bind-Value="@UserLogin.SubDistrict" type="text" class="form-control mt-2" />
+					<InputText @bind-Value="@UserLogin.SubDistrict" type="text" class="form-control mt-2"  />
+					<ValidationMessage For="@(()=>UserLogin.SubDistrict)" />
 					<label for="">รหัสไปรษณีย์</label>
-					<InputText @bind-Value="@UserLogin.Postcode" type="text" class="form-control mt-2" />
+					<InputText @bind-Value="@UserLogin.Postcode" type="text" class="form-control mt-2" maxlength="5" />
+					<ValidationMessage For="@(()=>UserLogin.Postcode)" />
 					<label for="">เบอร์โทรศัพท์</label>
-					<InputText @bind-Value="@UserLogin.Tel" type="text" class="form-control mt-2" />
+					<InputText @bind-Value="@UserLogin.Tel" type="text" class="form-control mt-2" maxlength="10" />
+					<ValidationMessage For="@(()=>UserLogin.Tel)" />
 				</div>
 				<div class="col-lg-4">
 					<div class="form-group">
 						<label for="info">รายละเอียดร้านค้า</label>
-						<InputTextArea @bind-Value="@Store.SellerDescription" cols="30" rows="15" class="form-control mt-2" placeholder="อธิบายเกี่ยวกับร้านค้า หรือช่องทางติดต่อของคุณ"></InputTextArea>
+						<InputTextArea @bind-Value="@Store.SellerDescription" cols="30" rows="15" class="form-control mt-2" placeholder="อธิบายเกี่ยวกับร้านค้า หรือช่องทางติดต่อของคุณ" maxlength="500" />
+						<ValidationMessage For="@(()=>Store.SellerDescription)" />
 					</div>
 				</div>
 			</div>
 		</div>
-
-
 		<hr>
 		<div class="row">
-
-
 			<div class="col-lg-6">
 				<strong>ภาพโปรไฟล์ร้านค้า</strong>
 				<div class="row">
@@ -75,7 +79,13 @@
 
 					}
 					<div class="row">
-						<InputFile OnChange="LoadFiles" multiple></InputFile>
+						<div class="col">
+							<button class="btn">
+								<InputFile class="" OnChange="LoadFiles" ></InputFile>
+							</button>
+							
+						</div>
+						
 					</div>
 
 				</div>
@@ -96,7 +106,7 @@
 						}
 					}
 					<div class="row">
-						<InputFile OnChange="LoadFilesCover" multiple></InputFile>
+						<InputFile OnChange="LoadFilesCover" ></InputFile>
 					</div>
 
 				</div>
@@ -121,17 +131,20 @@
 							<option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
 							<option value="ธนาคารออมสิน">ธนาคารออมสิน</option>
 						</InputSelect>
+						<ValidationMessage For="@(()=>Store.BankName)" />
 					</div>
 				</div>
 			</div>
 
 			<div class="col">
 				<label for="">ชื่อบัญชีธนาคาร</label>
-				<InputText @bind-Value="@Store.AccountName" type="text" class="form-control mt-2" />
+				<InputText @bind-Value="@Store.AccountName" type="text" class="form-control mt-2" maxlength="50" />
+				<ValidationMessage For="@(()=>Store.AccountName)" />
 			</div>
 			<div class="col">
 				<label for="">เลขบัญชีธนาคาร</label>
 				<InputText @bind-Value="@Store.AccountNumber" type="text" class="form-control mt-2" maxlength="10" />
+				<ValidationMessage For="@(()=>Store.AccountNumber)" />
 			</div>
 		</div>
 

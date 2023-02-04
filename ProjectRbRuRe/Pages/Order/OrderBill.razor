@@ -12,6 +12,7 @@
 @inject ProductService productService
 
 @inject NavigationManager NavigationManager
+@inject NotificationService notificationservice
 <NavMenuLogin></NavMenuLogin>
 
 @foreach (var Order in ListOrders.FindAll(e => e.OrderID == GetOrderIDPage))
@@ -295,7 +296,7 @@
 									ธนาคารกรุงไทย
 								</div>
 								<div class="card-body">
-						
+
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
@@ -373,7 +374,7 @@
 								<div class="card-header">
 									ธนาคารออมสิน
 								</div>
-								<div class="card-body">	
+								<div class="card-body">
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
@@ -444,6 +445,16 @@
 						</div>
 						<div class="col">
 							<label>@Order.OrderDatePaySuccess</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="d-inline-flex">
+						<div class="col-lg-1">
+							<label>รหัสคำสั่งซื้อ : </label>
+						</div>
+						<div class="col">
+							<label>@Order.OrderID</label>
 						</div>
 					</div>
 				</div>
@@ -864,7 +875,7 @@
 									ธนาคารกรุงไทย
 								</div>
 								<div class="card-body">
-						
+
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
@@ -942,7 +953,7 @@
 								<div class="card-header">
 									ธนาคารออมสิน
 								</div>
-								<div class="card-body">	
+								<div class="card-body">
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
@@ -1134,7 +1145,7 @@
 									ธนาคารกรุงไทย
 								</div>
 								<div class="card-body">
-						
+
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5yCh5C5yMCU69cuJxs6ugkVM3jj008mx0Rxf77XdsDpKCag9D75.jpg" />
@@ -1212,7 +1223,7 @@
 								<div class="card-header">
 									ธนาคารออมสิน
 								</div>
-								<div class="card-body">	
+								<div class="card-body">
 									<div class="row" style="text-align:center;">
 										<div class="col">
 											<img style="width:300px; height:200px; object-fit:cover;" src="https://www.tcijthai.com/office-tcij/headpicture/35a810aacc9fc94593404bff63247801.jpg" />
@@ -1265,7 +1276,7 @@
 					<tr>
 						<th></th>
 						<th>
-							<img src="img/@ListProduct.Find(e=>e.IDProduct == OrderItem.OrderItemProductID ).ProductImg" style="width: 40px; height: 40px; border-radius: 8px; "/>
+							<img src="img/@ListProduct.Find(e=>e.IDProduct == OrderItem.OrderItemProductID ).ProductImg" style="width: 40px; height: 40px; border-radius: 8px; " />
 						</th>
 						<td>@OrderItem.OrderItemProductName </td>
 						<td>@OrderItem.OrderItemProductAmount</td>
@@ -1405,51 +1416,67 @@
 	private Order Orde = new Order();
 	private void OnChangeStatusToSuccess()
 	{
-		var FindUerID = ListUser.Find(e => e.UserID == UserLogin.UserID);
-		@foreach (var Order in ListOrders)
+		if (ModelOrder.OrderNumberExpress == null || ModelOrder.OrderNameExpress == null || ModelOrder.OrderNameExpress == "" || ModelOrder.OrderNumberExpress == "")
 		{
-			@if (Order.OrderID == GetOrderIDPage && Order.OrderStatus == "ชำระแล้ว")
+			ShowNotificationExpressNull();
+			return;
+		}
+		else
+		{
+			@foreach (var Order in ListOrders.FindAll(e => e.OrderID == GetOrderIDPage && e.OrderStatus == "ชำระแล้ว"))
 			{
+				var FindUerID = ListUser.Find(e => e.UserID == UserLogin.UserID);
+
 				Order.OrderDateEnd = DateTime.Now;
 				Order.OrderStatus = "สำเร็จ";
 				Order.OrderNameExpress = ModelOrder.OrderNameExpress;
 				Order.OrderNumberExpress = ModelOrder.OrderNumberExpress;
-				var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-				orderService.EditOrder(a); //บันทึกข้อมูล
-			}
-			@foreach (var Report in ListReports.FindAll(e => e.ReportID == Order.OrderID))
-			{
-				@if (Report.ReportID == GetOrderIDPage)
+				var o = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				orderService.EditOrder(o); //บันทึกข้อมูล
+
+
+				@foreach (var Report in ListReports.FindAll(e => e.ReportID == GetOrderIDPage))
 				{
+
 					Report.ReportDate = DateTime.Now;
 					Report.ReportStatus = "สำเร็จ";
 					Report.ReportPriceSum = Order.OrderSumPrice;
 					var a = new Report().ToTable(Report); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
 					reportService.EditReport(a); //บันทึกข้อมูล
+
 				}
 			}
 		}
 
+
 	}
 	private void OnChangeStatusToCancel()
 	{
-		@foreach (var Order in ListOrders)
+		@foreach (var Order in ListOrders.FindAll(e => e.OrderID == GetOrderIDPage))
 		{
-			@if (Order.OrderID == GetOrderIDPage)
-			{
-				Order.OrderDateEnd = DateTime.Now;
-				Order.OrderStatus = "ยกเลิก";
-				var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-				orderService.EditOrder(a); //บันทึกข้อมูล
-			}
+			//@if (Order.OrderID == GetOrderIDPage)
+			//{
+			Order.OrderDateEnd = DateTime.Now;
+			Order.OrderStatus = "ยกเลิก";
+			var a = new Order().ToTable(Order); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			orderService.EditOrder(a); //บันทึกข้อมูล
+												//}
 
 		}
 	}
 	private void OnChangeStatusToPaySuccess()
 	{
-		@foreach (var Order in ListOrders)
+
+		@foreach (var Order in ListOrders.FindAll(e => e.OrderID == GetOrderIDPage && e.OrderStatus == "ยังไม่ชำระ"))
 		{
-			@if (Order.OrderID == GetOrderIDPage && Order.OrderStatus == "ยังไม่ชำระ")
+
+			if (CurrentImg == "")
+			{
+
+				ShowNotificationImgNull();
+				return;
+			}
+			else
 			{
 				Order.OrderDatePaySuccess = DateTime.Now;
 				Order.OrderStatus = "ชำระแล้ว";
@@ -1499,4 +1526,30 @@
 		isLoading = false;
 	}
 
+	private void ShowNotificationImgNull()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณาอัพโหลดภาพ ก่อนทำการยืนยันชำระคำสั่งซื้อ !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void ShowNotificationExpressNull()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "กรุณากรอกข้อมูลการจัดส่ง ก่อนทำการยืนยันคำสั่งซื้อ !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
 }
