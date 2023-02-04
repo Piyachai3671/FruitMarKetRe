@@ -19,11 +19,10 @@
 
 <!-- การ์ดสินค้า -->
 <div class="row mt-2 mb-3">
-	@foreach (var Product in ListProduct.Where(
-			s => s.NameProduct.ToUpper().Contains(SearchWord.ToUpper())
+	@foreach (var Product in ListProduct.Where(s => s.NameProduct.ToUpper().Contains(SearchWord.ToUpper())
 			))
 	{
-		@if (Product.ProductStoreID == UserLogin.UserID)
+		@if (Product.ProductStoreID == UserLogin.UserID && Product.ProductStatus == "เปิด")
 		{
 			<div class="col-sm-6 col-md-4 col-lg-3 mt-2">
 				<button class="btn" @onclick="()=>OpenProductPage(Product.IDProduct)">

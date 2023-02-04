@@ -2,6 +2,7 @@
 @using ProjectRbRuRe.Data.Models;
 @inject LoginService loginService
 @inject UserService userService
+@inject StoreService storeService
 
 
 <div class="container-fluid  shadow  rounded " style="background-color:gainsboro; z-index:0; width:100%;">
@@ -53,8 +54,17 @@
 			<div class="p-2 bd-highlight">
 				<div class="dropdown">
 					<button class="btn btn-none dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+					@if (UserToLogin.Permission == "c")
+					{
 						<img class="rounded-3" style="width:30px; height:30px;" src="https://cdn.pixabay.com/photo/2022/10/31/12/43/mountain-7559738_1280.jpg">
 						@UserToLogin.Name
+					}
+					@if (UserToLogin.Permission == "s")
+					{
+						<img class="rounded-3" style="width:30px; height:30px;" src="https://cdn.pixabay.com/photo/2022/10/31/12/43/mountain-7559738_1280.jpg">
+						
+					}
+					
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						@if (UserToLogin.Permission == "c")
@@ -100,6 +110,7 @@
 	private bool StatusLogin;
 	private User? UserToLogin = new();
 	private List<User> ListUser = new List<User>();
+	//private List<Store> ListStores = new List<Store>();
 	protected override async Task OnInitializedAsync()
 	{
 		 UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
@@ -109,6 +120,12 @@
 		{
 			ListUser.Add(new User().ToUi(user));
 		}
+
+		//var Stores = await storeService.GetStoresAsync();
+		//foreach (var Store in Stores)
+		//{
+		//	ListStores.Add(new Store().ToUi(Store));
+		//}
 
 	}
 

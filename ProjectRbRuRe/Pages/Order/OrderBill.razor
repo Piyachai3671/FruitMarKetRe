@@ -36,9 +36,9 @@
 								<div class="col-lg-4">
 									<label>
 										ที่อยู่ : @Order.OrderAddress
-										จังหวัด @Order.OrderProvince
-										อำเภอ @Order.OrderDistrict
-										ตำบล @Order.OrderSubDistrict
+										 @Order.OrderProvince
+										 @Order.OrderDistrict
+										 @Order.OrderSubDistrict
 										@Order.OrderPostcode
 									</label>
 								</div>
@@ -71,9 +71,9 @@
 								<div class="col-lg-4">
 									<label>
 										ที่อยู่ : @Order.OrderAddress
-										จังหวัด @Order.OrderProvince
-										อำเภอ @Order.OrderDistrict
-										ตำบล @Order.OrderSubDistrict
+										 @Order.OrderProvince
+										 @Order.OrderDistrict
+										 @Order.OrderSubDistrict
 										@Order.OrderPostcode
 									</label>
 								</div>
@@ -107,9 +107,9 @@
 								<div class="col-lg-4">
 									<label>
 										ที่อยู่ : @Order.OrderAddress
-										จังหวัด @Order.OrderProvince
-										อำเภอ @Order.OrderDistrict
-										ตำบล @Order.OrderSubDistrict
+										 @Order.OrderProvince
+										 @Order.OrderDistrict
+										 @Order.OrderSubDistrict
 										@Order.OrderPostcode
 									</label>
 								</div>
@@ -143,9 +143,9 @@
 								<div class="col-lg-4">
 									<label>
 										ที่อยู่ : @Order.OrderAddress
-										จังหวัด @Order.OrderProvince
-										อำเภอ @Order.OrderDistrict
-										ตำบล @Order.OrderSubDistrict
+										 @Order.OrderProvince
+										 @Order.OrderDistrict
+										 @Order.OrderSubDistrict
 										@Order.OrderPostcode
 									</label>
 								</div>
@@ -201,7 +201,7 @@
 							<div class="col">
 								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
 								{
-									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+									<span>@Order.OrderStoreName @User.Province  @User.District  @User.SubDistrict  @User.Postcode  @User.Tel</span>
 								}
 
 							</div>
@@ -468,7 +468,7 @@
 							<div class="col">
 								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
 								{
-									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+									<span>@Order.OrderStoreName @User.Province  @User.District  @User.SubDistrict  @User.Postcode  @User.Tel</span>
 								}
 
 							</div>
@@ -781,7 +781,7 @@
 							<div class="col">
 								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
 								{
-									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+									<span>@Order.OrderStoreName @User.Province  @User.District  @User.SubDistrict  @User.Postcode  @User.Tel</span>
 								}
 
 							</div>
@@ -1052,7 +1052,7 @@
 							<div class="col">
 								@foreach (var User in ListUser.FindAll(e => e.UserID == Order.OrderStoreID))
 								{
-									<span>@Order.OrderStoreName จังหวัด. @User.Province </span>
+									<span>@Order.OrderStoreName @User.Province  @User.District  @User.SubDistrict  @User.Postcode  @User.Tel</span>
 								}
 
 							</div>

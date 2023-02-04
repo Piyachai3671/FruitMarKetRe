@@ -14,7 +14,11 @@
 			ชื่อร้านค้า : @CartStore.NameStore
 			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
 			{
-				<span> จังหวัด.</span>  @ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province
+				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
+				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
+				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
+				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
+				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>					
 			}		
 		</div>
 		<div class="card-body">

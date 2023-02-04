@@ -31,10 +31,15 @@
 
 					<label for="">รหัสผู้ใช้งาน</label>
 					<input value="@UserLogin.Username" disabled type="text" class="form-control mt-2" />
-
-					<label for="">รหัสผ่าน</label>
-					<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" maxlength="30" />
-					<ValidationMessage For="@(()=>UserLogin.Password)" />
+					<p>
+						<label for="">รหัสผ่าน</label>
+						<div style="position:relative;">
+							<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" maxlength="30" />
+							<i class="fa-sharp fa-solid fa-eye" style="position:absolute;top: 50%; right: 2.5%;transform: translateY(-50%)"></i>
+						</div>
+						<ValidationMessage For="@(()=>UserLogin.Password)" />
+					</p>
+					
 
 				</div>
 

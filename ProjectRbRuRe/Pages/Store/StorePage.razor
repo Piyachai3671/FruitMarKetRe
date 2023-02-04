@@ -20,7 +20,7 @@ else
                     ชื่อร้าน : @ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).SellerName
                 </h5>
                 <span>
-                    พิกัดร้านค้า : จังหวัด.@ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).Province อำเภอ.@ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).District
+                    พิกัดร้านค้า : @ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).Province @ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).District @ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).SubDistrict @ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).Postcode @ListUsers.Find(e=>e.UserID == GetCurrentStoreIDPage).Tel
                 </span>
             </div>
             <div class="col ">
@@ -58,7 +58,7 @@ else
            s => s.NameProduct.ToUpper().Contains(SearchWord.ToUpper())
            ))
             {
-                @if (Product.ProductStoreID == GetCurrentStoreIDPage)
+            @if (Product.ProductStoreID == GetCurrentStoreIDPage && Product.ProductStatus == "เปิด")
                 {
                 <div class="col-sm-6 col-md-4 col-lg-3 mt-2">
                         <button class="btn" @onclick="()=>OpenProductPage(Product.IDProduct)">
