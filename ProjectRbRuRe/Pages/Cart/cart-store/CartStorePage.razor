@@ -11,7 +11,8 @@
 {
 	<div class="card">
 		<div class="card-header textarea">
-			ชื่อร้านค้า : @CartStore.NameStore
+			@*ชื่อร้านค้า : @CartStore.NameStore*@
+			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.CartStoreID).SellerName
 			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
 			{
 				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
@@ -130,6 +131,7 @@
 		{
 			ListUsers.Add(new User().ToUi(user));
 		}
+		
 	}
 
 	private void OnDelItem(CartStore ID)

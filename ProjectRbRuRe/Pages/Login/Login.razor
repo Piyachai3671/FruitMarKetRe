@@ -4,6 +4,8 @@
 @inject UserService userService
 @inject LoginService loginService
 @inject NavigationManager NavigationManager
+@inject CartStoreService cartStoreService
+@inject CartProductService cartProductService
 @inject NotificationService notificationservice
 <ProjectRbRuRe.Pages.Guest.NavBarGuset></ProjectRbRuRe.Pages.Guest.NavBarGuset>
 <div class="container-fluid" id="app">
@@ -51,12 +53,18 @@
 	private User Model = new User();
 	private User? UserLogin = new();
 	private bool StatusLogin;
+
+	private List<CartStore> ListCartStores = new List<CartStore>();
+	private List<CartProduct> ListCartProducts = new List<CartProduct>();
 	protected override async Task OnInitializedAsync()
 	{
 		//CheckStatus();
 		var Users = await userService.GetUserAsync();
 		//Model = new User();
-
+		ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
+		ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
+		ListCartStores.Clear();
+		ListCartProducts.Clear();
 	}
 	private async void OnLogin()
 	{

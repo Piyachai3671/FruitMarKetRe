@@ -200,32 +200,16 @@ else
 
 					CartProductUnit = eleproduct.UnitProduct,
 					CartProductPrice = eleproduct.PriceProduct,
-					CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
+					//CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
 					CartProductStoreID = eleproduct.ProductStoreID,
 
 				});
-			//AddCartProduct = new CartProduct()
-			//	{
+			//@foreach (var product in ListProduct)
+			//{
+			//	@if (product.IDProduct == eleproduct.IDProduct)
 
-			//		CartProductProductID = eleproduct.IDProduct,
-			//		CartProductName = eleproduct.NameProduct,
-			//		CartProductAmount = 1,
-
-			//		CartProductUnit = eleproduct.UnitProduct,
-			//		CartProductPrice = eleproduct.PriceProduct,
-			//		CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
-			//		CartProductStoreID = eleproduct.ProductStoreID,
-
-			//	};
-			//var AddCartProduct2 = new CartProduct().ToTable(AddCartProduct);
-			//cartProductService.AddNewCartProduct(AddCartProduct2); //บันทึกข้อมูล
-
-			@foreach (var product in ListProduct)
-			{
-				@if (product.IDProduct == eleproduct.IDProduct)
-
-					product.ProductCartID = Count;
-			}
+			//		product.ProductCartID = Count;
+			//}
 
 		}
 
@@ -238,79 +222,8 @@ else
 			ListCartStroe.Add(new CartStore()
 				{
 					CartStoreID = eleproduct.ProductStoreID,
-					NameStore = eleproduct.ProductStoreName,
-
 				});
 		}
-		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
-		//@if (CartStroe == null)
-		//{
-		//	AddCartStore = new CartStore()
-		//		{
-		//			CartStoreID = eleproduct.ProductStoreID,
-		//			NameStore = eleproduct.ProductStoreName,
-		//			CartStoreUserID = eleproduct.ProductUserID
-		//		};
-		//	var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
-		//	cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
-		//}
-		//else
-		//{
-		//	return;
-
-		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductUserID);
-		//{
-		//	if (CartStroe != null)
-		//	{
-
-		//	}
-		//	else
-		//	{
-		//		if (CartStroe.CartStoreUserID != null)
-		//		{
-
-
-		//			AddCartStore = new CartStore()
-		//				{
-		//					CartStoreID = eleproduct.ProductStoreID,
-		//					NameStore = eleproduct.ProductStoreName,
-		//					CartStoreUserID = eleproduct.ProductUserID
-		//				};
-
-		//			var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
-		//			cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
-		//		}
-		//		else
-		//		{
-
-		//		}
-		//	}
-		//}
-
-
-
-		//@foreach (var cp in ListCartStroe.FindAll(e => e.CartStoreID == eleproduct.ProductStoreID))
-		//{
-		//	if (cp.CartStoreUserID == eleproduct.ProductUserID)
-		//	{
-		//		AddCartStore = new CartStore()
-		//			{
-		//				CartStoreID = eleproduct.ProductStoreID,
-		//				NameStore = eleproduct.ProductStoreName,
-		//				CartStoreUserID = eleproduct.ProductUserID
-		//			};
-		//		var AddCartStroe2 = new CartStore().ToTable(AddCartStore);
-		//		cartStoreService.AddNewCartStore(AddCartStroe2); //บันทึกข้อมูล
-		//	}
-
-		//}
-
-
-
-
-
-
-
 	}
 	private void ShowNotification()
 	{

@@ -152,7 +152,13 @@
 
 	<div class="row " style="text-align:end;">
 		<div class="col">
-			<div class="me-5">Total : @SumTotal บาท</div>
+			<div class="me-5">
+				Total : @*@SumTotal*@
+
+				@ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage ).Sum(e => e.CartProductPrice * e.CartProductAmount)
+
+				บาท
+			</div>
 			<button class="btn btn-success" Style="font-size:18px;margin-bottom:10px;" @onclick="()=>OnSubmit(GetCurrentCartIDPage)">
 				ชำระเงิน
 			</button>
@@ -370,7 +376,7 @@
 
 		}
 		a.CartProductSumPrice = a.CartProductPrice * a.CartProductAmount; //ทุกครั้งที่มีการกดเพิ่มสินค้าจะมีการเก็บค่าใน LCP.Sumprice
-		@foreach (var c in ListCartProducts)
+		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
 		{
 			SumTotal = SumTotal + (c.CartProductAmount * c.CartProductPrice) ?? 0.0;
 		}
@@ -386,7 +392,7 @@
 		{
 			a.CartProductAmount = 1;
 		}
-		@foreach (var c in ListCartProducts)
+		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
 		{
 			SumTotal = SumTotal + ((c.CartProductAmount * c.CartProductPrice) ?? 0.0);
 		}
@@ -438,7 +444,7 @@
 
 	private void OnSubmit(int ID)
 	{
-		if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict==null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
+		if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict == null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
 		{
 			ShowNotificationErrorAddressNull();
 			return;
@@ -509,7 +515,8 @@
 				//OrderStoreID
 				OrderStatus = "ยังไม่ชำระ",
 
-				OrderSumPrice = ListCartProducts.Sum(e => e.CartProductPrice * e.CartProductAmount) ?? 0.0,
+				//OrderSumPrice = ListCartProducts.Sum(e => e.CartProductPrice * e.CartProductAmount) ?? 0.0,
+				OrderSumPrice = ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage).Sum(e => e.CartProductPrice * e.CartProductAmount),
 				OrderStoreID = FindProductID.ProductStoreID,
 				OrderStoreName = FindStoreID.SellerName,
 
@@ -517,7 +524,7 @@
 		var AddOrder2 = new Order().ToTable(AddOrder);
 		orderService.AddNewOrder(AddOrder2); //บันทึกข้อมูล
 
-		foreach (var CartProduct in ListCartProducts)
+		foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
 		{
 			AddOrderItem = new OrderItem()
 				{
