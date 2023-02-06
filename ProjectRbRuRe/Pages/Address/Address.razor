@@ -168,46 +168,46 @@
 
 	private void OnClickEditUser()
 	{
-		//string InputName = UserLogin.Name;
-		//string InputTel = UserLogin.Tel;
-		//string InputPassword = UserLogin.Password;
+		string InputName = UserLogin.Name;
+		string InputTel = UserLogin.Tel;
+		string InputPassword = UserLogin.Password;
 
-		//string InputPostcode = UserLogin.Postcode;
-		//string InputAddress = UserLogin.Address;
+		string InputPostcode = UserLogin.Postcode;
+		string InputAddress = UserLogin.Address;
 
-		//if (UserLogin.Name == null ||
-		//	UserLogin.Tel == null ||
-		//	UserLogin.Password == null ||
+		if (UserLogin.Name == null ||
+			UserLogin.Tel == null ||
+			UserLogin.Password == null ||
 
-		//	UserLogin.Province == null ||
-		//	UserLogin.District == null ||
-		//	UserLogin.SubDistrict == null ||
-		//	UserLogin.Postcode == null ||
-		//	UserLogin.Address == null)
-		//{
-		//	 ShowNotificationEditFail();
-		//	return;
-		//}
-		//if (InputName.Length < 2 || 
-		//	InputPassword.Length < 6 || 
-		//	InputTel.Length != 10 ||
-		//	InputAddress.Length < 1 ||
-		//	InputPostcode.Length != 5)
-		//{
-		//	 ShowNotificationEditFail();
-		//	return;
-		//}
+			UserLogin.Province == null ||
+			UserLogin.District == null ||
+			UserLogin.SubDistrict == null ||
+			UserLogin.Postcode == null ||
+			UserLogin.Address == null)
+		{
+			 ShowNotificationEditFail();
+			return;
+		}
+		if (InputName.Length < 2 || 
+			InputPassword.Length < 6 || 
+			InputTel.Length != 10 ||
+			InputAddress.Length < 1 ||
+			InputPostcode.Length != 5)
+		{
+			 ShowNotificationEditFail();
+			return;
+		}
 
-		//if (UserLogin.Name != null ||
-		//	UserLogin.Tel != null ||
-		//	UserLogin.Password != null ||
+		if (UserLogin.Name != null ||
+			UserLogin.Tel != null ||
+			UserLogin.Password != null ||
 
-		//	UserLogin.Province != null ||
-		//	UserLogin.District != null ||
-		//	UserLogin.SubDistrict != null ||
-		//	UserLogin.Postcode != null ||
-		//	UserLogin.Address != null)
-		//{
+			UserLogin.Province != null ||
+			UserLogin.District != null ||
+			UserLogin.SubDistrict != null ||
+			UserLogin.Postcode != null ||
+			UserLogin.Address != null)
+		{
 			@foreach (var User in ListUser.FindAll(e => e.UserID == UserLogin.UserID))
 			{
 				User.Name = UserLogin.Name;
@@ -222,8 +222,7 @@
 				userService.EditUser(a); //บันทึกข้อมูล
 			}
 			ShowNotificationEditSuccess();
-		//}
-
+		}
 	}
 	private void ShowNotificationEditSuccess()
 	{

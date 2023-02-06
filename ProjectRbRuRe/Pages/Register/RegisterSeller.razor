@@ -132,57 +132,57 @@
 	private async Task OnClickAddStore()
 	{
 		var CountUser = ListUsers.Count();
-		//string InputUsername = ModelUser.Username;
-		//string InputPassword = ModelUser.Password;
-		//string InputTel = ModelUser.Tel;
-		//string InputAddress = ModelUser.Address;
+		string InputUsername = ModelUser.Username;
+		string InputPassword = ModelUser.Password;
+		string InputTel = ModelUser.Tel;
+		string InputAddress = ModelUser.Address;
 
 
 
-		//string InputPostCode = ModelUser.Postcode;
-		//string InputStoreName = ModelStore.SellerName;
+		string InputPostCode = ModelUser.Postcode;
+		string InputStoreName = ModelStore.SellerName;
 
-		//if (ModelUser.Username == null ||
-		//	ModelUser.Password == null ||
-		//	ModelUser.Tel == null ||
-		//	ModelUser.Address == null ||
+		if (ModelUser.Username == null ||
+			ModelUser.Password == null ||
+			ModelUser.Tel == null ||
+			ModelUser.Address == null ||
 
-		//	ModelProvince.pname == null ||
-		//	ModelAmphoe.aname == null ||
-		//	ModelTambol.tname == null ||
+			ModelProvince.pname == null ||
+			ModelAmphoe.aname == null ||
+			ModelTambol.tname == null ||
 
-		//	ModelUser.Postcode == null ||
+			ModelUser.Postcode == null ||
 
-		//	ModelStore.SellerName == null)
-		//{
-		//	ShowNotificationInputFail();
-		//	return;
-		//}
-		//if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
-		//	InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
-		//	InputTel.Length != 10 ||
-		//	InputAddress.Length < 1 ||
-		//	InputPostCode.Length < 5 ||
-		//	InputStoreName.Length < 2  /*InputStoreName.Length > 30*/
-		//)
-		//{
-		//	ShowNotificationInputFail();
-		//	return;
-		//}
-		//if (ModelUser.Username != null ||
-		//	ModelUser.Password != null ||
-		//	ModelUser.Tel != null ||
-		//	ModelUser.Address != null ||
+			ModelStore.SellerName == null)
+		{
+			ShowNotificationInputFail();
+			return;
+		}
+		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
+			InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
+			InputTel.Length != 10 ||
+			InputAddress.Length < 1 ||
+			InputPostCode.Length < 5 ||
+			InputStoreName.Length < 2  /*InputStoreName.Length > 30*/
+		)
+		{
+			ShowNotificationInputFail();
+			return;
+		}
+		if (ModelUser.Username != null ||
+			ModelUser.Password != null ||
+			ModelUser.Tel != null ||
+			ModelUser.Address != null ||
 
-		//	ModelProvince.pname != null ||
-		//	ModelAmphoe.aname != null ||
-		//	ModelTambol.tname	 != null ||
+			ModelProvince.pname != null ||
+			ModelAmphoe.aname != null ||
+			ModelTambol.tname	 != null ||
 
-		//	ModelUser.Postcode != null ||
+			ModelUser.Postcode != null ||
 
-		//	ModelStore.SellerName != null
-		//)
-		//{
+			ModelStore.SellerName != null
+		)
+		{
 
 			ModelUser.Permission = "s";
 			ModelUser.StoreName = ModelStore.SellerName;
@@ -207,7 +207,7 @@
 			storeService.AddNewStore(AddStore); //บันทึกข้อมูล
 			ModelStore.SellerName = "";
 			OnGoPageToLogin();
-		//}
+		}
 
 
 
