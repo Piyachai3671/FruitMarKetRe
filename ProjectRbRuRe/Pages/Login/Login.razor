@@ -12,18 +12,18 @@
 	<div class="row mt-3">
 		<div class="col-sm-6 mt-2">
 			<div class="logo text-center ">
-				<img src="http://unsplash.it/100/100" class="w-50 size rounded-circle">
+				<img src="img/LogoProject.png" class="w-100 size rounded-circle" style="position:relative; bottom:100px;">
 			</div>
 		</div>
 
 		<div class="col-sm-6 mt-3 ">
 			<div class="card">
 				<div class="card-body">
-					<h2 style="color:#003866">เข้าสู่ระบบ</h2>
+					<h2 style="color:#003866; text-align:center; ">เข้าสู่ระบบ</h2>
 					<EditForm Model="@Model" OnSubmit="OnLogin">
 						<div class="form-group">
 							<label for="username">รหัสผู้ใช้งาน</label>
-							<InputText @bind-Value="Model.Username" class="form-control form-control-lg" placeholder="username"  />
+							<InputText @bind-Value="Model.Username" class="form-control form-control-lg" placeholder="username" />
 						</div>
 
 						<div class="form-group mt-2">
@@ -31,15 +31,18 @@
 							<InputText @bind-Value="Model.Password" type="password" class="form-control form-control-lg" placeholder="password" />
 						</div>
 
-						<button class="btn btn-primary mt-3 bg-blue me-3" type="submit">เข้าสู่ระบบ</button>
+						<div class="row">
+
+							<div class="col">
+								<button class="btn btn-primary mt-3 bg-blue me-3" type="submit">เข้าสู่ระบบ</button>
+								<NavLink href="/register">
+									<button class="btn btn-secondary mt-3">
+										สมัครสมาชิก
+									</button>
+								</NavLink>
+							</div>
+						</div>
 					</EditForm>
-
-
-					<NavLink href="/register">
-						<button class="btn btn-secondary mt-3">
-							สมัครสมาชิก
-						</button>
-					</NavLink>
 				</div>
 			</div>
 		</div>
@@ -78,7 +81,7 @@
 				NavigationManager.NavigateTo("/homelogin");
 				CheckStatus();
 			}
-			if(UserLogin.Permission == "s")
+			if (UserLogin.Permission == "s")
 			{
 				NavigationManager.NavigateTo("/seller-home");
 				CheckStatus();
@@ -97,7 +100,7 @@
 		Islogin = Status;
 
 	}
-	
+
 	private void CheckStatus()
 	{
 		StatusLogin = true;

@@ -8,7 +8,7 @@
 @inject StoreService storeService
 @inject NotificationService notificationservice
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
-<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@ModalID" @onclick="OnAddProductError">+ เพิ่มสินค้า</button>
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAddProduct">+ เพิ่มสินค้า</button>
 <RadzenDataGrid FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true"
 				PageSize="10" Data="@ListProduct.Where(e=>e.ProductStoreID ==UserLogin.UserID)" TItem="Product" ColumnWidth="150px">
 	<Columns>
@@ -213,7 +213,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-					<button type="button" class="btn btn-success" @onclick="()=>OnClickEditProduct(ValueProduct)" data-bs-dismiss="modal">บันทึก</button>
+					<button type="button" class="btn btn-success" @onclick="()=>OnClickEditProduct(ValueProduct)" >บันทึก</button>
 				</div>
 			</div>
 		</div>
@@ -246,8 +246,10 @@
 	private Product? ValueProduct = new();
 	protected override async Task OnInitializedAsync()
 	{
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
 		var Products = await productService.GetProductsAsync();
-		foreach (var Product in Products)
+		foreach (var Product in Products.FindAll(e => e.ProductStoreID == UserLogin.UserID))
 		{
 			ListProduct.Add(new Product().ToUi(Product));
 		}
@@ -256,47 +258,45 @@
 		{
 			Liststores.Add(new Store().ToUi(Store));
 		}
-		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		
 		StateHasChanged();
 	}
+	string ModalClose;
 	private async Task OnClickAddProduct(Product ID)
 	{
-		string InputNameProduct = ModelProduct.NameProduct;
-		string InputDescriptionProduct = ModelProduct.ProductDescription;
+		//string InputNameProduct = ModelProduct.NameProduct;
+		//string InputDescriptionProduct = ModelProduct.ProductDescription;
 
-		if (ModelProduct.NameProduct == null ||
-			ModelProduct.ProductImg == null ||
-		ModelProduct.UnitProduct == null ||
-		ModelProduct.PriceProduct == null ||
-		ModelProduct.ProductDescription == null ||
-		ModelProduct.ProductStatus == null)
-		{
-			ShowNotificationInputFail();
-			return;
-		}
+		//if (ModelProduct.NameProduct == null ||
+		//	ModelProduct.ProductImg == null ||
+		//ModelProduct.UnitProduct == null ||
+		//ModelProduct.PriceProduct == null ||
+		//ModelProduct.ProductDescription == null ||
+		//ModelProduct.ProductStatus == null)
+		//{
+		//	ShowNotificationInputFail();
+		//	return;
+		//}
 
-		if (InputNameProduct.Length < 2 ||
-		InputDescriptionProduct.Length < 10||
-		ModelProduct.PriceProduct <1 ||
-		ModelProduct.RemainderProduct < 1
-		)
-		{
-			ShowNotificationInputFail();
-			return;
-		}
+		//if (InputNameProduct.Length < 2 ||
+		//InputDescriptionProduct.Length < 10||
+		//ModelProduct.PriceProduct <1 ||
+		//ModelProduct.RemainderProduct < 1
+		//)
+		//{
+		//	ShowNotificationInputFail();
+		//	return;
+		//}
+		//else
+		//{
+			
 
-		if (ModelProduct.NameProduct != null ||
-			ModelProduct.ProductImg != null ||
-		ModelProduct.UnitProduct != null ||
-		ModelProduct.PriceProduct != null ||
-		ModelProduct.ProductDescription != null ||
-		ModelProduct.ProductStatus != null)
-		{
 			ModelProduct.ProductStoreID = UserLogin.UserID;
 			ModelProduct.ProductStoreName = UserLogin.StoreName;
 			ModelProduct.ProductImg = ModelProduct.ProductImg;
 			var AddProduct = new Product().ToTable(ModelProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
 			productService.AddNewProduct(AddProduct); //บันทึกข้อมูล
+			//ModalClose = "modal";
 			ModelProduct.NameProduct = "";
 			ModelProduct.UnitProduct = "";
 			ModelProduct.PriceProduct = null;
@@ -305,15 +305,16 @@
 			ModelProduct.ProductStatus = "";
 			ModelProduct.ProductImg = null;
 
+			
 			ShowNotificationSuccess();
 			ListProduct.Add(ID);
 			var Products = await productService.GetProductsAsync();
 			ListProduct.Clear();
-			foreach (var Product in Products)
+		foreach (var Product in Products.FindAll(e => e.ProductStoreID == UserLogin.UserID))
 			{
 				ListProduct.Add(new Product().ToUi(Product));
 			}
-		}
+		//}
 	}
 
 	private async Task OnClickEditProduct(Product ID)
@@ -321,17 +322,14 @@
 		var EditProduct = new Product().ToTable(ValueProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
 		productService.EditProduct(EditProduct); //บันทึกข้อมูล
 		ShowNotificationSuccessEdit();
-		//OpenToReset2();
-		//OpenToReset();
 	}
 	private void OpenProductPage(int ProductID)
 	{
 		NavigationManager.NavigateTo($"/product/{ProductID}");
 	}
-	private void SentValue(Product ID)
+	private async Task SentValue(Product ID)
 	{
 		ValueProduct = ID;
-		//ShowDelete();
 	}
 
 	private void ShowNotificationSuccess()
@@ -386,15 +384,15 @@
 			};
 		notificationservice.Notify(a);
 	}
-	private void OpenToReset()
-	{
-		NavigationManager.NavigateTo($"/manage-product");
-	}
-	private void OpenToReset2()
-	{
-		NavigationManager.NavigateTo($"/seller-home");
-	}
-	private async Task OnDeleteProduct(Product ID)
+	//private void OpenToReset()
+	//{
+	//	NavigationManager.NavigateTo($"/manage-product");
+	//}
+	//private void OpenToReset2()
+	//{
+	//	NavigationManager.NavigateTo($"/seller-home");
+	//}
+	private void OnDeleteProduct(Product ID)
 	{
 		ListProduct.Remove(ID); //ลบกลุ่มUI
 		var DeleteProduct = new Product().ToTable(ID);//ลบกลุ่มในSQL
@@ -465,21 +463,21 @@
 		}
 		isLoading = false;
 	}
-	string ModalID ;
-	private void OnAddProductError()
-	{
-		var Store = Liststores.Find(e => e.UserID == UserLogin.UserID);
-		if (Store.BankName != null || Store.AccountName != null || Store.AccountNumber != null)
-		{
-			ModalID = "ModalAddProduct";
-		}
-		else 
-		{
-			ShowNotificationBankNull();
-			return ; 
-		}
+	//string ModalID ;
+	//private void OnAddProductError()
+	//{
+	//	var Store = Liststores.Find(e => e.UserID == UserLogin.UserID);
+	//	if (Store.BankName != null || Store.AccountName != null || Store.AccountNumber != null)
+	//	{
+	//		ModalID = "ModalAddProduct";
+	//	}
+	//	else 
+	//	{
+	//		ShowNotificationBankNull();
+	//		return ; 
+	//	}
 		
-	}
+	//}
 	private void ShowNotificationBankNull()
 	{
 		var a = new NotificationMessage
