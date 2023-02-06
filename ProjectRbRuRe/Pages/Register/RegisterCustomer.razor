@@ -62,6 +62,7 @@
 
 	private void OnClickAddUser()
 	{
+
 		string InputUsername = ModelUser.Username;
 		string InputPassword = ModelUser.Password;
 		string InputNameLastName = ModelUser.Name;
@@ -85,20 +86,34 @@
 			return;
 		}
 		if (ModelUser.Username != null ||
-		ModelUser.Password != null ||
-		ModelUser.Tel != null ||
-		ModelUser.Name != null)
+				ModelUser.Password != null ||
+				ModelUser.Tel != null ||
+				ModelUser.Name != null)
 		{
-			ModelUser.Permission = "c";
-			var AddUser = new User().ToTable(ModelUser);
-			userService.AddNewUser(AddUser); //บันทึกข้อมูล
+			var a = ListUsers.Find(e => e.Username == ModelUser.Username);
+			if (a == null)
+			{
+				ModelUser.Permission = "c";
+				var AddUser = new User().ToTable(ModelUser);
+				userService.AddNewUser(AddUser); //บันทึกข้อมูล
 
-			ModelUser.Username = "";
-			ModelUser.Password = "";
-			ModelUser.Name = "";
-			ModelUser.Tel = "";
-			OnGoPageToLogin();
+				ModelUser.Username = "";
+				ModelUser.Password = "";
+				ModelUser.Name = "";
+				ModelUser.Tel = "";
+				OnGoPageToLogin();
+
+			}
+			else
+				{
+					ShowNotificationInputUsernameFail();
+					return;
+				}
+				
+		
 		}
+
+
 	}
 	private void OnGoPageToLogin()
 	{
@@ -110,6 +125,19 @@
 			{
 				Severity = NotificationSeverity.Error,
 				Summary = "กรุณากรอกข้อมูลให้ถูกต้อง !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
+	private void ShowNotificationInputUsernameFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "มีรหัสผู้ใช้นี้ในระบบแล้ว !",
 				Detail = "",
 				Duration = 5000,
 				CloseOnClick = true,

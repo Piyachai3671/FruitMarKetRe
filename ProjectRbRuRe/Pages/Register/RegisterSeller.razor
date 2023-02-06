@@ -111,7 +111,7 @@
 		{
 			ListStores.Add(new Store().ToUi(Store));
 		}
-		
+
 		var Provinces = await provinceService.GetProvinceAsync();
 		foreach (var Province in Provinces)
 		{
@@ -183,30 +183,38 @@
 			ModelStore.SellerName != null
 		)
 		{
+			var a = ListUsers.Find(e => e.Username == ModelUser.Username);
+			if (a == null)
+			{
+				ModelUser.Permission = "s";
+				ModelUser.StoreName = ModelStore.SellerName;
+				ModelUser.Province = ModelProvince.pname;
+				ModelUser.District = ModelAmphoe.aname;
+				ModelUser.SubDistrict = ModelTambol.tname;
 
-			ModelUser.Permission = "s";
-			ModelUser.StoreName = ModelStore.SellerName;
-			ModelUser.Province = ModelProvince.pname;
-			ModelUser.District = ModelAmphoe.aname;
-			ModelUser.SubDistrict = ModelTambol.tname;
+				var AddUser = new User().ToTable(ModelUser);
+				userService.AddNewUser(AddUser); //บันทึกข้อมูล
 
-			var AddUser = new User().ToTable(ModelUser);
-			userService.AddNewUser(AddUser); //บันทึกข้อมูล
+				ModelUser.Username = "";
+				ModelUser.Password = "";
+				ModelUser.Tel = "";
+				ModelUser.Address = "";
+				ModelUser.Province = "";
+				ModelUser.District = "";
+				ModelUser.SubDistrict = "";
+				ModelUser.Postcode = "";
 
-			ModelUser.Username = "";
-			ModelUser.Password = "";
-			ModelUser.Tel = "";
-			ModelUser.Address = "";
-			ModelUser.Province = "";
-			ModelUser.District = "";
-			ModelUser.SubDistrict = "";
-			ModelUser.Postcode = "";
-
-			ModelStore.UserID = CountUser + 1;
-			var AddStore = new Store().ToTable(ModelStore);
-			storeService.AddNewStore(AddStore); //บันทึกข้อมูล
-			ModelStore.SellerName = "";
-			OnGoPageToLogin();
+				ModelStore.UserID = CountUser + 1;
+				var AddStore = new Store().ToTable(ModelStore);
+				storeService.AddNewStore(AddStore); //บันทึกข้อมูล
+				ModelStore.SellerName = "";
+				OnGoPageToLogin();
+			}
+			else
+			{
+				ShowNotificationInputUsernameFail();
+				return;
+			}
 		}
 
 
@@ -248,5 +256,17 @@
 			};
 		notificationservice.Notify(a);
 	}
-
+	private void ShowNotificationInputUsernameFail()
+	{
+		var a = new NotificationMessage
+			{
+				Severity = NotificationSeverity.Error,
+				Summary = "มีรหัสผู้ใช้นี้ในระบบแล้ว !",
+				Detail = "",
+				Duration = 5000,
+				CloseOnClick = true,
+				Payload = DateTime.Now
+			};
+		notificationservice.Notify(a);
+	}
 }
