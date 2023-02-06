@@ -326,72 +326,72 @@
 	private async Task OnClickEditStore()
 	{
 		var StoreInput = ListStores.Find(e => e.UserID == UserLogin.UserID);
-		string InputSellerName = StoreInput.SellerName;
-		string InputPassword = UserLogin.Password;
+		//string InputSellerName = StoreInput.SellerName;
+		//string InputPassword = UserLogin.Password;
 
-		string InputAddress = UserLogin.Address;
-		string InputPostcode = UserLogin.Postcode;
-		string InputTel = UserLogin.Tel;
+		//string InputAddress = UserLogin.Address;
+		//string InputPostcode = UserLogin.Postcode;
+		//string InputTel = UserLogin.Tel;
 
-		string InputDescription = StoreInput.SellerDescription;
+		//string InputDescription = StoreInput.SellerDescription;
 
-		string InputImgProfile = StoreInput.ImgProfile;
-		string InputImgCover = StoreInput.ImgCover;
+		//string InputImgProfile = StoreInput.ImgProfile;
+		//string InputImgCover = StoreInput.ImgCover;
 
-		string InputBankName = StoreInput.BankName;
-		string InputAccountName = StoreInput.AccountName;
-		string InputAccountNumber = StoreInput.AccountNumber;
-
-
-		if (InputSellerName == null ||
-			UserLogin.Password == null ||
-
-			UserLogin.Address == null ||
-			UserLogin.Province == null ||
-			UserLogin.District == null ||
-			UserLogin.SubDistrict == null ||
-			UserLogin.Postcode == null ||
-			UserLogin.Tel == null ||
-
-			InputBankName == null ||
-			InputAccountName == null ||
-			InputAccountNumber == null
-		)
-		{
-			ShowNotificationEditFail();
-			return;
-		}
-		if (InputSellerName.Length < 2 ||
-			InputPassword.Length < 6 ||
+		//string InputBankName = StoreInput.BankName;
+		//string InputAccountName = StoreInput.AccountName;
+		//string InputAccountNumber = StoreInput.AccountNumber;
 
 
-			InputAddress.Length < 1 ||
-			InputPostcode.Length != 5 ||
-			InputTel.Length != 10 ||
+		//if (InputSellerName == null ||
+		//	UserLogin.Password == null ||
 
-			InputAccountName.Length < 2 ||
-			InputAccountNumber.Length != 10
-		)
-		{
-			ShowNotificationEditFail();
-			return;
-		}
+		//	UserLogin.Address == null ||
+		//	UserLogin.Province == null ||
+		//	UserLogin.District == null ||
+		//	UserLogin.SubDistrict == null ||
+		//	UserLogin.Postcode == null ||
+		//	UserLogin.Tel == null ||
 
-		if (InputSellerName != null ||
-			UserLogin.Password != null ||
+		//	InputBankName == null ||
+		//	InputAccountName == null ||
+		//	InputAccountNumber == null
+		//)
+		//{
+		//	ShowNotificationEditFail();
+		//	return;
+		//}
+		//if (InputSellerName.Length < 2 ||
+		//	InputPassword.Length < 6 ||
 
-			UserLogin.Address != null ||
-			UserLogin.Province != null ||
-			UserLogin.District != null ||
-			UserLogin.SubDistrict != null ||
-			UserLogin.Postcode != null ||
-			UserLogin.Tel != null ||
 
-			InputBankName != null ||
-			InputAccountName != null ||
-			InputAccountNumber != null
-		)
-		{
+		//	InputAddress.Length < 1 ||
+		//	InputPostcode.Length != 5 ||
+		//	InputTel.Length != 10 ||
+
+		//	InputAccountName.Length < 2 ||
+		//	InputAccountNumber.Length != 10
+		//)
+		//{
+		//	ShowNotificationEditFail();
+		//	return;
+		//}
+
+		//if (InputSellerName != null ||
+		//	UserLogin.Password != null ||
+
+		//	UserLogin.Address != null ||
+		//	UserLogin.Province != null ||
+		//	UserLogin.District != null ||
+		//	UserLogin.SubDistrict != null ||
+		//	UserLogin.Postcode != null ||
+		//	UserLogin.Tel != null ||
+
+		//	InputBankName != null ||
+		//	InputAccountName != null ||
+		//	InputAccountNumber != null
+		//)
+		//{
 			foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 			{
 
@@ -414,7 +414,7 @@
 					ListStores.Add(new Store().ToUi(Store1));
 				}
 			}
-		}
+		//}
 		
 	}
 	private province IDPCode = new();

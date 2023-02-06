@@ -62,33 +62,33 @@
 
 	private void OnClickAddUser()
 	{
-		string InputUsername = ModelUser.Username;
-		string InputPassword = ModelUser.Password;
-		string InputNameLastName = ModelUser.Name;
-		string InputTel = ModelUser.Tel;
-		if (ModelUser.Username == null ||
-		ModelUser.Password == null ||
-		ModelUser.Tel == null ||
-		ModelUser.Name == null)
-		{
-			ShowNotificationInputFail();
-			return;
-		}
-		if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
-			InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
+		//string InputUsername = ModelUser.Username;
+		//string InputPassword = ModelUser.Password;
+		//string InputNameLastName = ModelUser.Name;
+		//string InputTel = ModelUser.Tel;
+		//if (ModelUser.Username == null ||
+		//ModelUser.Password == null ||
+		//ModelUser.Tel == null ||
+		//ModelUser.Name == null)
+		//{
+		//	ShowNotificationInputFail();
+		//	return;
+		//}
+		//if (InputUsername.Length < 6 || /*InputUsername.Length > 30 ||*/
+		//	InputPassword.Length < 6 || /*InputPassword.Length > 30 ||*/
 
-			InputTel.Length != 10 ||
-			InputNameLastName.Length < 2
-		)
-		{
-			ShowNotificationInputFail();
-			return;
-		}
-		if (ModelUser.Username != null ||
-		ModelUser.Password != null ||
-		ModelUser.Tel != null ||
-		ModelUser.Name != null)
-		{
+		//	InputTel.Length != 10 ||
+		//	InputNameLastName.Length < 2
+		//)
+		//{
+		//	ShowNotificationInputFail();
+		//	return;
+		//}
+		//if (ModelUser.Username != null ||
+		//ModelUser.Password != null ||
+		//ModelUser.Tel != null ||
+		//ModelUser.Name != null)
+		//{
 			ModelUser.Permission = "c";
 			var AddUser = new User().ToTable(ModelUser);
 			userService.AddNewUser(AddUser); //บันทึกข้อมูล
@@ -98,7 +98,7 @@
 			ModelUser.Name = "";
 			ModelUser.Tel = "";
 			OnGoPageToLogin();
-		}
+		//}
 	}
 	private void OnGoPageToLogin()
 	{

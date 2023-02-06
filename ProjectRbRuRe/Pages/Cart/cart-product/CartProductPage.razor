@@ -444,13 +444,13 @@
 
 	private void OnSubmit(int ID)
 	{
-		if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict == null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
-		{
-			ShowNotificationErrorAddressNull();
-			return;
-		}
-		else
-		{
+		//if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict == null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
+		//{
+		//	ShowNotificationErrorAddressNull();
+		//	return;
+		//}
+		//else
+		//{
 			CalculateRefresh();
 			@foreach (var IndexCartProduct in ListCartProducts)
 			{
@@ -489,7 +489,7 @@
 				ListCartStores.RemoveAll(e => e.CartStoreID == ID);
 			}
 
-		}
+		//}
 
 
 	}

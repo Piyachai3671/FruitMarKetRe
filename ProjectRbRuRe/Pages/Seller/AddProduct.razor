@@ -39,9 +39,9 @@
 
 		<RadzenDataGridColumn TItem="Product" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
 			<Template Context="data">
-				<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Warning" Variant="Variant.Flat" Size="ButtonSize.Medium" Click=@(args => SentValue(data)) data-bs-toggle="modal" data-bs-target="#ModalEditProduct">
+				<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Warning" Variant="Variant.Flat" Size="ButtonSize.Medium" Click=@(args => SentValueEdit(data))>
 				</RadzenButton>
-				<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" Class="my-1 ms-1" Click=@(args => SentValue(data)) data-bs-toggle="modal" data-bs-target="#ModalDeleteProduct">
+				<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" Class="my-1 ms-1" Click=@(args => SentValue(data))>
 				</RadzenButton>
 			</Template>
 		</RadzenDataGridColumn>
@@ -58,72 +58,71 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="form-group mt-2">
-						<label for="productname">ชื่อสินค้า</label>
-						<InputText @bind-Value="ModelProduct.NameProduct" type="text" class="form-control mt-2" />
-						<ValidationMessage For="@(()=>ModelProduct.NameProduct)" />
-					</div>
+					<div class="row">
+						<div class="form-group mt-2">
+							<label for="productname">ชื่อสินค้า</label>
+							<InputText @bind-Value="ModelProduct.NameProduct" type="text" class="form-control mt-2" />
+							<ValidationMessage For="@(()=>ModelProduct.NameProduct)" />
+						</div>
 
-					<div class="form-group mt-2">
-						<label>ภาพโปรไฟล์ร้านค้า</label>
-						<div class="row">
-							@if (isLoading == false)
-							{
-								<img class="mt-3" src="img\@ModelProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
-							}
-							@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
-							{
-								@foreach (var file in loadedFiles)
+						<div class="form-group mt-2">
+							<label>ภาพโปรไฟล์ร้านค้า</label>
+							<div class="row">
+								@if (isLoading == false)
 								{
 									<img class="mt-3" src="img\@ModelProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
 								}
+								@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+								{
+									@foreach (var file in loadedFiles)
+									{
+										<img class="mt-3" src="img\@ModelProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+									}
 
-							}
-							<div class="row">
-								<InputFile OnChange="LoadFiles" multiple></InputFile>
-								<ValidationMessage For="@(()=>ModelProduct.ProductImg)" />
+								}
+								<div class="row">
+									<InputFile OnChange="LoadFiles" multiple></InputFile>
+									<ValidationMessage For="@(()=>ModelProduct.ProductImg)" />
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="form-group mt-2">
-						<label>หน่วยนับ</label>
-						<InputSelect @bind-Value="ModelProduct.UnitProduct" class="form-control">
-							<option value="" selected disabled>-กรุณาเลือกหน่วยสินค้า-</option>
-							<option value="ลูก">ลูก</option>
-							<option value="กิโลกรัม">กิโลกรัม</option>
-						</InputSelect>
-						<ValidationMessage For="@(()=>ModelProduct.UnitProduct)" />
-					</div>
-					<div class="form-group mt-2">
-						<label>ราคา/หน่วย</label>
-						<InputNumber @bind-Value="ModelProduct.PriceProduct" type="text" class="form-control" />
-						<ValidationMessage For="@(()=>ModelProduct.PriceProduct)" />
-					</div>
-					<div class="form-group mt-2">
-						<label>จำนวนสินค้า</label>
-						<InputNumber @bind-Value="ModelProduct.RemainderProduct" type="number" pattern="[0-9]+" class="form-control mt-2" />
-						<ValidationMessage For="@(()=>ModelProduct.RemainderProduct)" />
-					</div>
+						<div class="form-group mt-2">
+							<label>หน่วยนับ</label>
+							<InputSelect @bind-Value="ModelProduct.UnitProduct" class="form-control">
+								<option value="" selected disabled>-กรุณาเลือกหน่วยสินค้า-</option>
+								<option value="ลูก">ลูก</option>
+								<option value="กิโลกรัม">กิโลกรัม</option>
+							</InputSelect>
+							<ValidationMessage For="@(()=>ModelProduct.UnitProduct)" />
+						</div>
+						<div class="form-group mt-2">
+							<label>ราคา/หน่วย</label>
+							<InputNumber @bind-Value="ModelProduct.PriceProduct" type="text" class="form-control" />
+							<ValidationMessage For="@(()=>ModelProduct.PriceProduct)" />
+						</div>
+						<div class="form-group mt-2">
+							<label>จำนวนสินค้า</label>
+							<InputNumber @bind-Value="ModelProduct.RemainderProduct" type="number" pattern="[0-9]+" class="form-control mt-2" />
+							<ValidationMessage For="@(()=>ModelProduct.RemainderProduct)" />
+						</div>
 
-					<div class="form-group mt-2">
-						<label>รายละเอียดสินค้า</label>
-						<InputTextArea @bind-Value="ModelProduct.ProductDescription" cols="30" rows="5" class="form-control mt-2" />
-						<ValidationMessage For="@(()=>ModelProduct.ProductDescription)" />
+						<div class="form-group mt-2">
+							<label>รายละเอียดสินค้า</label>
+							<InputTextArea @bind-Value="ModelProduct.ProductDescription" cols="30" rows="5" class="form-control mt-2" />
+							<ValidationMessage For="@(()=>ModelProduct.ProductDescription)" />
 
+						</div>
+						<div class="form-group mt-2">
+							<label>สถานะ</label>
+							<InputSelect @bind-Value="ModelProduct.ProductStatus" class="form-control">
+								<option value="" selected disabled>-กรุณาเลือกสถานะเพื่อแสดงสินค้า-</option>
+								<option value="เปิด">เปิด</option>
+								<option value="ปิด">ปิด</option>
+							</InputSelect>
+							<ValidationMessage For="@(()=>ModelProduct.ProductStatus)" />
+						</div>
 					</div>
-					<div class="form-group mt-2">
-						<label>สถานะ</label>
-						<InputSelect @bind-Value="ModelProduct.ProductStatus" class="form-control">
-							<option value="" selected disabled>-กรุณาเลือกสถานะเพื่อแสดงสินค้า-</option>
-							<option value="เปิด">เปิด</option>
-							<option value="ปิด">ปิด</option>
-						</InputSelect>
-						<ValidationMessage For="@(()=>ModelProduct.ProductStatus)" />
-					</div>
-
-
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
@@ -213,7 +212,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-					<button type="button" class="btn btn-success" @onclick="()=>OnClickEditProduct(ValueProduct)" >บันทึก</button>
+					<button type="button" class="btn btn-success" @onclick="()=>OnClickEditProduct(ValueProduct)">บันทึก</button>
 				</div>
 			</div>
 		</div>
@@ -237,6 +236,145 @@
 		</div>
 	</div>
 </EditForm>
+@if (IsDelete == true)
+{
+	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:2;">
+		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+		</div>
+		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+			<div class="card">
+				<div class="card-header">
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-grow-1 bd-highlight"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+						<div class="p-2 bd-highlight">
+							<button class="btn btn-close" @onclick="OnCloseDelete"></button>
+						</div>
+					</div>
+				</div>
+				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+					<div class="row">
+						<div class="col" style="text-align:center;">
+							คุณต้องการที่จะลบสินค้า @ValueProduct.NameProduct ใช่ หรือ ไม่ ?
+						</div>
+					</div>
+
+
+				</div>
+				<div class="card-footer" style="margin-top:70px;">
+					<div class="" style="text-align:end; ">
+						<button class="btn btn-primary" @onclick="()=>OnDeleteProduct(ValueProduct)">
+							ตกลง
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+@if (IsEdit == true)
+{
+	<EditForm Model="@ValueProduct">
+		<DataAnnotationsValidator />
+		<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:2;">
+			<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+			</div>
+			<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+				<div class="card">
+					<div class="card-header">
+						<div class="d-flex bd-highlight">
+							<div class="p-2 flex-grow-1 bd-highlight">เพิ่มสินค้า</div>
+							<div class="p-2 bd-highlight">
+								<button class="btn btn-close" @onclick="OnCloseEdit"></button>
+							</div>
+						</div>
+					</div>
+					<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+						<div class="row">
+							<div class="col">
+								<div class="form-group mt-2">
+									<label for="productname">ชื่อสินค้า</label>
+									<InputText @bind-Value="ValueProduct.NameProduct" type="text" class="form-control mt-2" />
+									<ValidationMessage For="@(()=>ValueProduct.NameProduct)" />
+								</div>
+
+								<div class="form-group mt-2">
+									<label>ภาพโปรไฟล์ร้านค้า</label>
+									<div class="row">
+										@if (isLoading == false)
+										{
+											<img class="mt-3" src="img\@ValueProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+										}
+										@if (isLoading == true) //ถ้ามีการเพิ่มรูป จะทำการแสดงข้อความ
+										{
+											@foreach (var file in loadedFiles)
+											{
+												<img class="mt-3" src="img\@ValueProduct.ProductImg" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;">
+											}
+
+										}
+										<div class="row">
+											<InputFile OnChange="LoadFilesEdit" multiple></InputFile>
+											<ValidationMessage For="@(()=>ValueProduct.ProductImg)" />
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group mt-2">
+									<label>หน่วยนับ</label>
+									<InputSelect @bind-Value="ValueProduct.UnitProduct" class="form-control">
+										<option value="" selected disabled>-กรุณาเลือกหน่วยสินค้า-</option>
+										<option value="ลูก">ลูก</option>
+										<option value="กิโลกรัม">กิโลกรัม</option>
+									</InputSelect>
+									<ValidationMessage For="@(()=>ValueProduct.UnitProduct)" />
+								</div>
+								<div class="form-group mt-2">
+									<label>ราคา/หน่วย</label>
+									<InputNumber @bind-Value="ValueProduct.PriceProduct" type="text" class="form-control" />
+									<ValidationMessage For="@(()=>ValueProduct.UnitProduct)" />
+								</div>
+								<div class="form-group mt-2">
+									<label>จำนวนสินค้า</label>
+									<InputNumber @bind-Value="ValueProduct.RemainderProduct" type="number" pattern="[0-9]+" class="form-control mt-2" />
+									<ValidationMessage For="@(()=>ValueProduct.RemainderProduct)" />
+								</div>
+
+								<div class="form-group mt-2">
+									<label>รายละเอียดสินค้า</label>
+									<InputTextArea @bind-Value="ValueProduct.ProductDescription" cols="30" rows="5" class="form-control mt-2" />
+									<ValidationMessage For="@(()=>ValueProduct.ProductDescription)" />
+								</div>
+								<div class="form-group mt-2">
+									<label>สถานะ</label>
+									<InputSelect @bind-Value="ValueProduct.ProductStatus" class="form-control">
+										<option value="" selected disabled>-กรุณาเลือกสถานะเพื่อแสดงสินค้า-</option>
+										<option value="เปิด">เปิด</option>
+										<option value="ปิด">ปิด</option>
+									</InputSelect>
+									<ValidationMessage For="@(()=>ValueProduct.ProductStatus)" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer" style="margin-top:50px;">
+						<div class="row">
+							<div class="col">
+								<button class="btn btn-secondary" @onclick="OnCloseEdit">
+									ยกเลิก
+								</button>
+								<button class="btn btn-primary" @onclick="()=>OnClickEditProduct(ValueProduct)">
+									ตกลง
+								</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</EditForm>
+}
 @code {
 	private List<Product> ListProduct = new List<Product>();
 	private List<Store> Liststores = new List<Store>();
@@ -254,14 +392,14 @@
 			ListProduct.Add(new Product().ToUi(Product));
 		}
 		var Stores = await storeService.GetStoresAsync();
-		foreach (var Store in Stores)
+		foreach (var Store in Stores.FindAll(e => e.UserID == UserLogin.UserID))
 		{
 			Liststores.Add(new Store().ToUi(Store));
 		}
-		
+
 		StateHasChanged();
 	}
-	string ModalClose;
+	//string ModalClose;
 	private async Task OnClickAddProduct(Product ID)
 	{
 		//string InputNameProduct = ModelProduct.NameProduct;
@@ -289,31 +427,31 @@
 		//}
 		//else
 		//{
-			
 
-			ModelProduct.ProductStoreID = UserLogin.UserID;
-			ModelProduct.ProductStoreName = UserLogin.StoreName;
-			ModelProduct.ProductImg = ModelProduct.ProductImg;
-			var AddProduct = new Product().ToTable(ModelProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-			productService.AddNewProduct(AddProduct); //บันทึกข้อมูล
-			//ModalClose = "modal";
-			ModelProduct.NameProduct = "";
-			ModelProduct.UnitProduct = "";
-			ModelProduct.PriceProduct = null;
-			ModelProduct.RemainderProduct = null;
-			ModelProduct.ProductDescription = "";
-			ModelProduct.ProductStatus = "";
-			ModelProduct.ProductImg = null;
 
-			
-			ShowNotificationSuccess();
-			ListProduct.Add(ID);
-			var Products = await productService.GetProductsAsync();
-			ListProduct.Clear();
-		foreach (var Product in Products.FindAll(e => e.ProductStoreID == UserLogin.UserID))
-			{
-				ListProduct.Add(new Product().ToUi(Product));
-			}
+		ModelProduct.ProductStoreID = UserLogin.UserID;
+		ModelProduct.ProductStoreName = UserLogin.StoreName;
+		ModelProduct.ProductImg = ModelProduct.ProductImg;
+		var AddProduct = new Product().ToTable(ModelProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+		productService.AddNewProduct(AddProduct); //บันทึกข้อมูล
+														//ModalClose = "modal";
+		ModelProduct.NameProduct = "";
+		ModelProduct.UnitProduct = "";
+		ModelProduct.PriceProduct = null;
+		ModelProduct.RemainderProduct = null;
+		ModelProduct.ProductDescription = "";
+		ModelProduct.ProductStatus = "";
+		ModelProduct.ProductImg = null;
+
+
+		ShowNotificationSuccess();
+		ListProduct.Add(ID);
+		var Products = await productService.GetProductsAsync();
+		ListProduct.Clear();
+		foreach (var Product in Products)
+		{
+			ListProduct.Add(new Product().ToUi(Product));
+		}
 		//}
 	}
 
@@ -330,6 +468,12 @@
 	private async Task SentValue(Product ID)
 	{
 		ValueProduct = ID;
+		ShowDelete();
+	}
+	private async Task SentValueEdit(Product ID)
+	{
+		ValueProduct = ID;
+		ShowEdit();
 	}
 
 	private void ShowNotificationSuccess()
@@ -398,6 +542,7 @@
 		var DeleteProduct = new Product().ToTable(ID);//ลบกลุ่มในSQL
 		productService.DeleteProduct(DeleteProduct);
 		ShowNotificationDelete();
+		OnCloseDelete();
 	}
 
 	private List<IBrowserFile> loadedFiles = new();
@@ -421,7 +566,7 @@
 				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
 				ModelProduct.ProductImg = trustedFileNameForFileStorage;
 				var path = Path.Combine(
-							"wwwroot", "img", trustedFileNameForFileStorage);
+				"wwwroot", "img", trustedFileNameForFileStorage);
 				CurrentPathImg = path;
 				await using FileStream fs = new(path, FileMode.Create);
 				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
@@ -449,7 +594,7 @@
 				var trustedFileNameForFileStorage = Path.GetRandomFileName() + file.Name;
 				ValueProduct.ProductImg = trustedFileNameForFileStorage;
 				var path = Path.Combine(
-							"wwwroot", "img", trustedFileNameForFileStorage);
+				"wwwroot", "img", trustedFileNameForFileStorage);
 				CurrentPathImg = path;
 				await using FileStream fs = new(path, FileMode.Create);
 				await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
@@ -471,12 +616,12 @@
 	//	{
 	//		ModalID = "ModalAddProduct";
 	//	}
-	//	else 
+	//	else
 	//	{
 	//		ShowNotificationBankNull();
-	//		return ; 
+	//		return ;
 	//	}
-		
+
 	//}
 	private void ShowNotificationBankNull()
 	{
@@ -490,5 +635,26 @@
 				Payload = DateTime.Now
 			};
 		notificationservice.Notify(a);
+	}
+	private bool IsDelete = false;
+	private void ShowDelete()
+	{
+		IsDelete = !IsDelete;
+
+	}
+	public void OnCloseDelete()
+	{
+		IsDelete = !IsDelete;
+	}
+
+	private bool IsEdit = false;
+	private void ShowEdit()
+	{
+		IsEdit = !IsEdit;
+
+	}
+	public void OnCloseEdit()
+	{
+		IsEdit = !IsEdit;
 	}
 }
