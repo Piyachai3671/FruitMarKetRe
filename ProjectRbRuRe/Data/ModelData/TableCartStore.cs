@@ -7,8 +7,9 @@ namespace ProjectRbRuRe.Data.ModelData
 	public class TableCartStore
 	{
 		[Key]
-		public int CartStoreID { get; set; }
-		public string? NameStore { get; set; }  //ชื่อ
+        public int CartStoreID { get; set; }
+        public int IDLink { get; set; }
+        public string? NameStore { get; set; }  //ชื่อ
 		public int? CartStoreUserID { get; set; }  //ชื่อ
 
 	}

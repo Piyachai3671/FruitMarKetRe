@@ -4,16 +4,18 @@ namespace ProjectRbRuRe.Data.Models
 {
 	public class CartStore
 	{
-		public int CartStoreID { get; set; }
-		public string? NameStore { get; set; }  //ชื่อ
+        public int CartStoreID { get; set; }
+        public int IDLink { get; set; }
+
 
 		public int? CartStoreUserID { get; set; }  //ชื่อ
 		public CartStore ToUi(TableCartStore tableCartStore) //UI ไปเทเบิล
 		{
 			return new CartStore
 			{
-				NameStore= tableCartStore.NameStore,
-					CartStoreUserID= tableCartStore.CartStoreUserID,
+                IDLink = tableCartStore.IDLink,
+
+				CartStoreUserID= tableCartStore.CartStoreUserID,
 			};
 
 		}
@@ -22,7 +24,8 @@ namespace ProjectRbRuRe.Data.Models
 		{
 			return new TableCartStore
 			{
-				NameStore = NewCartStore.NameStore,
+                IDLink = NewCartStore.IDLink,
+               
 				CartStoreUserID = NewCartStore.CartStoreUserID,
 			};
 		}

@@ -28,5 +28,13 @@ namespace ProjectRbRuRe.Data.Services
 			_Context.SaveChanges();//บันทึกลง SQL
 
 		}
+
+		public void DeleteCartStore(TableCartStore DeleteCartStore)
+		{
+			var FindID = _Context.TableCartStore.First(e => e.IDLink == DeleteCartStore.IDLink);
+
+			_Context.TableCartStore.Remove(FindID);
+			_Context.SaveChanges();
+		}
 	}
 }

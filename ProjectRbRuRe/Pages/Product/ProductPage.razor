@@ -146,6 +146,7 @@ else
 	private User? UserLogin = new();
 	private CartStore AddCartStore = new();
 	private CartProduct AddCartProduct = new();
+
 	protected override async Task OnInitializedAsync()
 	{
 		//StatusLogin = loginService.UserStatusLogin;
@@ -156,44 +157,62 @@ else
 			ListProduct.Add(new Product().ToUi(Product));
 		}
 		ListCartStroe = await cartStoreService.GetCartStoreNoDataBaseAsync();
-		//var CartStores = await cartStoreService.GetCartStoreAsync();
-		//foreach (var CartStore in CartStores)
-		//{
-		//	ListCartStroe.Add(new CartStore().ToUi(CartStore));
-		//}
+		var CartStores = await cartStoreService.GetCartStoreAsync();
+		foreach (var CartStore in CartStores)
+		{
+			ListCartStroe.Add(new CartStore().ToUi(CartStore));
+		}
 
-		ListCartProduct = await cartProductService.GetCartProductNoDataBaseAsync();
-		//var CartProducts = await cartProductService.GetCartProductAsync();
-		//foreach (var CartProduct in CartProducts)
-		//{
-		//	ListCartProduct.Add(new CartProduct().ToUi(CartProduct));
-		//}
+		//ListCartProduct = await cartProductService.GetCartProductNoDataBaseAsync();
+		var CartProducts = await cartProductService.GetCartProductAsync();
+		foreach (var CartProduct in CartProducts)
+		{
+			ListCartProduct.Add(new CartProduct().ToUi(CartProduct));
+		}
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
 
 
 	}
 
 
-	private void OnAddCart(Product eleproduct)
+	private async void OnAddCart(Product eleproduct)
 	{
+		var CartProducts = await cartProductService.GetCartProductAsync();
+		ListCartProduct.Clear();
+		foreach (var CartProduct in CartProducts)
+		{
+			ListCartProduct.Add(new CartProduct().ToUi(CartProduct));
+		}
+
+		ListCartStroe = await cartStoreService.GetCartStoreNoDataBaseAsync();
+		var CartStores = await cartStoreService.GetCartStoreAsync();
+		ListCartStroe.Clear();
+		foreach (var CartStore in CartStores)
+		{
+			ListCartStroe.Add(new CartStore().ToUi(CartStore));
+		}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
 		int IDCount = ListCartProduct.Count();
-		var a = ListCartProduct.Find(e => e.CartProductName == eleproduct.NameProduct); //ชื่อสินค้าในตระกร้า กับ ชื่อสินค้าในคลังถ้ามีอยู่ในตระกร้าซ้ำจะเพิ่มแค่จำนวนไม่เพิ่มสินค้า
+		var a = ListCartProduct.Find(e => e.CartProductProductID == eleproduct.IDProduct); //ชื่อสินค้าในตระกร้า กับ ชื่อสินค้าในคลังถ้ามีอยู่ในตระกร้าซ้ำจะเพิ่มแค่จำนวนไม่เพิ่มสินค้า
 		var b = ListProduct.Find(e => e.IDProduct == eleproduct.IDProduct);
 		ShowNotification();
-		@if (a != null)
+
+		if (a != null)
 		{
 			a.CartProductAmount++;
-			@if (a.CartProductAmount > b.RemainderProduct)
+			if (a.CartProductAmount > b.RemainderProduct)
 			{
 				a.CartProductAmount = b.RemainderProduct;
 			}
+			var AddCartProduct2 = new CartProduct().ToTable(a); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			cartProductService.EditCartProduct(AddCartProduct2); //บันทึกข้อมูล
 		}
 		else
 		{
 			int Count = IDCount++;
-			ListCartProduct.Add(new CartProduct()
+			AddCartProduct = new CartProduct()
 				{
-					CartProductID = Count,
+					//CartProductID = Count,
 					CartProductProductID = eleproduct.IDProduct,
 					CartProductName = eleproduct.NameProduct,
 					CartProductAmount = 1,
@@ -203,27 +222,30 @@ else
 					//CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
 					CartProductStoreID = eleproduct.ProductStoreID,
 
-				});
-			//@foreach (var product in ListProduct)
-			//{
-			//	@if (product.IDProduct == eleproduct.IDProduct)
-
-			//		product.ProductCartID = Count;
-			//}
+				};
+			var AddCartProduct2 = new CartProduct().ToTable(AddCartProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			cartProductService.AddNewCartProduct(AddCartProduct2); //บันทึกข้อมูล
+			
 
 		}
 
-		var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
+		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
+		var CartStroe = ListCartStroe.Find(e => e.IDLink == eleproduct.ProductStoreID);
 		@if (CartStroe != null)
 		{
 		}
 		else
 		{
-			ListCartStroe.Add(new CartStore()
+			//ListCartStroe.Add(new CartStore()
+			AddCartStore = new CartStore()
 				{
-					CartStoreID = eleproduct.ProductStoreID,
-				});
-		}
+					CartStoreUserID = UserLogin.UserID,
+					IDLink = eleproduct.ProductStoreID,
+					NameStore = eleproduct.ProductStoreName,	//ชื่อมาไม่ถูกเป็นชื่่อเก่า			
+				};
+			var AddCartStore2 = new CartStore().ToTable(AddCartStore); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+			cartStoreService.AddNewCartStore(AddCartStore2); //บันทึกข้อมูล
+	}
 	}
 	private void ShowNotification()
 	{

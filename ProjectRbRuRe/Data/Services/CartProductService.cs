@@ -31,6 +31,23 @@ namespace ProjectRbRuRe.Data.Services
 			_Context.SaveChanges();//บันทึกลง SQL
 
 		}
-		
+		public void DeleteCartProduct(TableCartProduct DeleteCartProduct)
+		{
+			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == DeleteCartProduct.CartProductProductID);
+
+			_Context.TableCartProduct.Remove(FindID);
+			_Context.SaveChanges();
+		}
+		public void EditCartProduct(TableCartProduct EditCartProduct)
+		{
+			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == EditCartProduct.CartProductProductID);
+			FindID.CartProductName = EditCartProduct.CartProductName;
+			FindID.CartProductPrice = EditCartProduct.CartProductPrice;
+			FindID.CartProductUnit = EditCartProduct.CartProductUnit;
+			FindID.CartProductAmount = EditCartProduct.CartProductAmount;
+
+			_Context.TableCartProduct.Update(FindID);
+			_Context.SaveChanges();//บันทึกลง SQL
+		}
 	}
 }

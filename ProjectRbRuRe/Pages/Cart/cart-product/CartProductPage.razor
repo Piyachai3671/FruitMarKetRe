@@ -17,11 +17,11 @@
 
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 <ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
-@foreach (var CartStore in ListCartStores.FindAll(e => e.CartStoreID == GetCurrentCartIDPage))
+@foreach (var CartStore in ListCartStores.FindAll(e => e.IDLink == GetCurrentCartIDPage))
 {
 	<div class="card">
 		<div class="card-header textarea">
-			ชื่อร้านค้า : @CartStore.NameStore
+			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
 			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
 			{
 				@*<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province*@
@@ -36,7 +36,7 @@
 			<!--สินค้าในตะกร้า-->
 			<div class="row">
 				<div class="col-sm-3" style="margin-left: 80px;">
-					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
 					{
 						<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
 					}
@@ -52,7 +52,7 @@
 							}
 							<div class="mt-3">
 								ราคาทั้งหมด : @(
-							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID).Sum(e => e.CartProductPrice * e.CartProductAmount)
+							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
 							) บาท
 							</div>
 						</h4>
@@ -312,19 +312,19 @@
 	protected override async Task OnInitializedAsync()
 	{
 
-		ListCartStores = await cartStroeService.GetCartStoreNoDataBaseAsync();
-		//var CartStores = await cartStroeService.GetCartStoreAsync();
-		//foreach (var CartStore in CartStores)
-		//{
-		//	ListCartStores.Add(new CartStore().ToUi(CartStore));
-		//}
+		//ListCartStores = await cartStroeService.GetCartStoreNoDataBaseAsync();
+		var CartStores = await cartStroeService.GetCartStoreAsync();
+		foreach (var CartStore in CartStores)
+		{
+			ListCartStores.Add(new CartStore().ToUi(CartStore));
+		}
 
-		ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
-		//var CartProducts = await cartProductService.GetCartProductAsync();
-		//foreach (var CartProduct in CartProducts)
-		//{
-		//	ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
-		//}
+		//ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
+		var CartProducts = await cartProductService.GetCartProductAsync();
+		foreach (var CartProduct in CartProducts)
+		{
+			ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
+		}
 		//ListProduct = await productService.GetProductsAsync();
 		var Products = await productService.GetProductsAsync();
 		foreach (var Product in Products)
@@ -353,10 +353,7 @@
 			ListStores.Add(new Store().ToUi(Store));
 		}
 
-
-
 		CalculateRefresh();
-
 
 		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
 
@@ -375,12 +372,14 @@
 			a.CartProductAmount = b.RemainderProduct;
 
 		}
+
 		a.CartProductSumPrice = a.CartProductPrice * a.CartProductAmount; //ทุกครั้งที่มีการกดเพิ่มสินค้าจะมีการเก็บค่าใน LCP.Sumprice
 		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
 		{
 			SumTotal = SumTotal + (c.CartProductAmount * c.CartProductPrice) ?? 0.0;
 		}
-
+		var AddCartProduct2 = new CartProduct().ToTable(a); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+		cartProductService.EditCartProduct(AddCartProduct2); //บันทึกข้อมูล
 	}
 	private void OnReduceItem(int ID)
 	{
@@ -396,6 +395,8 @@
 		{
 			SumTotal = SumTotal + ((c.CartProductAmount * c.CartProductPrice) ?? 0.0);
 		}
+		var AddCartProduct2 = new CartProduct().ToTable(a); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+		cartProductService.EditCartProduct(AddCartProduct2); //บันทึกข้อมูล
 	}
 	private void SentValue(CartProduct ID)
 	{
@@ -433,6 +434,8 @@
 	private async Task OnDeleteCartProduct2(CartProduct c)
 	{
 		ListCartProducts.Remove(c);
+		var DeleteCartProduct = new CartProduct().ToTable(c);//ลบกลุ่มในSQL
+		cartProductService.DeleteCartProduct(DeleteCartProduct);
 		CalculateRefresh();
 		OnCloseDelete();
 	}
@@ -479,15 +482,14 @@
 						return;
 					}
 				}
-			}
-			CheckConfirm = true;
-			if (CheckConfirm == true)
-			{
-				CUToData();
+		}
+		CheckConfirm = true;
+		if (CheckConfirm == true)
+		{
+			CUToData();
 
-				ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID);
-				ListCartStores.RemoveAll(e => e.CartStoreID == ID);
-			}
+
+		}
 
 		//}
 
@@ -500,6 +502,9 @@
 		var FindUerID = ListUser.Find(e => e.UserID == UserToLogin.UserID);
 		var FindProductID = ListProduct.Find(e => e.ProductStoreID == GetCurrentCartIDPage);
 		var FindStoreID = ListStores.Find(e => e.UserID == GetCurrentCartIDPage);
+
+		var FindCartStoreID = ListCartStores.Find(e => e.IDLink == GetCurrentCartIDPage);
+		var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == GetCurrentCartIDPage);
 
 		AddOrder = new Order()
 			{
@@ -573,6 +578,21 @@
 
 		ShowNotification();
 		OnGoPageToOrder();
+
+
+		ListCartStores.RemoveAll(e => e.IDLink == GetCurrentCartIDPage);
+		
+
+		var DeleteCartStore = new CartStore().ToTable(FindCartStoreID);//ลบกลุ่มในSQL
+		cartStroeService.DeleteCartStore(DeleteCartStore);
+
+		foreach (var a in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		{
+			//ListCartProducts.RemoveAll(e => e.CartProductStoreID == GetCurrentCartIDPage);
+			var DeleteCartProduct = new CartProduct().ToTable(a);//ลบกลุ่มในSQL
+			cartProductService.DeleteCartProduct(DeleteCartProduct);
+		}
+		
 
 	}
 	private void ShowNotification()

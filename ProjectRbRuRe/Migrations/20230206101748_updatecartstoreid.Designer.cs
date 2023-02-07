@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectRbRuRe.Data;
 
@@ -11,9 +12,11 @@ using ProjectRbRuRe.Data;
 namespace ProjectRbRuRe.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230206101748_updatecartstoreid")]
+    partial class updatecartstoreid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,22 +86,22 @@ namespace ProjectRbRuRe.Migrations
 
             modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableCartStore", b =>
                 {
-                    b.Property<int>("CartStoreID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartStoreID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("CartStoreUserID")
+                    b.Property<int>("CartStoreID")
                         .HasColumnType("int");
 
-                    b.Property<int>("IDLink")
+                    b.Property<int?>("CartStoreUserID")
                         .HasColumnType("int");
 
                     b.Property<string>("NameStore")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CartStoreID");
+                    b.HasKey("ID");
 
                     b.ToTable("CartStore");
                 });

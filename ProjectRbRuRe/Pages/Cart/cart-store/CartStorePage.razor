@@ -4,15 +4,16 @@
 @inject CartProductService cartProductService
 @inject UserService userService
 @inject StoreService storeService
+@inject LoginService loginService
 @page "/selstroe"
 @inject NavigationManager NavigationManager
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
-@foreach (var CartStore in ListCartStores)
+@foreach (var CartStore in ListCartStores.FindAll(e=>e.CartStoreUserID == UserLogin.UserID))
 {
 	<div class="card">
 		<div class="card-header textarea">
 			@*ชื่อร้านค้า : @CartStore.NameStore*@
-			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.CartStoreID).SellerName
+			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
 			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
 			{
 				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
@@ -26,7 +27,7 @@
 			<!--สินค้าในตะกร้า-->
 			<div class="row">
 				<div class="col-sm-3" style="margin-left: 80px;">
-					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
 					{
 					<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
 					}
@@ -36,7 +37,7 @@
 					<div class="mt-3" style="">
 						<h4>
 							มีสินค้า :
-							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID))
+							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink))
 							{
 
 								<span>&nbsp;</span>
@@ -45,8 +46,8 @@
 							}
 							<div class="mt-3">
 								ราคาทั้งหมด : @(
-								ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.CartStoreID).Sum(e => e.CartProductPrice * e.CartProductAmount) 
-								) บาท
+							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
+							) บาท
 							</div>
 							
 						</h4>
@@ -80,7 +81,7 @@
 				</div>
 
 				<div class="" style="text-align: end;">
-					<button type="button" class="btn btn-primary" @onclick="()=>OpenCartPage(CartStore.CartStoreID)">สั่งซื้อสินค้า</button>
+					<button type="button" class="btn btn-primary" @onclick="()=>OpenCartPage(CartStore.IDLink)">สั่งซื้อสินค้า</button>
 				</div>
 
 
@@ -103,21 +104,23 @@
 	private CartStore ValueCartStore = new();
 	private List<CartProduct> ListCartProducts = new List<CartProduct>();
 	private List<User> ListUsers = new List<User>();
+	private User? UserLogin = new();
 	protected override async Task OnInitializedAsync()
 	{
-		ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
-		//var CartStores = await cartStoreService.GetCartStoreAsync();
-		//foreach (var CartStore in CartStores)
-		//{
-		//	ListCartStores.Add(new CartStore().ToUi(CartStore));
-		//}
+		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+																		//ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
+		var CartStores = await cartStoreService.GetCartStoreAsync();
+		foreach (var CartStore in CartStores)
+		{
+			ListCartStores.Add(new CartStore().ToUi(CartStore));
+		}
 
-		ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
-		//var CartProducts = await cartProductService.GetCartProductAsync();
-		//foreach (var CartProduct in CartProducts)
-		//{
-		//	ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
-		//}
+		//ListCartProducts = await cartProductService.GetCartProductNoDataBaseAsync();
+		var CartProducts = await cartProductService.GetCartProductAsync();
+		foreach (var CartProduct in CartProducts)
+		{
+			ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
+		}
 
 
 		var Stores = await storeService.GetStoresAsync();
@@ -125,20 +128,42 @@
 		{
 			ListStores.Add(new Store().ToUi(Store));
 		}
-		
+
 		var Users = await userService.GetUserAsync();
 		foreach (var user in Users)
 		{
 			ListUsers.Add(new User().ToUi(user));
 		}
-		
+
 	}
 
 	private void OnDelItem(CartStore ID)
 	{
+		//var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == ID.IDLink);
+
 		ListCartStores.Remove(ID); //ลบสิ่งที่แสดง
+		var DeleteCartStore = new CartStore().ToTable(ID);//ลบกลุ่มในSQL
+		cartStoreService.DeleteCartStore(DeleteCartStore);
+
+		foreach (var cartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == ID.IDLink))
+		{
+			ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID.CartStoreUserID);
+			var DeleteCartProduct = new CartProduct().ToTable(cartProduct);//ลบกลุ่มในSQL
+			cartProductService.DeleteCartProduct(DeleteCartProduct);
+		}
+		
 
 	}
+	//private void OnDelItemCartProduct(CartProduct ID)
+	//{
+	//	ListCartProducts.Remove(ID); //ลบสิ่งที่แสดง
+	//	var DeleteCartProduct = new CartStore().ToTable(ID);//ลบกลุ่มในSQL
+	//	cartProductService.DeleteCartProduct(DeleteCartProduct);
+
+	//	//var DeleteCartProduct = new CartProduct().ToTable(ID);//ลบกลุ่มในSQL
+	//	//cartProductService.DeleteCartProduct(DeleteCartProduct);
+
+	//}
 	private void OpenCartPage(int IDStore)
 	{
 		NavigationManager.NavigateTo($"/selproduct/{IDStore}");

@@ -55,5 +55,7 @@ namespace ProjectRbRuRe.Data.Services
 			_Context.TableProduct.Remove(FindID);
 			_Context.SaveChanges();
 		}
+
+
 	}
 }
