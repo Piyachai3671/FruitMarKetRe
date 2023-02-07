@@ -1,3 +1,33 @@
+/* _content/ProjectRbRuRe/Pages/Guest/NavBarGuset.razor.rz.scp.css */
+.btn-login[b-lvoy8kc7a3] {
+    color: #003866;
+}
+    .btn-login:hover[b-lvoy8kc7a3] {
+        
+        padding:10px;
+        border-radius :10px;
+        background-color: #c9c9c9;
+    }
+/* _content/ProjectRbRuRe/Pages/NewFolder/NavMenuToLogin.razor.rz.scp.css */
+.btn-login[b-hevpmdgmi9] {
+    color: #003866;
+}
+
+    .btn-login:hover[b-hevpmdgmi9] {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #c9c9c9;
+    }
+
+.btn-cart[b-hevpmdgmi9] {
+    color: #003866;
+}
+
+    .btn-cart:hover[b-hevpmdgmi9] {
+       
+        border-radius: 10px;
+        background-color: #c9c9c9;
+    }
 /* _content/ProjectRbRuRe/Shared/MainLayout.razor.rz.scp.css */
 .page[b-r9ap3nd0lx] {
     position: relative;

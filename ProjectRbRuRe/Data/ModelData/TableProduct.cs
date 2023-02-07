@@ -20,7 +20,6 @@ namespace ProjectRbRuRe.Data.ModelData
 
 		public int ProductStoreID { get; set; }
 		public string? ProductStoreName { get; set; }
-		public int ProductCartID { get; set; }
         public string? ProductImg { get; set; }
     }
 }

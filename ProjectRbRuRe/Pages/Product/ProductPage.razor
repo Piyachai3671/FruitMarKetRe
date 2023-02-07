@@ -241,7 +241,7 @@ else
 				{
 					CartStoreUserID = UserLogin.UserID,
 					IDLink = eleproduct.ProductStoreID,
-					NameStore = eleproduct.ProductStoreName,	//ชื่อมาไม่ถูกเป็นชื่่อเก่า			
+					//NameStore = eleproduct.ProductStoreName,	//ชื่อมาไม่ถูกเป็นชื่่อเก่า			
 				};
 			var AddCartStore2 = new CartStore().ToTable(AddCartStore); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
 			cartStoreService.AddNewCartStore(AddCartStore2); //บันทึกข้อมูล

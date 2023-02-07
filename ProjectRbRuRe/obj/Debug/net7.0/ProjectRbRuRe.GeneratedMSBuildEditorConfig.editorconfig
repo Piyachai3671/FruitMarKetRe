@@ -44,10 +44,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcSG9tZUd1ZXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/NavBarGuset.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcTmF2QmFyR3VzZXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/ProductGuest.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcUHJvZHVjdEd1ZXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,10 +66,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/NavMenuLogin.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2TWVudUxvZ2luLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/ProjectRBRURe/ProjectRbRuRe/Pages/NewFolder/NavMenuToLogin.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3Rm9sZGVyXE5hdk1lbnVUb0xvZ2luLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/Order/Bank.razor]
@@ -124,10 +116,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlckhvbWUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/SellerOrder/SellerOrderBill.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlck9yZGVyXFNlbGxlck9yZGVyQmlsbC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/ProjectRBRURe/ProjectRbRuRe/Pages/Seller/SellerOrder/SellerOrderPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsbGVyXFNlbGxlck9yZGVyXFNlbGxlck9yZGVyUGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -147,6 +135,14 @@ build_metadata.AdditionalFiles.CssScope =
 [D:/ProjectRBRURe/ProjectRbRuRe/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/Guest/NavBarGuset.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR3Vlc3RcTmF2QmFyR3VzZXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-lvoy8kc7a3
+
+[D:/ProjectRBRURe/ProjectRbRuRe/Pages/NewFolder/NavMenuToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3Rm9sZGVyXE5hdk1lbnVUb0xvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-hevpmdgmi9
 
 [D:/ProjectRBRURe/ProjectRbRuRe/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=

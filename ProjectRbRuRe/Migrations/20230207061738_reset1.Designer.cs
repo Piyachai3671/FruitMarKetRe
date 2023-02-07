@@ -12,8 +12,8 @@ using ProjectRbRuRe.Data;
 namespace ProjectRbRuRe.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230206101748_updatecartstoreid")]
-    partial class updatecartstoreid
+    [Migration("20230207061738_reset1")]
+    partial class reset1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,22 +86,22 @@ namespace ProjectRbRuRe.Migrations
 
             modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableCartStore", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("CartStoreID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("CartStoreID")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartStoreID"));
 
                     b.Property<int?>("CartStoreUserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IDLink")
                         .HasColumnType("int");
 
                     b.Property<string>("NameStore")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("CartStoreID");
 
                     b.ToTable("CartStore");
                 });

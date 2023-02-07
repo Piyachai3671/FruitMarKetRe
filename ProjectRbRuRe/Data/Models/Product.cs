@@ -42,7 +42,7 @@ namespace ProjectRbRuRe.Data.Models
 
 				ProductStoreID = tableProduct.ProductStoreID,
 				ProductStoreName= tableProduct.ProductStoreName,
-				ProductCartID = tableProduct.ProductCartID,
+				
 
                 ProductImg = tableProduct.ProductImg,
             };
@@ -64,7 +64,7 @@ namespace ProjectRbRuRe.Data.Models
 
 				ProductStoreID = NewProduct.ProductStoreID,
 				ProductStoreName = NewProduct.ProductStoreName,
-				ProductCartID = NewProduct.ProductCartID,
+				
 
                 ProductImg = NewProduct.ProductImg,
             };

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xyJOILST8UGxlpkfB2HDMwRYH8Yjg9yuLfXISuhPJmQ=",
+  "Hash": "2wf1ctwSCv16O3YyKidZHiwtcrPgKHRsqge1EI+Vg6A=",
   "Source": "ProjectRbRuRe",
   "BasePath": "_content/ProjectRbRuRe",
   "Mode": "Default",
@@ -1020,6 +1020,23 @@
       "OriginalItemSpec": "wwwroot\\img\\kr2vkp05.1q2LogoProject.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\kt5xli4m.g2u0219338000006_1.webp",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/kt5xli4m.g2u0219338000006_1.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\kt5xli4m.g2u0219338000006_1.webp"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\LogoProject.png",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1035,6 +1052,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\LogoProject.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\LogoProject2.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/LogoProject2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\LogoProject2.png"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\mkqrza15.lig0219338000006_1.webp",

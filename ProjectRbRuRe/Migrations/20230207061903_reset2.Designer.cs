@@ -12,8 +12,8 @@ using ProjectRbRuRe.Data;
 namespace ProjectRbRuRe.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230203050744_createprovince")]
-    partial class createprovince
+    [Migration("20230207061903_reset2")]
+    partial class reset2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,8 +95,8 @@ namespace ProjectRbRuRe.Migrations
                     b.Property<int?>("CartStoreUserID")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameStore")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IDLink")
+                        .HasColumnType("int");
 
                     b.HasKey("CartStoreID");
 
@@ -124,9 +124,6 @@ namespace ProjectRbRuRe.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderDistrict")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OrderExpress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderImgPay")
@@ -358,9 +355,6 @@ namespace ProjectRbRuRe.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("District")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

@@ -12,8 +12,8 @@ using ProjectRbRuRe.Data;
 namespace ProjectRbRuRe.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230203044615_init")]
-    partial class init
+    [Migration("20230207062309_reset4")]
+    partial class reset4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,31 @@ namespace ProjectRbRuRe.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableAmphoe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("acode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("aname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("pcode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("pname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Amphoe");
+                });
 
             modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableCartProduct", b =>
                 {
@@ -70,8 +95,8 @@ namespace ProjectRbRuRe.Migrations
                     b.Property<int?>("CartStoreUserID")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameStore")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IDLink")
+                        .HasColumnType("int");
 
                     b.HasKey("CartStoreID");
 
@@ -101,9 +126,6 @@ namespace ProjectRbRuRe.Migrations
                     b.Property<string>("OrderDistrict")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrderExpress")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("OrderImgPay")
                         .HasColumnType("nvarchar(max)");
 
@@ -124,9 +146,6 @@ namespace ProjectRbRuRe.Migrations
 
                     b.Property<int>("OrderStoreID")
                         .HasColumnType("int");
-
-                    b.Property<string>("OrderStoreName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderSubDistrict")
                         .HasColumnType("nvarchar(max)");
@@ -193,9 +212,6 @@ namespace ProjectRbRuRe.Migrations
                     b.Property<double?>("PriceProduct")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductCartID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,6 +236,28 @@ namespace ProjectRbRuRe.Migrations
                     b.HasKey("IDProduct");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableProvince", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("pcode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("pname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("type_soilder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Province");
                 });
 
             modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.TableReport", b =>
@@ -313,9 +351,6 @@ namespace ProjectRbRuRe.Migrations
                     b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -346,6 +381,37 @@ namespace ProjectRbRuRe.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("ProjectRbRuRe.Data.ModelData.Tabletambol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("acode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("aname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("pcode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("pname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("tcode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("tname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tambol");
                 });
 #pragma warning restore 612, 618
         }
