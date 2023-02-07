@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2wf1ctwSCv16O3YyKidZHiwtcrPgKHRsqge1EI+Vg6A=",
+  "Hash": "1s8QGHWYpXSO4eAyFPlPYpQuD6weGUQNr4cSq+srWic=",
   "Source": "ProjectRbRuRe",
   "BasePath": "_content/ProjectRbRuRe",
   "Mode": "Default",
@@ -1120,6 +1120,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\oeigjk0p.qyrDurian-04.jpg"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\qkoiilxm.jbqslip01.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/qkoiilxm.jbqslip01.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\qkoiilxm.jbqslip01.jpg"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\RegisterCustomer1.png",

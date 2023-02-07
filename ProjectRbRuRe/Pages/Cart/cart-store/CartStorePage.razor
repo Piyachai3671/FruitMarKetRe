@@ -13,14 +13,14 @@
 	<div class="card">
 		<div class="card-header textarea">
 			@*ชื่อร้านค้า : @CartStore.NameStore*@
-			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
-			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+			<span class="fs-3">ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName</span>
+			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
 			{
-				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
-				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
-				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
-				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
-				<span class="ms-3">@ListUsers.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>					
+				<span class="ms-3 fs-5">@ListUsers.Find(e=>e.UserID == CartStore.IDLink).Province</span>
+				<span class="ms-3 fs-5">@ListUsers.Find(e=>e.UserID == CartStore.IDLink).District</span>
+				<span class="ms-3 fs-5">@ListUsers.Find(e=>e.UserID == CartStore.IDLink).SubDistrict</span>
+				<span class="ms-3 fs-5">@ListUsers.Find(e=>e.UserID == CartStore.IDLink).Postcode</span>
+				<span class="ms-3 fs-5">@ListUsers.Find(e=>e.UserID == CartStore.IDLink).Tel</span>
 			}		
 		</div>
 		<div class="card-body">
@@ -52,7 +52,7 @@
 							
 						</h4>
 					</div>
-					<div class="text-danger"  @onclick="()=>SentValue(CartStore)" data-bs-toggle="modal" data-bs-target="#ModalDelete" style="font-size: 30px; cursor:pointer; text-align:end;">
+					<div class="text-danger"  @onclick="()=>SentValue(CartStore)" data-bs-toggle="modal" data-bs-target="#ModalDelete" style="font-size: 30px; cursor:pointer; position:relative; left:95%; bottom:50%;">
 				<i class="fa-solid fa-trash"></i>
 				</div>
 					
@@ -65,7 +65,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="" style="text-align:center;">
-										@*คุณต้องการที่จะลบสินค้าร้าน @ValueCartStore.NameStore ใช่ หรือ ไม่ ?*@
+										คุณต้องการที่จะลบสินค้าร้าน @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName ใช่ หรือ ไม่ ?
 									</div>
 
 
@@ -81,7 +81,7 @@
 				</div>
 
 				<div class="" style="text-align: end;">
-					<button type="button" class="btn btn-primary" @onclick="()=>OpenCartPage(CartStore.IDLink)">สั่งซื้อสินค้า</button>
+					<button type="button" class="btn btn-primary" @onclick="()=>OpenCartPage(CartStore.IDLink)">เลือกร้านค้า</button>
 				</div>
 
 
@@ -91,12 +91,6 @@
 	</div>
 	<br>
 }
-
-
-
-
-
-
 
 @code {
 	private List<CartStore> ListCartStores = new List<CartStore>();

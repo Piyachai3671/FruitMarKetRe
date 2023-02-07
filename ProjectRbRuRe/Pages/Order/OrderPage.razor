@@ -26,7 +26,7 @@
 
 		@if (CheckBoxPreOrder == true)
 		{
-			<div class="card-body" style="background-color:#70DEFF;">
+			<div class="card-body" >
 				<div class="row mb-3">
 					<div class="col" style="text-align:center;">
 						@if (ListOrders == null)
@@ -37,10 +37,10 @@
 						<div class="row">
 
 							<div class="col">
-								<label>
+								<label class="fs-2">
 									สถานะคำสังซื้อ
 								</label>
-								<RadzenCheckBoxList @bind-Value=@selectedStatusNames Style="width:100%;"
+								<RadzenCheckBoxList @bind-Value=@selectedStatusNames Style="width:100%; font-size:24px;"
 											Data="@(StatusName)" AllowClear="true" Multiple="true" class="mb-3" />
 							</div>
 

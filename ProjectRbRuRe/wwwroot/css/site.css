@@ -2,7 +2,6 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-   
 }
 
 h1:focus {
@@ -255,10 +254,56 @@ html, body {
     padding: 20px;
 }
 
+.parallax {
+    margin: 0;
+    padding: 0;
+}
+
+.layout-item {
+    position: sticky;
+    top: 0;
+    height: 100vw;
+    border-top: 5px solid red;
+    background: #CCC;
+}
+
+
+
+/*//หน้า Cart*/
+.ErrorShowout {
+    height: 120%;
+    width: 100%;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+}
+
+.ErrorShowin {
+    width: 500px;
+    height: 220px;
+    border-radius: 5px;
+}
+/* //*/
+.img-profile {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid;
+    border-color: white;
+}
+
+.img-cover {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: solid;
+    border-color: white;
+}
 /* Search */
 .topnav {
     overflow: hidden;
-    background-color: #fff;
 }
 
     .topnav a {
@@ -275,21 +320,22 @@ html, body {
             background-color: #ddd;
             color: black;
         }
-
+    /*
         .topnav a.active {
             background-color: #2196F3;
-            color: white;
-        }
+            
+        }*/
 
     .topnav .search-container {
         text-align: center;
     }
-    /*ªèÍ§µÍ¹¡ÃÍ¡*/
+
     .topnav input[type=text] {
         padding: 6px;
         margin-top: 8px;
-        font-size: 17px;
-        width: 300px;
+        font-size: 30px;
+        height: 70px;
+        width: 1000px;
         border-radius: 15px;
         border: solid;
         border-color: #ddd;
@@ -325,32 +371,3 @@ html, body {
             padding: 14px;
         }
 
-    .parallax {
-        margin: 0;
-        padding: 0;
-    }
-
-    .layout-item {
-        position: sticky;
-        top: 0;
-        height: 100vw;
-        border-top: 5px solid red;
-        background: #CCC;
-    }
-}
-
-/*//หน้า Cart*/
-.ErrorShowout {
-    height: 380%;
-    width: 102%;
-    position: absolute;
-    left: 0%;
-    top: 0%;
-}
-
-.ErrorShowin {
-    width: 500px;
-    height: 220px;
-    border-radius: 5px;
-}
-/* //*/

@@ -14,62 +14,63 @@
 @inject StoreService storeService
 @inject NavigationManager NavigationManager
 @inject NotificationService notificationservice
-
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
-<ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
-@foreach (var CartStore in ListCartStores.FindAll(e => e.IDLink == GetCurrentCartIDPage))
-{
-	<div class="card">
-		<div class="card-header textarea">
-			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
-			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
-			{
-				@*<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province*@
-				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
-				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
-				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
-				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
-				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>
-			}
-		</div>
-		<div class="card-body">
-			<!--สินค้าในตะกร้า-->
-			<div class="row">
-				<div class="col-sm-3" style="margin-left: 80px;">
-					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
-					{
-						<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
-					}
-				</div>
-				<div class="col">
-					<div class="mt-3" style="">
-						<h4>
-							มีสินค้า :
-							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
-							{
-								<span>&nbsp;</span>
-								@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
-							}
-							<div class="mt-3">
-								ราคาทั้งหมด : @(
-							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
-							) บาท
-							</div>
-						</h4>
+
+
+	<ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
+	@foreach (var CartStore in ListCartStores.FindAll(e => e.IDLink == GetCurrentCartIDPage))
+	{
+		<div class="card">
+			<div class="card-header textarea">
+				ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
+				@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+				{
+					@*<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province*@
+					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
+					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
+					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
+					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
+					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>
+				}
+			</div>
+			<div class="card-body">
+				<!--สินค้าในตะกร้า-->
+				<div class="row">
+					<div class="col-sm-3" style="margin-left: 80px;">
+						@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
+						{
+							<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
+						}
 					</div>
+					<div class="col">
+						<div class="mt-3" style="">
+							<h4>
+								มีสินค้า :
+								@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+								{
+									<span>&nbsp;</span>
+									@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
+								}
+								<div class="mt-3">
+									ราคาทั้งหมด : @(
+								ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
+								) บาท
+								</div>
+							</h4>
+						</div>
+					</div>
+
 				</div>
 
 			</div>
-
 		</div>
-	</div>
 
-}
+	}
 
-<div class="container-fluid shadow" style="border-radius:10px; border:none;" @onclick="CalculateRefresh">
 
-	<div class="row">
-		<div class="row mb-3" style="text-align:center; background-color:aquamarine; margin-left:1px; padding:10px;">
+	<div class="container-fluid shadow" style="border-radius:10px; border:none; background-color:white;" @onclick="CalculateRefresh">
+	<div class="row mt-3">
+		<div class="row mb-3" style="text-align:center; background-color:#ddd; margin-left:1px; padding:10px;">
 			<strong class="col " style="">ภาพ</strong>
 			<strong class="col " style="">ชื่อสินค้า</strong>
 			<strong class="col " style="">ราคา/หน่วย</strong>
@@ -85,10 +86,6 @@
 
 				<div class="row mt-2" style="text-align:center;">
 					<div class="col-lg-3 ">
-						@*@foreach (var a in ListProduct)
-				{
-
-				}*@
 						<img src="img/@IndexProduct.ProductImg" class="mt-3 card-size" style=" object-fit:cover; width: 100px; height: 100px; margin-top: 5px;" alt="...">
 
 					</div>
@@ -123,7 +120,7 @@
 				@if (IsShowDelete == true)
 				{
 					<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
-						<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+						<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:70%;">
 						</div>
 						<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
 							<div class="card">
@@ -153,7 +150,7 @@
 	<div class="row " style="text-align:end;">
 		<div class="col">
 			<div class="me-5">
-				Total : @*@SumTotal*@
+				ราคารวมทั้งหมด : @*@SumTotal*@
 
 				@ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage ).Sum(e => e.CartProductPrice * e.CartProductAmount)
 
@@ -164,123 +161,123 @@
 			</button>
 		</div>
 	</div>
+	@if (IsShowError == true)
+	{
+		<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+			<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+			</div>
+			<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+				<div class="card">
+					<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+					<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								สินค้า "@GetName" เกินกำหนดระบบปรับเป็นจำนวนมากสุด และกรุณาทำรายการใหม่อีกครั้ง
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer" style="margin-top:45px;">
+						<div class="" style="text-align:end; ">
+							<button class="btn btn-primary" @onclick="OnCloseShowError">
+								ตกลง
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+	@if (IsShowErrorMin == true)
+	{
+		<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+			<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+			</div>
+			<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+				<div class="card">
+					<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+					<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								สินค้า "@GetName" ต่ำกว่ากำหนดระบบปรับเป็นจำนวนน้อยสุด และกรุณาทำรายการใหม่อีกครั้ง
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer" style="margin-top:45px;">
+						<div class="" style="text-align:end; ">
+							<button class="btn btn-primary" @onclick="OnCloseShowErrorMin">
+								ตกลง
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	@if (IsShowErrorInput == true)
+	{
+		<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
+			<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
+			</div>
+			<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
+				<div class="card">
+					<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+					<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								จำนวนสินค้าต่ำกว่ากำหนด กรุณาทำรายการใหม่อีกครั้ง
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer" style="margin-top:45px;">
+						<div class="" style="text-align:end; ">
+							<button class="btn btn-primary" @onclick="OnCloseErrorInput">
+								ตกลง
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	@if (IsShowErrorNull == true)
+	{
+		<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:35;">
+			<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-20%;left:80%;">
+			</div>
+			<div class="bg-white ErrorShowin" style="position:relative; top:-500px;">
+				<div class="card">
+					<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
+					<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								สินค้า "@GetName" มีค่าว่าง กรุณาทำรายการใหม่อีกครั้ง
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer" style="margin-top:45px;">
+						<div class="" style="text-align:end; ">
+							<button class="btn btn-primary" @onclick="OnCloseShowErrorNull">
+								ตกลง
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 
 </div>
 
-@if (IsShowError == true)
-{
-	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
-		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
-		</div>
-		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
-			<div class="card">
-				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
-				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
-					<div class="row">
-						<div class="col" style="text-align:center;">
-							สินค้า "@GetName" เกินกำหนดระบบปรับเป็นจำนวนมากสุด และกรุณาทำรายการใหม่อีกครั้ง
-						</div>
-					</div>
-
-
-				</div>
-				<div class="card-footer" style="margin-top:45px;">
-					<div class="" style="text-align:end; ">
-						<button class="btn btn-primary" @onclick="OnCloseShowError">
-							ตกลง
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-}
-@if (IsShowErrorMin == true)
-{
-	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
-		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
-		</div>
-		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
-			<div class="card">
-				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
-				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
-					<div class="row">
-						<div class="col" style="text-align:center;">
-							สินค้า "@GetName" ต่ำกว่ากำหนดระบบปรับเป็นจำนวนน้อยสุด และกรุณาทำรายการใหม่อีกครั้ง
-						</div>
-					</div>
-
-
-				</div>
-				<div class="card-footer" style="margin-top:45px;">
-					<div class="" style="text-align:end; ">
-						<button class="btn btn-primary" @onclick="OnCloseShowErrorMin">
-							ตกลง
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-}
-
-@if (IsShowErrorInput == true)
-{
-	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
-		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
-		</div>
-		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
-			<div class="card">
-				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
-				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
-					<div class="row">
-						<div class="col" style="text-align:center;">
-							จำนวนสินค้าต่ำกว่ากำหนด กรุณาทำรายการใหม่อีกครั้ง
-						</div>
-					</div>
-
-
-				</div>
-				<div class="card-footer" style="margin-top:45px;">
-					<div class="" style="text-align:end; ">
-						<button class="btn btn-primary" @onclick="OnCloseErrorInput">
-							ตกลง
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-}
-
-@if (IsShowErrorNull == true)
-{
-	<div class="ErrorShowout bg-black bg-opacity-50 d-flex justify-content-center " style="position:absolute;z-index:1;">
-		<div class="row mb-2 d-inline-flex justify-content-end position-relative" style="bottom:-2%;left:80%;">
-		</div>
-		<div class="bg-white ErrorShowin" style="position:relative; top:70px;">
-			<div class="card">
-				<div class="card-header"><i class="fa-solid fa-circle-exclamation text-danger"></i> แจ้งเตือน</div>
-				<div class="card-body d-flex justify-content-center align-items-center " style="position:relative;top:30px;">
-					<div class="row">
-						<div class="col" style="text-align:center;">
-							สินค้า "@GetName" มีค่าว่าง กรุณาทำรายการใหม่อีกครั้ง
-						</div>
-					</div>
-
-
-				</div>
-				<div class="card-footer" style="margin-top:45px;">
-					<div class="" style="text-align:end; ">
-						<button class="btn btn-primary" @onclick="OnCloseShowErrorNull">
-							ตกลง
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-}
 
 
 @code {
@@ -407,6 +404,7 @@
 	{
 		SumTotal = (ListCartProducts.Sum(e => e.CartProductPrice! * e.CartProductAmount!)) ?? 0.0;
 	}
+
 	private void Calculate(ChangeEventArgs IP)
 	{
 		CalculateRefresh();
@@ -427,10 +425,11 @@
 		{
 			return;
 		}
-
+		
 		//SumTotal = (ListCartProduct.Sum(e => e.PriceProduct! * e.AmountProduct!)) ?? 0.0;
 
 	}
+
 	private async Task OnDeleteCartProduct2(CartProduct c)
 	{
 		ListCartProducts.Remove(c);
@@ -454,34 +453,34 @@
 		//}
 		//else
 		//{
-			CalculateRefresh();
-			@foreach (var IndexCartProduct in ListCartProducts)
+		CalculateRefresh();
+		@foreach (var IndexCartProduct in ListCartProducts)
+		{
+			@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
 			{
-				@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
+				if (IndexCartProduct.CartProductAmount <= 0)
 				{
-					if (IndexCartProduct.CartProductAmount <= 0)
-					{
-						IndexCartProduct.CartProductAmount = 1;
-						ShowErrorOverMin(IndexCartProduct.CartProductName);
+					IndexCartProduct.CartProductAmount = 1;
+					ShowErrorOverMin(IndexCartProduct.CartProductName);
 
-						return;
-					}
-					if (IndexCartProduct.CartProductAmount == null)
-					{
-						IndexCartProduct.CartProductAmount = 1;
-
-						ShowErrorNull(IndexCartProduct.CartProductName);
-						return;
-
-					}
-					if (IndexCartProduct.CartProductAmount > IndexProduct.RemainderProduct)
-					{
-						IndexCartProduct.CartProductAmount = IndexProduct.RemainderProduct;
-						ShowErrorOver(IndexCartProduct.CartProductName);
-
-						return;
-					}
+					return;
 				}
+				if (IndexCartProduct.CartProductAmount == null)
+				{
+					IndexCartProduct.CartProductAmount = 1;
+
+					ShowErrorNull(IndexCartProduct.CartProductName);
+					return;
+
+				}
+				if (IndexCartProduct.CartProductAmount > IndexProduct.RemainderProduct)
+				{
+					IndexCartProduct.CartProductAmount = IndexProduct.RemainderProduct;
+					ShowErrorOver(IndexCartProduct.CartProductName);
+
+					return;
+				}
+			}
 		}
 		CheckConfirm = true;
 		if (CheckConfirm == true)
@@ -581,7 +580,7 @@
 
 
 		ListCartStores.RemoveAll(e => e.IDLink == GetCurrentCartIDPage);
-		
+
 
 		var DeleteCartStore = new CartStore().ToTable(FindCartStoreID);//ลบกลุ่มในSQL
 		cartStroeService.DeleteCartStore(DeleteCartStore);
@@ -592,7 +591,7 @@
 			var DeleteCartProduct = new CartProduct().ToTable(a);//ลบกลุ่มในSQL
 			cartProductService.DeleteCartProduct(DeleteCartProduct);
 		}
-		
+
 
 	}
 	private void ShowNotification()

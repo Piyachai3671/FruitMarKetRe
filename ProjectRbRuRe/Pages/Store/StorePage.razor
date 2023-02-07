@@ -24,25 +24,25 @@ else
                 </span>
             </div>
             <div class="col ">
-                <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgProfile" style="width:100%; height:200px; object-fit:cover; border-radius:50%" />
+                <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgProfile" class="img-profile">
             </div>
         </div>
 
     </div>
     <div class="row mt-3">
         <div class="col">
-            <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgCover" style="width:100%; height:500px; object-fit:cover; border-radius:10px;" />
+            <img src="img/@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).ImgCover" class="img-cover" />
         </div>
     </div>
 
     <div class="row mt-3">
         <div class="col" style="text-align:center;">
-            <textarea rows="10" cols="168">@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).SellerDescription</textarea>
+            <textarea rows="10" cols="130">@ListStores.Find(e=>e.UserID == GetCurrentStoreIDPage).SellerDescription</textarea>
         </div>
     </div>
-    <div class="topnav" style="">
-        <div class="search-container" style="">
-            <div class="">
+    <div class="topnav" >
+        <div class="search-container">
+            <div >
                 <input type="text" placeholder="Search.." name="" @bind="SearchWord" @bind:event="oninput" />
             </div>
         </div>

@@ -52,9 +52,10 @@ namespace ProjectRbRuRe.Data.Models
 				OrderTel = tableOrder.OrderTel,
 				//ส่วนของรายละเอียดผู้ขาย
 				OrderStoreID = tableOrder.OrderStoreID,
-				
+				OrderStoreName = tableOrder.OrderStoreName,
 
-				
+
+
 				OrderNumberExpress = tableOrder.OrderNumberExpress,
 				OrderNameExpress = tableOrder.OrderNameExpress,
 
@@ -84,9 +85,9 @@ namespace ProjectRbRuRe.Data.Models
 				OrderTel = NewOrder.OrderTel,
 				//ส่วนของรายละเอียดผู้ขาย
 				OrderStoreID = NewOrder.OrderStoreID,
-				
+				OrderStoreName = NewOrder.OrderStoreName,
 
-				
+
 				OrderNumberExpress = NewOrder.OrderNumberExpress,
 				OrderNameExpress = NewOrder.OrderNameExpress,
 

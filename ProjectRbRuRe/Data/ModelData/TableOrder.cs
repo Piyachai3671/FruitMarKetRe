@@ -18,12 +18,12 @@ namespace ProjectRbRuRe.Data.ModelData
 		public string? OrderTel { get; set; }
 		public string? OrderPostcode { get; set; }
 		public int OrderStoreID { get; set; }
-		
+		public string? OrderStoreName { get; set; }
 		public DateTime OrderDateCreate { get; set; }
 		public DateTime OrderDateEnd { get; set; }
 		public DateTime OrderDatePaySuccess { get; set; }
 		public string? OrderStatus { get; set; }
-
+		
 		
 		public string? OrderNameExpress { get; set; }
 		public string? OrderNumberExpress { get; set; }
