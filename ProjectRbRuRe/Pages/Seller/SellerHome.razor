@@ -3,6 +3,7 @@
 @using ProjectRbRuRe.Data.Services
 @inject LoginService loginService
 @inject StoreService storeService
+@inject NavigationManager NavigationManager	
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 {
@@ -111,6 +112,7 @@
 }
 
 <ProjectRbRuRe.Pages.Store.StorePageForSeller></ProjectRbRuRe.Pages.Store.StorePageForSeller>
+
 @code {
 	private User? UserLogin = new();
 	private List<Store> ListStores = new List<Store>();
@@ -124,6 +126,11 @@
 		}
 
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
+		
 	}
 
 

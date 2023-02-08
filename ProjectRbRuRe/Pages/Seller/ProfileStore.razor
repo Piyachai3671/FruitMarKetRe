@@ -12,6 +12,7 @@
 @inject AmphoeService amphoeService
 @inject TambolService tambolService
 @inject NotificationService notificationservice
+@inject NavigationManager NavigationManager
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @foreach (var Store in ListStores.FindAll(e => e.UserID == UserLogin.UserID))
 {
@@ -35,7 +36,7 @@
 						<label for="">รหัสผ่าน</label>
 						<div style="position:relative;">
 							<InputText @bind-Value="@UserLogin.Password" type="password" class="form-control mt-2" maxlength="30" />
-							<i class="fa-sharp fa-solid fa-eye" style="position:absolute;top: 50%; right: 2.5%;transform: translateY(-50%)"></i>
+							@*<i class="fa-sharp fa-solid fa-eye" style="position:absolute;top: 50%; right: 2.5%;transform: translateY(-50%)"></i>*@
 						</div>
 						<ValidationMessage For="@(()=>UserLogin.Password)" />
 					</p>
@@ -201,6 +202,10 @@
 			ListUsers.Add(new User().ToUi(user));
 		}
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 
 		var Stores = await storeService.GetStoresAsync();
 		foreach (var Store in Stores)

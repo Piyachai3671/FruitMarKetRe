@@ -6,7 +6,7 @@
 @inject CartProductService cartProductService
 @inject LoginService loginService
 @inject NotificationService notificationservice
-
+@inject NavigationManager NavigationManager
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @if (ListProduct == null)
 {
@@ -163,7 +163,10 @@ else
 			ListCartProduct.Add(new CartProduct().ToUi(CartProduct));
 		}
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
-
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 
 	}
 

@@ -1,6 +1,5 @@
 ﻿using ProjectRbRuRe.Data.ModelData;
 using ProjectRbRuRe.Data.Models;
-
 namespace ProjectRbRuRe.Data.Services
 {
 	public class LoginService
@@ -9,7 +8,9 @@ namespace ProjectRbRuRe.Data.Services
         private UserService UserService; // เอาuser มาใช้
 		public LoginService(UserService userService)
 		{
+			if (userService is null) return;
 			UserService = userService;
+			
 		}
        
         public async Task<bool> Login(string UserName, string Password)

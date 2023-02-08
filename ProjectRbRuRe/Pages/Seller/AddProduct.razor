@@ -296,6 +296,10 @@
 	protected override async Task OnInitializedAsync()
 	{
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 
 		var Products = await productService.GetProductsAsync();
 		foreach (var Product in Products.FindAll(e => e.ProductStoreID == UserLogin.UserID))

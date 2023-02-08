@@ -1,4 +1,5 @@
-﻿using ProjectRbRuRe.Data.ModelData;
+﻿using Microsoft.AspNetCore.Components;
+using ProjectRbRuRe.Data.ModelData;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectRbRuRe.Data.Models
@@ -35,10 +36,21 @@ namespace ProjectRbRuRe.Data.Models
 		[Required(ErrorMessage = "กรุณากรอกชื่อร้านค้า !")]
 		[MinLength(2, ErrorMessage = "ชื่อร้านค้าต้องมี 2 ตัวอักษรขึ้นไป !")]
 		public string? StoreName { get; set; }
+
+		//public bool Usernull = true;
 		public User() { }
 		public User ToUi(TableUser tableUser) //UI ไปเทเบิล
 		{
-			return new User
+			//if (tableUser is null) return new User();
+			if (tableUser is null)
+			{
+				return new User()
+				{
+					
+				};
+			}
+
+				return new User
 			{
 				UserID = tableUser.UserID,
 				Username = tableUser.Username,
@@ -57,6 +69,7 @@ namespace ProjectRbRuRe.Data.Models
 
 				StoreName = tableUser.StoreName,
 			};
+
 
 		}
 

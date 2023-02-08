@@ -102,6 +102,10 @@
 	protected override async Task OnInitializedAsync()
 	{
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 																		//ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
 		var CartStores = await cartStoreService.GetCartStoreAsync();
 		foreach (var CartStore in CartStores)

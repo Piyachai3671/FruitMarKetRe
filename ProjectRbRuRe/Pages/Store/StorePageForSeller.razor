@@ -64,6 +64,10 @@
 		}
 		options = ListProduct.Select(f => f.NameProduct).Distinct().ToList();
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 
 	}
 	private void OpenProductPage(int ProductID)

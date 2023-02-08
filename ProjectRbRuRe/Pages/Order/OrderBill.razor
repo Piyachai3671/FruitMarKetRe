@@ -1413,7 +1413,10 @@
 
 		ListCartProduct = await cartProductService.GetCartProductNoDataBaseAsync();
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
-
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 	}
 
 	private Order Orde = new Order();

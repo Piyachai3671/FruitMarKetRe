@@ -125,6 +125,10 @@
 			ListOrders.Add(new Order().ToUi(order));
 		}
 		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+		if (UserToLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 	}
 	private void OpenOrderBillPage(int SentOrderIDPage)
 	{

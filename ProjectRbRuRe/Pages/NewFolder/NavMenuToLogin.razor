@@ -7,7 +7,6 @@
 
 <div class="container-fluid  shadow  rounded " style="background-color: #9AA544; z-index:0; width:100%;">
 
-
 	<div class="d-flex bd-highlight mb-3">
 		<div class="me-auto p-2 bd-highlight">
 			@if (UserToLogin.Permission == "c")
@@ -58,14 +57,14 @@
 				<button class="btn btn-none dropdown-toggle btn-cart" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 					@if (UserToLogin.Permission == "c")
 					{
-						<img class="rounded-3" style="width:30px; height:30px; me-3" src="https://cdn.pixabay.com/photo/2022/10/31/12/43/mountain-7559738_1280.jpg">
+						@*<img class="rounded-3" style="width:30px; height:30px; me-3" src="https://cdn.pixabay.com/photo/2022/10/31/12/43/mountain-7559738_1280.jpg">*@
 						<span class="fs-5">
 							@UserToLogin.Name
 						</span>
 					}
 					@if (UserToLogin.Permission == "s")
 					{
-						<img class="rounded-3" style="width:30px; height:30px;" src="https://cdn.pixabay.com/photo/2022/10/31/12/43/mountain-7559738_1280.jpg">
+						<img class="rounded-3" style="width:30px; height:30px;" src="img/@ListStores.Find(e=>e.UserID == UserToLogin.UserID).ImgProfile">
 						<span class="fs-5">
 						@ListStores.Find(e=>e.UserID == UserToLogin.UserID).SellerName
 						</span>
@@ -96,6 +95,11 @@
 						<li><a class="dropdown-item" href="report"><i class="fa-solid fa-file-lines me-3"></i>รายงาน</a></li>
 						<hr>
 						<li @onclick="OnLogout"><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-3"></i>ออกจากระบบ</a></li>
+					}
+					@if (UserToLogin.Permission == "")
+					{
+						<li @onclick="OnLogout"><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-3"></i>ออกจากระบบ</a></li>
+						<hr>
 					}
 				</ul>
 

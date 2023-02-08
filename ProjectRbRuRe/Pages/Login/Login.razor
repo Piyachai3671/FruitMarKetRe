@@ -80,6 +80,7 @@
 			if (UserLogin.Permission == "c")
 			{
 				NavigationManager.NavigateTo("/homelogin");
+
 				CheckStatus();
 			}
 			if (UserLogin.Permission == "s")
@@ -87,9 +88,16 @@
 				NavigationManager.NavigateTo("/seller-home");
 				CheckStatus();
 			}
+			if (UserLogin == null)
+			{
+				NavigationManager.NavigateTo("/");
+			
+			}
 		}
 		else
 		{
+			NavigationManager.NavigateTo("/");
+
 			ShowNotificationLoginFlase();
 		}
 
@@ -99,7 +107,7 @@
 	{
 		bool Status = loginService.LogOut();
 		Islogin = Status;
-
+		OpenCartPage();
 	}
 
 	private void CheckStatus()
@@ -118,5 +126,9 @@
 				Payload = DateTime.Now
 			};
 		notificationservice.Notify(a);
+	}
+	private void OpenCartPage()
+	{
+		NavigationManager.NavigateTo($"/");
 	}
 }

@@ -5,6 +5,8 @@
 @inject StoreService storeService
 @inject UserService userService
 @inject NavigationManager NavigationManager
+@inject LoginService loginService
+
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 @if (ListProduct == null)
 {
@@ -89,7 +91,7 @@ else
     private List<User> ListUsers = new List<User>();
     public string SearchWord { get; set; } = string.Empty;
     List<string> options;
-
+    private User? UserLogin = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,7 +112,12 @@ else
             ListUsers.Add(new User().ToUi(user));
         }
         options = ListProduct.Select(f => f.NameProduct).Distinct().ToList();
-
+        
+        UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+        if (UserLogin.UserID == 0)
+        {
+            NavigationManager.NavigateTo($"/login");
+        }
     }
     private void OpenProductPage(int ProductID)
     {
