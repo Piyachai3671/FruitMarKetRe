@@ -37,7 +37,7 @@
 					<div class="mt-3" style="">
 						<h4>
 							มีสินค้า :
-							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink))
+							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink && e.CartProductUserID == UserLogin.UserID))
 							{
 
 								<span>&nbsp;</span>
@@ -46,7 +46,7 @@
 							}
 							<div class="mt-3">
 								ราคาทั้งหมด : @(
-							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
+							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink && e.CartProductUserID == UserLogin.UserID).Sum(e => e.CartProductPrice * e.CartProductAmount)
 							) บาท
 							</div>
 							
@@ -102,10 +102,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
-		if (UserLogin.UserID == 0)
-		{
-			NavigationManager.NavigateTo($"/login");
-		}
+		
 																		//ListCartStores = await cartStoreService.GetCartStoreNoDataBaseAsync();
 		var CartStores = await cartStoreService.GetCartStoreAsync();
 		foreach (var CartStore in CartStores)
@@ -132,25 +129,27 @@
 		{
 			ListUsers.Add(new User().ToUi(user));
 		}
-
+		if (UserLogin.UserID == 0)
+		{
+			NavigationManager.NavigateTo($"/login");
+		}
 	}
 
 	private void OnDelItem(CartStore ID)
 	{
-		//var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == ID.IDLink);
+		var FindCartStoreID = ListCartStores.Find(e => e.IDLink == ID.IDLink && e.CartStoreUserID == UserLogin.UserID);
 
-		ListCartStores.Remove(ID); //ลบสิ่งที่แสดง
-		var DeleteCartStore = new CartStore().ToTable(ID);//ลบกลุ่มในSQL
+		ListCartStores.Remove(FindCartStoreID); //ลบสิ่งที่แสดง
+		var DeleteCartStore = new CartStore().ToTable(FindCartStoreID);//ลบกลุ่มในSQL
 		cartStoreService.DeleteCartStore(DeleteCartStore);
 
-		foreach (var cartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == ID.IDLink))
-		{
-			ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID.CartStoreUserID);
-			var DeleteCartProduct = new CartProduct().ToTable(cartProduct);//ลบกลุ่มในSQL
-			cartProductService.DeleteCartProduct(DeleteCartProduct);
-		}
-		
-
+		var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID);
+		//foreach (var cartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID))
+		//{
+			ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID.CartStoreUserID && e.CartProductUserID == UserLogin.UserID);
+		var DeleteCartProduct = new CartProduct().ToTable(FindCartProductID);//ลบกลุ่มในSQL
+		cartProductService.DeleteCartProduct(DeleteCartProduct);
+		//}
 	}
 	//private void OnDelItemCartProduct(CartProduct ID)
 	//{

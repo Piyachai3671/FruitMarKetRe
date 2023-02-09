@@ -8,7 +8,7 @@ namespace ProjectRbRuRe.Data.Services
         private UserService UserService; // เอาuser มาใช้
 		public LoginService(UserService userService)
 		{
-			if (userService is null) return;
+			//if (userService is null) return;
 			UserService = userService;
 			
 		}

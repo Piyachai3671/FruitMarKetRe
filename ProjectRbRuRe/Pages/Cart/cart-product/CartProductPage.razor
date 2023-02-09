@@ -17,58 +17,58 @@
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
 
 
-	<ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
-	@foreach (var CartStore in ListCartStores.FindAll(e => e.IDLink == GetCurrentCartIDPage))
-	{
-		<div class="card">
-			<div class="card-header textarea">
-				ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
-				@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
-				{
-					@*<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province*@
-					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
-					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
-					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
-					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
-					<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>
-				}
-			</div>
-			<div class="card-body">
-				<!--สินค้าในตะกร้า-->
-				<div class="row">
-					<div class="col-sm-3" style="margin-left: 80px;">
-						@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
-						{
-							<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
-						}
+<ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
+@foreach (var CartStore in ListCartStores.FindAll(e => e.IDLink == GetCurrentCartIDPage && e.CartStoreUserID == UserToLogin.UserID))
+{
+	<div class="card">
+		<div class="card-header textarea">
+			ชื่อร้านค้า : @ListStores.Find(e=>e.UserID == CartStore.IDLink).SellerName
+			@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.CartStoreID))
+			{
+				@*<span> จังหวัด.</span>  @ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province*@
+				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Province</span>
+				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).District</span>
+				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).SubDistrict</span>
+				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Postcode</span>
+				<span class="ms-3">@ListUser.Find(e=>e.UserID == CartStore.CartStoreID).Tel</span>
+			}
+		</div>
+		<div class="card-body">
+			<!--สินค้าในตะกร้า-->
+			<div class="row">
+				<div class="col-sm-3" style="margin-left: 80px;">
+					@foreach (var Store in ListStores.FindAll(e => e.UserID == CartStore.IDLink))
+					{
+						<img src="img/@Store.ImgProfile" class="mt-3 card-size" alt="...">
+					}
+				</div>
+				<div class="col">
+					<div class="mt-3" style="">
+						<h4>
+							มีสินค้า :
+							@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID))
+							{
+								<span>&nbsp;</span>
+								@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
+							}
+							<div class="mt-3">
+								ราคาทั้งหมด : @(
+							ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink &&e.CartProductUserID == UserToLogin.UserID).Sum(e => e.CartProductPrice * e.CartProductAmount )
+							) บาท
+							</div>
+						</h4>
 					</div>
-					<div class="col">
-						<div class="mt-3" style="">
-							<h4>
-								มีสินค้า :
-								@foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
-								{
-									<span>&nbsp;</span>
-									@CartProduct.CartProductName <span>( @CartProduct.CartProductAmount @CartProduct.CartProductUnit)</span>
-								}
-								<div class="mt-3">
-									ราคาทั้งหมด : @(
-								ListCartProducts.FindAll(e => e.CartProductStoreID == CartStore.IDLink).Sum(e => e.CartProductPrice * e.CartProductAmount)
-								) บาท
-								</div>
-							</h4>
-						</div>
-					</div>
-
 				</div>
 
 			</div>
+
 		</div>
+	</div>
 
-	}
+}
 
 
-	<div class="container-fluid shadow" style="border-radius:10px; border:none; background-color:white;" @onclick="CalculateRefresh">
+<div class="container-fluid shadow" style="border-radius:10px; border:none; background-color:white;" @onclick="CalculateRefresh">
 	<div class="row mt-3">
 		<div class="row mb-3" style="text-align:center; background-color:#ddd; margin-left:1px; padding:10px;">
 			<strong class="col " style="">ภาพ</strong>
@@ -79,7 +79,7 @@
 			<strong class="col">ราคารวม</strong>
 			<div class="col-lg-1"></div>
 		</div>
-		@foreach (var IndexCartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		@foreach (var IndexCartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID ))
 		{
 			@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
 			{
@@ -152,7 +152,7 @@
 			<div class="me-5">
 				ราคารวมทั้งหมด : @*@SumTotal*@
 
-				@ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage ).Sum(e => e.CartProductPrice * e.CartProductAmount)
+				@ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID).Sum(e => e.CartProductPrice * e.CartProductAmount)
 
 				บาท
 			</div>
@@ -361,7 +361,7 @@
 	//private int amount = 1;
 	private void OnAddItem(int ID)
 	{
-		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID);
+		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID && CartProduct.CartProductUserID == UserToLogin.UserID);
 		var b = ListProduct.Find(Product => Product.IDProduct == ID);
 		a.CartProductAmount++;
 
@@ -374,7 +374,7 @@
 		}
 
 		a.CartProductSumPrice = a.CartProductPrice * a.CartProductAmount; //ทุกครั้งที่มีการกดเพิ่มสินค้าจะมีการเก็บค่าใน LCP.Sumprice
-		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID))
 		{
 			SumTotal = SumTotal + (c.CartProductAmount * c.CartProductPrice) ?? 0.0;
 		}
@@ -383,15 +383,15 @@
 	}
 	private void OnReduceItem(int ID)
 	{
-		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID);
+		var a = ListCartProducts.Find(CartProduct => CartProduct.CartProductProductID == ID && CartProduct.CartProductUserID == UserToLogin.UserID);
 		var b = ListProduct.Find(Product => Product.IDProduct == ID);
 		a.CartProductAmount -= 1;
 		SumTotal = 0;
-		@if (a.CartProductAmount < 1)
+		if (a.CartProductAmount < 1)
 		{
 			a.CartProductAmount = 1;
 		}
-		@foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		foreach (var c in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID))
 		{
 			SumTotal = SumTotal + ((c.CartProductAmount * c.CartProductPrice) ?? 0.0);
 		}
@@ -428,7 +428,7 @@
 		{
 			return;
 		}
-		
+
 		//SumTotal = (ListCartProduct.Sum(e => e.PriceProduct! * e.AmountProduct!)) ?? 0.0;
 
 	}
@@ -449,51 +449,57 @@
 
 	private void OnSubmit(int ID)
 	{
-		//if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict == null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
-		//{
-		//	ShowNotificationErrorAddressNull();
-		//	return;
-		//}
-		//else
-		//{
-		CalculateRefresh();
-		@foreach (var IndexCartProduct in ListCartProducts)
+		if (UserToLogin.Province == null || UserToLogin.District == null || UserToLogin.SubDistrict == null || UserToLogin.Postcode == null || UserToLogin.Address == null || UserToLogin.Tel == null)
 		{
-			@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
+			ShowNotificationErrorAddressNull();
+			return;
+		}
+		var cartproduct = ListCartProducts.Find(e => e.CartProductUserID == UserToLogin.UserID && e.CartProductStoreID == ID);
+		if (cartproduct == null)
+		{
+			ShowNotificationError();
+			return;
+		}
+		else
+		{
+			CalculateRefresh();
+			@foreach (var IndexCartProduct in ListCartProducts.FindAll(e=>e.CartProductUserID == UserToLogin.UserID && e.CartProductStoreID == ID))
 			{
-				if (IndexCartProduct.CartProductAmount <= 0)
+				@foreach (var IndexProduct in ListProduct.FindAll(e => e.IDProduct == IndexCartProduct.CartProductProductID))
 				{
-					IndexCartProduct.CartProductAmount = 1;
-					ShowErrorOverMin(IndexCartProduct.CartProductName);
+					if (IndexCartProduct.CartProductAmount <= 0)
+					{
+						IndexCartProduct.CartProductAmount = 1;
+						ShowErrorOverMin(IndexCartProduct.CartProductName);
 
-					return;
-				}
-				if (IndexCartProduct.CartProductAmount == null)
-				{
-					IndexCartProduct.CartProductAmount = 1;
+						return;
+					}
+					if (IndexCartProduct.CartProductAmount == null)
+					{
+						IndexCartProduct.CartProductAmount = 1;
 
-					ShowErrorNull(IndexCartProduct.CartProductName);
-					return;
+						ShowErrorNull(IndexCartProduct.CartProductName);
+						return;
 
-				}
-				if (IndexCartProduct.CartProductAmount > IndexProduct.RemainderProduct)
-				{
-					IndexCartProduct.CartProductAmount = IndexProduct.RemainderProduct;
-					ShowErrorOver(IndexCartProduct.CartProductName);
+					}
+					if (IndexCartProduct.CartProductAmount > IndexProduct.RemainderProduct)
+					{
+						IndexCartProduct.CartProductAmount = IndexProduct.RemainderProduct;
+						ShowErrorOver(IndexCartProduct.CartProductName);
 
-					return;
+						return;
+					}
 				}
 			}
+			CheckConfirm = true;
+			if (CheckConfirm == true)
+			{
+				CUToData();
+
+
+			}
+
 		}
-		CheckConfirm = true;
-		if (CheckConfirm == true)
-		{
-			CUToData();
-
-
-		}
-
-		//}
 
 
 	}
@@ -505,8 +511,8 @@
 		var FindProductID = ListProduct.Find(e => e.ProductStoreID == GetCurrentCartIDPage);
 		var FindStoreID = ListStores.Find(e => e.UserID == GetCurrentCartIDPage);
 
-		var FindCartStoreID = ListCartStores.Find(e => e.IDLink == GetCurrentCartIDPage);
-		var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == GetCurrentCartIDPage);
+		var FindCartStoreID = ListCartStores.Find(e => e.IDLink == GetCurrentCartIDPage && e.CartStoreUserID == UserToLogin.UserID);
+		var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID);
 
 		AddOrder = new Order()
 			{
@@ -523,7 +529,7 @@
 				OrderStatus = "ยังไม่ชำระ",
 
 				//OrderSumPrice = ListCartProducts.Sum(e => e.CartProductPrice * e.CartProductAmount) ?? 0.0,
-				OrderSumPrice = ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage).Sum(e => e.CartProductPrice * e.CartProductAmount),
+				OrderSumPrice = ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID).Sum(e => e.CartProductPrice * e.CartProductAmount),
 				OrderStoreID = FindProductID.ProductStoreID,
 				OrderStoreName = FindStoreID.SellerName,
 
@@ -531,7 +537,7 @@
 		var AddOrder2 = new Order().ToTable(AddOrder);
 		orderService.AddNewOrder(AddOrder2); //บันทึกข้อมูล
 
-		foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		foreach (var CartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID == UserToLogin.UserID))
 		{
 			AddOrderItem = new OrderItem()
 				{
@@ -588,7 +594,7 @@
 		var DeleteCartStore = new CartStore().ToTable(FindCartStoreID);//ลบกลุ่มในSQL
 		cartStroeService.DeleteCartStore(DeleteCartStore);
 
-		foreach (var a in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage))
+		foreach (var a in ListCartProducts.FindAll(e => e.CartProductStoreID == GetCurrentCartIDPage && e.CartProductUserID ==  UserToLogin.UserID))
 		{
 			//ListCartProducts.RemoveAll(e => e.CartProductStoreID == GetCurrentCartIDPage);
 			var DeleteCartProduct = new CartProduct().ToTable(a);//ลบกลุ่มในSQL

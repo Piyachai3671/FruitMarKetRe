@@ -46,7 +46,6 @@ namespace ProjectRbRuRe.Data.Models
 			{
 				return new User()
 				{
-					
 				};
 			}
 

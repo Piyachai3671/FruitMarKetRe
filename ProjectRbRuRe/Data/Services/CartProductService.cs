@@ -33,14 +33,14 @@ namespace ProjectRbRuRe.Data.Services
 		}
 		public void DeleteCartProduct(TableCartProduct DeleteCartProduct)
 		{
-			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == DeleteCartProduct.CartProductProductID);
+			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == DeleteCartProduct.CartProductProductID && e.CartProductUserID == DeleteCartProduct.CartProductUserID);
 
 			_Context.TableCartProduct.Remove(FindID);
 			_Context.SaveChanges();
 		}
 		public void EditCartProduct(TableCartProduct EditCartProduct)
 		{
-			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == EditCartProduct.CartProductProductID);
+			var FindID = _Context.TableCartProduct.First(e => e.CartProductProductID == EditCartProduct.CartProductProductID && e.CartProductUserID == EditCartProduct.CartProductUserID);
 			FindID.CartProductName = EditCartProduct.CartProductName;
 			FindID.CartProductPrice = EditCartProduct.CartProductPrice;
 			FindID.CartProductUnit = EditCartProduct.CartProductUnit;

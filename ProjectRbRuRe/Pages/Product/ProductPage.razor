@@ -122,7 +122,7 @@ else
 				<!--3. ล่างสุด รายละเอียดสินค้า -->
 				<textarea class="description">
 					@ListProducts.ProductDescription
-				</textarea>
+										</textarea>
 
 			</div>
 
@@ -187,9 +187,10 @@ else
 		{
 			ListCartStroe.Add(new CartStore().ToUi(CartStore));
 		}
-		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
+
+
 		int IDCount = ListCartProduct.Count();
-		var a = ListCartProduct.Find(e => e.CartProductProductID == eleproduct.IDProduct); //ชื่อสินค้าในตระกร้า กับ ชื่อสินค้าในคลังถ้ามีอยู่ในตระกร้าซ้ำจะเพิ่มแค่จำนวนไม่เพิ่มสินค้า
+		var a = ListCartProduct.Find(e => e.CartProductProductID == eleproduct.IDProduct && e.CartProductUserID == UserLogin.UserID); //ชื่อสินค้าในตระกร้า กับ ชื่อสินค้าในคลังถ้ามีอยู่ในตระกร้าซ้ำจะเพิ่มแค่จำนวนไม่เพิ่มสินค้า
 		var b = ListProduct.Find(e => e.IDProduct == eleproduct.IDProduct);
 		ShowNotification();
 
@@ -217,31 +218,40 @@ else
 					CartProductPrice = eleproduct.PriceProduct,
 					//CartProductSumPrice = ListCartProduct.Sum(e => e.CartProductPrice * e.CartProductAmount),
 					CartProductStoreID = eleproduct.ProductStoreID,
-
+					CartProductUserID = UserLogin.UserID,
 				};
 			var AddCartProduct2 = new CartProduct().ToTable(AddCartProduct); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
 			cartProductService.AddNewCartProduct(AddCartProduct2); //บันทึกข้อมูล
-			
+
 
 		}
 
 		//var CartStroe = ListCartStroe.Find(e => e.CartStoreID == eleproduct.ProductStoreID);
-		var CartStroe = ListCartStroe.Find(e => e.IDLink == eleproduct.ProductStoreID);
-		@if (CartStroe != null)
-		{
-		}
-		else
-		{
-			//ListCartStroe.Add(new CartStore()
-			AddCartStore = new CartStore()
-				{
-					CartStoreUserID = UserLogin.UserID,
-					IDLink = eleproduct.ProductStoreID,
-					//NameStore = eleproduct.ProductStoreName,	//ชื่อมาไม่ถูกเป็นชื่่อเก่า			
-				};
-			var AddCartStore2 = new CartStore().ToTable(AddCartStore); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
-			cartStoreService.AddNewCartStore(AddCartStore2); //บันทึกข้อมูล
-	}
+
+		var CartStroeID = ListCartStroe.Find(e => e.IDLink == eleproduct.ProductStoreID && e.CartStoreUserID == UserLogin.UserID);
+		var CartStroeUserID = ListCartStroe.Find(e => e.CartStoreUserID == UserLogin.UserID);
+
+		
+		
+			@if (CartStroeID != null)
+			{
+			}
+			else
+			{
+				//ListCartStroe.Add(new CartStore()
+				AddCartStore = new CartStore()
+					{
+						CartStoreUserID = UserLogin.UserID,
+						IDLink = eleproduct.ProductStoreID,
+						//NameStore = eleproduct.ProductStoreName,	//ชื่อมาไม่ถูกเป็นชื่่อเก่า
+					};
+				var AddCartStore2 = new CartStore().ToTable(AddCartStore); //นำค่ามาเก็บใน a แต่ยังไม่บันทึกข้อมูล
+				cartStoreService.AddNewCartStore(AddCartStore2); //บันทึกข้อมูล
+			}
+			
+			
+			
+
 	}
 	private void ShowNotification()
 	{

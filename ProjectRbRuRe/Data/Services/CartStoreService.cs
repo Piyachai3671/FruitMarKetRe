@@ -31,7 +31,7 @@ namespace ProjectRbRuRe.Data.Services
 
 		public void DeleteCartStore(TableCartStore DeleteCartStore)
 		{
-			var FindID = _Context.TableCartStore.First(e => e.IDLink == DeleteCartStore.IDLink);
+			var FindID = _Context.TableCartStore.First(e => e.IDLink == DeleteCartStore.IDLink && e.CartStoreUserID == DeleteCartStore.CartStoreUserID);
 
 			_Context.TableCartStore.Remove(FindID);
 			_Context.SaveChanges();

@@ -12,6 +12,7 @@ namespace ProjectRbRuRe.Data.Models
 		public double? CartProductPrice { get; set; }  //ราคาปลีก
 		public double? CartProductSumPrice { get; set; }  //ราคาปลีก
 		public int? CartProductStoreID { get; set; }
+		public int? CartProductUserID { get; set; }
 
 		public CartProduct ToUi(TableCartProduct tableCartProduct) //UI ไปเทเบิล
 		{
@@ -24,6 +25,7 @@ namespace ProjectRbRuRe.Data.Models
 				CartProductPrice = tableCartProduct.CartProductPrice,
 				CartProductSumPrice = tableCartProduct.CartProductSumPrice,
 				CartProductStoreID = tableCartProduct.CartProductStoreID,
+				CartProductUserID = tableCartProduct.CartProductUserID
 			};
 
 		}
@@ -39,6 +41,7 @@ namespace ProjectRbRuRe.Data.Models
 				CartProductPrice = NewCartProduct.CartProductPrice,
 				CartProductSumPrice = NewCartProduct.CartProductSumPrice,
 				CartProductStoreID = NewCartProduct.CartProductStoreID,
+				CartProductUserID = NewCartProduct.CartProductUserID
 			};
 		}
 	}

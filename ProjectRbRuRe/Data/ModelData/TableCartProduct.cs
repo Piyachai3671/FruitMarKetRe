@@ -15,5 +15,6 @@ namespace ProjectRbRuRe.Data.ModelData
 		public double? CartProductPrice { get; set; }  //ราคาปลีก
 		public double? CartProductSumPrice { get; set; }  //ราคาปลีก
 		public int? CartProductStoreID { get; set; }
+		public int? CartProductUserID { get; set; }
 	}
 }
