@@ -7,7 +7,14 @@
 @inject LoginService loginService
 @page "/selstroe"
 @inject NavigationManager NavigationManager
-<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+@if (NavRefesh == true)
+{
+	<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
+@if (NavRefesh == false)
+{
+	<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
 @foreach (var CartStore in ListCartStores.FindAll(e=>e.CartStoreUserID == UserLogin.UserID))
 {
 	<div class="card">
@@ -99,6 +106,7 @@
 	private List<CartProduct> ListCartProducts = new List<CartProduct>();
 	private List<User> ListUsers = new List<User>();
 	private User? UserLogin = new();
+	private bool NavRefesh = true;
 	protected override async Task OnInitializedAsync()
 	{
 		UserLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
@@ -137,19 +145,20 @@
 
 	private void OnDelItem(CartStore ID)
 	{
+		NavRefesh = !NavRefesh;
 		var FindCartStoreID = ListCartStores.Find(e => e.IDLink == ID.IDLink && e.CartStoreUserID == UserLogin.UserID);
 
 		ListCartStores.Remove(FindCartStoreID); //ลบสิ่งที่แสดง
 		var DeleteCartStore = new CartStore().ToTable(FindCartStoreID);//ลบกลุ่มในSQL
 		cartStoreService.DeleteCartStore(DeleteCartStore);
 
-		var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID);
-		//foreach (var cartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID))
-		//{
+		//var FindCartProductID = ListCartProducts.Find(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID);
+		foreach (var cartProduct in ListCartProducts.FindAll(e => e.CartProductStoreID == ID.IDLink && e.CartProductUserID == UserLogin.UserID))
+		{
 			ListCartProducts.RemoveAll(e => e.CartProductStoreID == ID.CartStoreUserID && e.CartProductUserID == UserLogin.UserID);
-		var DeleteCartProduct = new CartProduct().ToTable(FindCartProductID);//ลบกลุ่มในSQL
+			var DeleteCartProduct = new CartProduct().ToTable(cartProduct);//ลบกลุ่มในSQL
 		cartProductService.DeleteCartProduct(DeleteCartProduct);
-		//}
+		}
 	}
 	//private void OnDelItemCartProduct(CartProduct ID)
 	//{

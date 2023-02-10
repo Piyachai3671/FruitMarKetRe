@@ -14,7 +14,14 @@
 @inject StoreService storeService
 @inject NavigationManager NavigationManager
 @inject NotificationService notificationservice
-<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+@if (NavRefesh == true)
+{
+	<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
+@if (NavRefesh == false)
+{
+	<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
 
 
 <ProjectRbRuRe.Pages.Order.HeadBill></ProjectRbRuRe.Pages.Order.HeadBill>
@@ -305,7 +312,7 @@
 
 	private List<CartStore> ListCartStores = new List<CartStore>();
 	private List<Store> ListStores = new List<Store>();
-
+	private bool NavRefesh = true;
 	protected override async Task OnInitializedAsync()
 	{
 
@@ -408,6 +415,7 @@
 		SumTotal = (ListCartProducts.Sum(e => e.CartProductPrice! * e.CartProductAmount!)) ?? 0.0;
 	}
 
+
 	private void Calculate(ChangeEventArgs IP)
 	{
 		CalculateRefresh();
@@ -430,11 +438,12 @@
 		}
 
 		//SumTotal = (ListCartProduct.Sum(e => e.PriceProduct! * e.AmountProduct!)) ?? 0.0;
-
+	
 	}
 
 	private async Task OnDeleteCartProduct2(CartProduct c)
 	{
+		NavRefesh = !NavRefesh;
 		ListCartProducts.Remove(c);
 		var DeleteCartProduct = new CartProduct().ToTable(c);//ลบกลุ่มในSQL
 		cartProductService.DeleteCartProduct(DeleteCartProduct);

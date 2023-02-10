@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lz96gOtnU9Ty46+RBnmatxoYH5bBcC7859ba+CwnCA8=",
+  "Hash": "ZlT9+6Qc3BC7msWdOGv5mFWmJ6Ksx+ZCBoX+8k/J8BE=",
   "Source": "ProjectRbRuRe",
   "BasePath": "_content/ProjectRbRuRe",
   "Mode": "Default",
@@ -867,6 +867,23 @@
       "OriginalItemSpec": "wwwroot\\img\\2v4itdwo.zbokbank.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\2zpe25gb.rnxslip01.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/2zpe25gb.rnxslip01.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\2zpe25gb.rnxslip01.jpg"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\3aopu0w0.tchร้านค้า.png",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -899,6 +916,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\43hcfsmb.yq0Durian-04.jpg"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\5d0kd5r3.yozแอปเปิล.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/5d0kd5r3.yozแอปเปิล.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\5d0kd5r3.yozแอปเปิล.png"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\b0vq2ko0.bqpkbank.png",
@@ -950,6 +984,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\dcjdawpe.mfeแชท2.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\dry5wzgc.1kvLight Gray and Blue Modern Grocery Store Logo.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/dry5wzgc.1kvLight Gray and Blue Modern Grocery Store Logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\dry5wzgc.1kvLight Gray and Blue Modern Grocery Store Logo.png"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\gnctii4t.yqdRambutan-1.jpg",
@@ -1156,6 +1207,40 @@
       "OriginalItemSpec": "wwwroot\\img\\oeigjk0p.qyrDurian-04.jpg"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\oiekfw5m.fzdลำไย.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/oiekfw5m.fzdลำไย.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\oiekfw5m.fzdลำไย.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\opy3c4ip.jesสัปรด.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/opy3c4ip.jesสัปรด.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\opy3c4ip.jesสัปรด.png"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\qkoiilxm.jbqslip01.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1171,6 +1256,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\qkoiilxm.jbqslip01.jpg"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\qvxstdmq.iacมังคุด.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/qvxstdmq.iacมังคุด.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\qvxstdmq.iacมังคุด.png"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\RegisterCustomer1.png",
@@ -1207,6 +1309,23 @@
       "OriginalItemSpec": "wwwroot\\img\\RegisterSeller1.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\s5nkbk5h.jktScreenshot 2023-02-06 104158.png",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/s5nkbk5h.jktScreenshot 2023-02-06 104158.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\s5nkbk5h.jktScreenshot 2023-02-06 104158.png"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\u22pr11o.03dรูปฌพสต์ร้านค้า.jpg",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1241,6 +1360,23 @@
       "OriginalItemSpec": "wwwroot\\img\\wvkkjv2w.pljเงาะ.png"
     },
     {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\yscsbb2y.mvwR.jfif",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/yscsbb2y.mvwR.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\yscsbb2y.mvwR.jfif"
+    },
+    {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\yzc0y52n.ktaผลไม้รวม.png",
       "SourceId": "ProjectRbRuRe",
       "SourceType": "Discovered",
@@ -1256,6 +1392,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\yzc0y52n.ktaผลไม้รวม.png"
+    },
+    {
+      "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\img\\zodq3br2.mcpslip01.jpg",
+      "SourceId": "ProjectRbRuRe",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\",
+      "BasePath": "_content/ProjectRbRuRe",
+      "RelativePath": "img/zodq3br2.mcpslip01.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\zodq3br2.mcpslip01.jpg"
     },
     {
       "Identity": "D:\\ProjectRBRURe\\ProjectRbRuRe\\wwwroot\\js\\bootstrap.bundle.js",

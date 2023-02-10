@@ -7,7 +7,12 @@
 @inject LoginService loginService
 @inject NotificationService notificationservice
 @inject NavigationManager NavigationManager
+@if(NavRefesh == true){
 <ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
+@if(NavRefesh == false){
+<ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin></ProjectRbRuRe.Pages.NewFolder.NavMenuToLogin>
+}
 @if (ListProduct == null)
 {
 	<p>please wait . . .</p>
@@ -139,7 +144,7 @@ else
 	private User? UserLogin = new();
 	private CartStore AddCartStore = new();
 	private CartProduct AddCartProduct = new();
-
+	private bool NavRefesh = true;
 	protected override async Task OnInitializedAsync()
 	{
 		//StatusLogin = loginService.UserStatusLogin;
@@ -173,6 +178,7 @@ else
 
 	private async void OnAddCart(Product eleproduct)
 	{
+		NavRefesh = !NavRefesh;
 		var CartProducts = await cartProductService.GetCartProductAsync();
 		ListCartProduct.Clear();
 		foreach (var CartProduct in CartProducts)

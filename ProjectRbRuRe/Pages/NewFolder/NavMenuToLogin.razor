@@ -3,7 +3,7 @@
 @inject LoginService loginService
 @inject UserService userService
 @inject StoreService storeService
-
+@inject CartProductService cartProductService
 
 <div class="container-fluid  shadow  rounded " style="background-color: #9AA544; z-index:0; width:100%;">
 
@@ -29,13 +29,13 @@
 			<NavLink href="selstroe">
 					<button  class="btn btn-cart" style=" position:relative; top:10px; left:20px;">
 						<i class="fa-solid fa-cart-plus" style=""></i>
-					@*<span class=" badge rounded-pill bg-danger" style="top:-20px; ">
-					11
-
+					<span class=" badge rounded-pill bg-danger" style="top:-20px; ">
+							@ListCartProducts.FindAll(e=>e.CartProductUserID == UserToLogin.UserID).Count()
 					<span class="visually-hidden">unread messages</span>
-					</span>*@
+					</span>
 				</button>
 			</NavLink>
+				
 			}
 			@*<button type="button" class="btn  position-relative">
 
@@ -82,7 +82,7 @@
 							</a>
 						</li>
 						<li><a class="dropdown-item" href="report"><i class="oi fa-solid fa-file-circle-check me-3"></i>Report</a></li>
-						<li><a class="dropdown-item" href="cartproduct"><i class="oi fa-solid fa-file-circle-check me-3"></i>cartproduct</a></li>
+						
 						<li @onclick="OnLogout"><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-3"></i>ออกจากระบบ</a></li>
 						<hr>
 					}
@@ -119,6 +119,7 @@
 	private User? UserToLogin = new();
 	private List<User> ListUser = new List<User>();
 	private List<Store> ListStores = new List<Store>();
+	private List<CartProduct> ListCartProducts = new List<CartProduct>();
 	protected override async Task OnInitializedAsync()
 	{
 		UserToLogin = new User().ToUi(loginService.UserToLogin); //แปลงไปใช้ของ UserToUI
@@ -133,6 +134,11 @@
 		foreach (var Store in Stores)
 		{
 			ListStores.Add(new Store().ToUi(Store));
+		}
+		var CartProducts = await cartProductService.GetCartProductAsync();
+		foreach (var CartProduct in CartProducts)
+		{
+			ListCartProducts.Add(new CartProduct().ToUi(CartProduct));
 		}
 
 	}
