@@ -5,8 +5,9 @@
 - Framework : Blazor
 - HTML CSS Boostrap5 RadzenComponent Fontawesome สำหรับการออกแบบหน้า UX/UI
 - C# สำหรับควบคุมการทำงาน
-- SQL Serverr 2014 สำหรับบันทึกข้อมูล
+- SQL Server 2014 สำหรับบันทึกข้อมูล
 - SoucrceTree Github จุดเซฟ
+
 ระบบซื้อขายสามารถทำงานดังนี้
 
 ส่วนของลูกค้า
