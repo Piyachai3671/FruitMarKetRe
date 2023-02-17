@@ -2,6 +2,7 @@
 เป็นโปจเจคจบการศึกษา ระดับชั้นปีที่ 4 
 
 เครื่องมือที่ใช้
+- Framework : Blazor
 - HTML CSS Boostrap5 RadzenComponent Fontawesome สำหรับการออกแบบหน้า UX/UI
 - C# สำหรับควบคุมการทำงาน
 - SQL Serverr 2014 สำหรับบันทึกข้อมูล
