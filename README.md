@@ -75,6 +75,4 @@ nshot 2023-02-09 160201.png…]()
 
 ร้านค้าจะต้องทำการเพิ่มบัญชีธนาคารก่อน มิฉะนั้นจะไม่สามารถลงขายสินค้าได้
 
-![Screenshot 2023-02-09 160259](https://user-images.githubusercontent.com/105155094/219538342-d1980920-8328-4dda-8701-cc20b64da3af.png)
-![Screenshot 2023-02-09 160315](https://user-images.githubusercontent.com/105155094/219538350-d3d3905e-3fe8-47ad-b08b-4f213a479088.png)
-![Screenshot 2023-02-09 160349](https://user-images.githubusercontent.com/105155094/219538355-158c6eba-67f5-4496-8804-cc042fb0f0f4.png)
+
