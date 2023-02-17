@@ -63,3 +63,18 @@
 ![Screenshot 2023-02-09 155755](https://user-images.githubusercontent.com/105155094/219535858-4898db5c-3e65-40e0-aba2-e37131a02b8f.png)
 
 รายงานคำสั่งซื้อจะเกิดขึ้นเมื่อคำสั่งซื้อมีสถานะเป็นสำเร็จแล้ว เท่านั้น และสามารถเข้าไปดูรายละเอียดรายงานคำสั่งซื้อนั้นได้
+
+###ส่วนของร้านค้า###
+
+![Uploading Scree![Screenshot 2023-02-09 160213](https://user-images.githubusercontent.com/105155094/219537611-87a61f4b-c836-4f87-9f7d-9eb33f1dbd32.png)
+nshot 2023-02-09 160201.png…]()
+
+หน้าหลักของร้านค้าจะเป็นหน้าจำลองเหมือนในมุมที่ลูกค้าเห็นเมื่อลูกค้าทำการเข้ามาในร้านค้า ร้านค้าจะสามารถทำการลงขายสินค้าได้เพียงอย่างเดียว ไม่สามารถทำการสั่งซื้อได้
+
+![Screenshot 2023-02-09 160237](https://user-images.githubusercontent.com/105155094/219538240-384d3361-2139-4298-817c-9e1ea26a4c8a.png)
+
+ร้านค้าจะต้องทำการเพิ่มบัญชีธนาคารก่อน มิฉะนั้นจะไม่สามารถลงขายสินค้าได้
+
+![Screenshot 2023-02-09 160259](https://user-images.githubusercontent.com/105155094/219538342-d1980920-8328-4dda-8701-cc20b64da3af.png)
+![Screenshot 2023-02-09 160315](https://user-images.githubusercontent.com/105155094/219538350-d3d3905e-3fe8-47ad-b08b-4f213a479088.png)
+![Screenshot 2023-02-09 160349](https://user-images.githubusercontent.com/105155094/219538355-158c6eba-67f5-4496-8804-cc042fb0f0f4.png)
