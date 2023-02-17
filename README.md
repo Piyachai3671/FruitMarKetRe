@@ -86,9 +86,4 @@
 
 การแก้ไขสินค้าจะสามารถแก้ไขข้อมูลเดิมที่มีอยู่ 
 
-![Screenshot 2023-02-09 160349](https://user-images.githubusercontent.com/105155094/219539484-254e2f64-ec08-4053-869d-a7da3180a8a0.png)
-![Screenshot 2023-02-09 160535](https://user-images.githubusercontent.com/105155094/219539490-42d423b4-d4a5-41d3-a836-88243aa66e6f.png)
-![Screenshot 2023-02-09 160702](https://user-images.githubusercontent.com/105155094/219539492-708550db-1882-471b-a007-76059b61858d.png)
-![Screenshot 2023-02-09 160829](https://user-images.githubusercontent.com/105155094/219539494-5e036fc1-a68c-40f6-a5aa-dab686b30c5b.png)
-![Screenshot 2023-02-09 160844](https://user-images.githubusercontent.com/105155094/219539497-7f61b91a-3862-4487-8863-36d9c7b233ce.png)
-![Screenshot 2023-02-09 160920](https://user-images.githubusercontent.com/105155094/219539500-fefb7dbc-1d14-42de-a2af-b62daff07d25.png)
+
