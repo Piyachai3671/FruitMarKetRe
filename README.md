@@ -66,8 +66,9 @@
 
 ###ส่วนของร้านค้า###
 
-![Uploading Scree![Screenshot 2023-02-09 160213](https://user-images.githubusercontent.com/105155094/219537611-87a61f4b-c836-4f87-9f7d-9eb33f1dbd32.png)
-nshot 2023-02-09 160201.png…]()
+![Screenshot 2023-02-09 160201](https://user-images.githubusercontent.com/105155094/219538599-01a01a23-5c40-4956-b76f-484be183e73e.png)
+![Screenshot 2023-02-09 160213](https://user-images.githubusercontent.com/105155094/219538619-59472fda-dcab-4c41-9c8c-d0f82b8745ff.png)
+
 
 หน้าหลักของร้านค้าจะเป็นหน้าจำลองเหมือนในมุมที่ลูกค้าเห็นเมื่อลูกค้าทำการเข้ามาในร้านค้า ร้านค้าจะสามารถทำการลงขายสินค้าได้เพียงอย่างเดียว ไม่สามารถทำการสั่งซื้อได้
 
